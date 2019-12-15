@@ -41,9 +41,8 @@ router.post('/', async (request, response, next) => {
 
 router.delete('/:id', async (request, response, next) => {
     try {
-        
         const decodedToken = jwt.verify(request.token, process.env.SECRET)
-        const user = await User.findById(decodedToken.id)
+        const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
         const passwordCorrect = user === null ? false : await bcrypt.compare(request.body.password, user.passwordHash)
 
         if (!(user && passwordCorrect)) {

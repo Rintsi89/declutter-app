@@ -16,6 +16,15 @@ const wrongUser = {
     "name": "Unknown"
 }
 
+const removal = {
+    "name": "Old sewing machine",
+    "quantity": 1,
+    "category": "Household appliances",
+    "cbm": 0.01,
+    "weight": 20,
+    "value": 80
+}
+
 module.exports = {
-    initialUser, wrongUser, dataBaseUser
+    initialUser, wrongUser, dataBaseUser, removal
 }

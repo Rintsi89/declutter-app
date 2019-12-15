@@ -1,6 +1,6 @@
 # Declutter App
 
-*This project is started on 13.12.2019 and is still progress*
+*This project is started on 13.12.2019 and is still in progress*
 
 This app is a project work of Helsinki Open University course [Full Stack Web Development Project](https://courses.helsinki.fi/en/aytkt21010/129098202)
 
