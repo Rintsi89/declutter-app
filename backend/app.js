@@ -29,7 +29,7 @@ app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
 }) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa
 
 app.use(errorHandler)
