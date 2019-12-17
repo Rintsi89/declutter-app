@@ -52,7 +52,8 @@ describe('Declutter App test', () => {
 
       const users = await User.find({})
       expect(users.length).toBe(helper.dataBaseUser.length + 1)
-      userId = users[1]._id
+      const addedUser = await User.find({ name: helper.initialUser.name })
+      userId = addedUser[0]._id
     })
 
     // This ensures that Mongoose validation works

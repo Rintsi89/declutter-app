@@ -7,7 +7,7 @@ router.get('/', async (request, response, next) => {
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const removals = await Removal.find({ user: { $in: [decodedToken.id] } })
-    response.json(removals)
+    response.status(200).json(removals)
 
   } catch (error) {
     next(error)
