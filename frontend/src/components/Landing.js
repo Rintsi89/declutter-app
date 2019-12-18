@@ -19,7 +19,7 @@ const Landing = (props) => {
 
     try {
       await props.loginUser(credentials)
-    } catch (exception) {
+    } catch (error) {
       // props.showMessage('Wrong user name or password', 'error', 5000)
       username.reset()
       password.reset()

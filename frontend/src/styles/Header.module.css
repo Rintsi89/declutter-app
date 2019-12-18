@@ -1,5 +1,10 @@
 .header {
-    padding: 15px;
+    padding: 12px;
     display: flex;
     justify-content: space-between;
+}
+
+h2 {
+    display: inline-block;
+    padding: 5px;
 }

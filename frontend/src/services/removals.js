@@ -16,4 +16,11 @@ const getAll = async () => {
     return response.data
   }
 
-export default { setToken, getAll }
+const deleteOne = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  await axios.delete(`${baseUrl}/${id}`, config)
+} 
+
+export default { setToken, getAll, deleteOne }

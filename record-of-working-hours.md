@@ -11,5 +11,6 @@
 |       | 1.5  | Creating update routes (user route) and tests for them with with Jest and Supertest |
 | 17.12 | 0.5  | Creating initial frontend with React.js |
 |       | 1    | Studying different styling options from YouTube: inline styles, styled components, Vanilla CSS and CSS modules |
-|       | 4    | Working on frontend, creating landing page and main page. Creating reducers and services. Discussing component lifecycles in Telegram channel. | 
-| tot   | 21.5 | 
+|       | 4    | Working on frontend, creating landing page and main page. Creating reducers and services. Discussing component lifecycles in Telegram channel |
+| 18.12 | 2    | Working on main page, creating delete action for removals. Looking for chart options and adding chart.js to application | 
+| tot   | 23.5 | 
