@@ -1,10 +1,17 @@
 .header {
+    width: 100%;
+    position: fixed;
     padding: 12px;
     display: flex;
     justify-content: space-between;
+    background: rgb(155,230,171);
+    background: radial-gradient(circle, rgba(155,230,171,1) 61%, rgba(79,158,97,1) 97%);
+    border-bottom: 1px solid black;
 }
 
-h2 {
+.h2 {
     display: inline-block;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
     padding: 5px;
 }

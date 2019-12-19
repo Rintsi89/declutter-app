@@ -1,5 +1,5 @@
 import React from 'react'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { logOutUser } from '../reducers/loginReducer'
 import classes from '../styles/Header.module.css'
@@ -26,7 +26,7 @@ const Header = (props) => {
             </div>
             <div>
                 {props.logged_user.username}
-                <button onClick={() => handleLogOut()}>Log out</button>
+                <Button negative size='tiny' onClick={() => handleLogOut()}>Log out</Button>
             </div>
         </header>
     )

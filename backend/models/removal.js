@@ -9,6 +9,8 @@ const removalSchema = mongoose.Schema({
   cbm: Number,
   weight: Number,
   value: Number,
+  location: String,
+  note: String,
   image: String,
   date: { type: String, default: date.format('DD.MM.YYYY') },
   user: {

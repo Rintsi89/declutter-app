@@ -4,7 +4,7 @@ import { initializeUser } from './reducers/loginReducer'
 import removalService from './services/removals'
 import Landing from './components/Landing'
 import Header from './components/Header'
-import RemovalList from './components/RemovalList'
+import Main from './components/Main'
 
 const App = (props) => {
 
@@ -23,7 +23,7 @@ const App = (props) => {
         <Landing />
       : <div>
           <Header />
-          <RemovalList />
+          <Main />
         </div>
       }
     </div>
