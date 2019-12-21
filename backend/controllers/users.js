@@ -14,7 +14,7 @@ router.get('/', async (request, response, next) => {
 
 router.post('/', async (request, response, next) => {
   try {
-    const { username, password, name } = request.body
+    const { username, password, name, locations } = request.body
 
     if (!password || password.length < 3) {
       return response.status(400).send({
@@ -28,6 +28,7 @@ router.post('/', async (request, response, next) => {
     const user = new User({
       username,
       name,
+      locations,
       passwordHash,
     })
 

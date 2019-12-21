@@ -10,7 +10,7 @@ const Info = (props) => {
 
     const examples = [
         {
-            name: 'of plastig bag',
+            name: 'of the volume plastig bag',
             volume: 0.02
         },
         {

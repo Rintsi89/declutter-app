@@ -2,6 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'
 import { deleteRemoval } from '../reducers/removalReducer'
+import Togglable from './Togglable'
+import RemovalForm from './RemovalForm'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
@@ -36,7 +38,13 @@ const RemovalTable = (props) => {
     })
 
   return (
+    
     <div className={classes.maintable}>
+        <div className={classes.formarea}>
+        <Togglable buttonLabel="Add new" >
+            <RemovalForm user={props.logged_user} />
+        </Togglable>
+        </div>
          <table className={classes.removals}>
                 <tbody>
                     <tr>
@@ -96,7 +104,8 @@ const RemovalTable = (props) => {
 
 const mapStateToProps = (state) => {
     return {
-      removals: state.removals
+      removals: state.removals,
+      logged_user: state.logged_user
     }
   }
 

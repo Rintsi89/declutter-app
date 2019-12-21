@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
+import RemovalForm from './RemovalForm'
+import Togglable from './Togglable'
 import { initializeRemovals } from '../reducers/removalReducer'
 import { setTitle } from '../reducers/titleReducer'
 import classes from '../styles/Main.module.css'
@@ -73,9 +75,7 @@ const RemovalList = (props) => {
                     <Info />
                 </div>
             </div>
-            <div>
                 <RemovalTable />
-            </div>
         </div>
     )
 }
