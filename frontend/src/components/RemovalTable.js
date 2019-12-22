@@ -84,7 +84,7 @@ const RemovalTable = (props) => {
                             {r.cbm} m³
                         </td>
                         <td>
-                            {r.weight} kg
+                            {r.weigth} kg
                         </td>
                         <td>
                             {r.image}

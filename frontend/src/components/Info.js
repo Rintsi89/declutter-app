@@ -6,7 +6,7 @@ const Info = (props) => {
     const totalCbm = props.removals.reduce((a, {cbm}) => a + cbm, 0)
     const totalMoney = props.removals.reduce((a, {value}) => a + value, 0)
     const totalQuantity = props.removals.reduce((a, {quantity}) => a + quantity, 0)
-    const totalWeight = props.removals.reduce((a, {weight}) => a + weight, 0)
+    const totalWeight = props.removals.reduce((a, {weigth}) => a + weigth, 0)
 
     const examples = [
         {
@@ -47,7 +47,7 @@ const Info = (props) => {
             exampleToReturn.push({...e, difference: e.volume - totalCbm }) 
         })
 
-        const result = exampleToReturn.reduce((res, obj) => (obj.difference < res.difference) ? obj : res)
+        const result = exampleToReturn.reduce((res, obj) => (obj.difference < res.difference) ? obj : res, 0)
         const percentage = Math.round(totalCbm  / result.volume  * 100)
         return `Volume of removed items is ${percentage}% ${result.name}`
     }

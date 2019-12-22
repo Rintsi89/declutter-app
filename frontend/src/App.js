@@ -10,7 +10,6 @@ const App = (props) => {
 
   console.log(props.logged_user);
   
-
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
     if (loggedUserJSON) {

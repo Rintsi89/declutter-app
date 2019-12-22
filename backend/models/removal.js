@@ -7,7 +7,7 @@ const removalSchema = mongoose.Schema({
   quantity: { type: Number, required: true },
   category: { type: String, required: true },
   cbm: Number,
-  weight: Number,
+  weigth: { type: Number, default: 0 },
   value: Number,
   location: String,
   note: String,

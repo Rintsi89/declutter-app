@@ -3,13 +3,11 @@ import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
-import RemovalForm from './RemovalForm'
-import Togglable from './Togglable'
 import { initializeRemovals } from '../reducers/removalReducer'
 import { setTitle } from '../reducers/titleReducer'
 import classes from '../styles/Main.module.css'
 
-const RemovalList = (props) => {
+const Main = (props) => {
 
     useEffect(() => {
         props.initializeRemovals()
@@ -72,7 +70,7 @@ const RemovalList = (props) => {
                     <Bar data={data} options={options}/>
                 </div>
                 <div>
-                    <Info />
+                    <Info user={props.loo}/>
                 </div>
             </div>
                 <RemovalTable />
@@ -92,10 +90,10 @@ const mapDispatchToProps = {
     setTitle
 }
 
-const ConnectedRemovalList = connect(
+const ConnectedMainPage = connect(
     mapStateToProps,
     mapDispatchToProps
-)(RemovalList)
+)(Main)
 
 
-export default ConnectedRemovalList
+export default ConnectedMainPage

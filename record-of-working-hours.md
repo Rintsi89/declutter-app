@@ -14,5 +14,8 @@
 |       | 4    | Working on frontend, creating landing page and main page. Creating reducers and services. Discussing component lifecycles in Telegram channel |
 | 18.12 | 2    | Working on main page, creating delete action for removals. Looking for chart options and adding chart.js to application |
 | 19.12 | 4.5  | Adjusting backend models, working on main page design and functionality, sketching improvement ideas on paper |
-| 21.12 | 3    | Working on frontend form which adds removals, positioning it and making minor changes to backend | 
-| tot   | 31   | 
+| 21.12 | 3    | Working on frontend form which adds removals, positioning it and making minor changes to backend |
+| 22.12 | 1    | Creating form and select options for dropdown |
+|       | 3    | Trying to solve unknown Webpack problem. A lot of time wasted and had to go back to the previous commit *reset --hard*, no new commits to make now |
+|       | 1    | Making adding removals possible via form (no image upload yet), adjusting formatting |       
+| tot   | 36   | 

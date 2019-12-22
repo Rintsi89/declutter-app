@@ -4,6 +4,8 @@ const removalReducer = (state = [], action) => {
     switch (action.type) {
     case 'INIT_REMOVALS':
       return action.data
+    case 'NEW_REMOVAL':
+      return state.concat(action.data)
     case 'DELETE_REMOVAL':
       const removalToDelete = action.data
       return state.filter(removal => removal.id !== removalToDelete)
@@ -20,6 +22,16 @@ export const initializeRemovals = () => {
             data: removals
         })
     }
+}
+
+export const createRemoval = (data) => {
+  return async dispatch => {
+    const newRemoval = await removalService.create(data)
+    dispatch({
+      type: 'NEW_REMOVAL',
+      data: newRemoval
+    })
+  }
 }
 
 export const deleteRemoval = (id) => {
