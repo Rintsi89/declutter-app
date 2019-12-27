@@ -21,5 +21,7 @@
 | 23.12 | 1.5  | Studying AWS S3 and image uploads, bucket policy creation | 
 |       | 2    | Integrating AWS S3 bucket into the application |
 | 24.12 | 1    | Studying file uploads, debuggin AWS S3 Bucket settings |
-| 27.12 | 1.5  | Debugging file upload in backend, problem was malformed access keys. File upload works now |       
-| tot   | 42   | 
+| 27.12 | 1.5  | Debugging file upload in backend, problem was malformed access keys. File upload works now |
+|       | 1    | Looking for landing page ideas and implementing them |
+|       | 1    | Working with React Router |        
+| tot   | 44   | 

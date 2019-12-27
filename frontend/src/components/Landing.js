@@ -1,51 +1,24 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { useField } from '../hooks'
-import { loginUser } from '../reducers/loginReducer'
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom'
+import LoginForm from './LoginForm'
+import NewAccountForm from './NewAccountForm'
 import classes from '../styles/Form.module.css'
 
-const Landing = (props) => {
+const Landing = () => {
   
-  const username = useField('text', 'username')
-  const password = useField('password', 'password')
-
-  const handleLogin = async (event) => {
-    event.preventDefault()
-
-    const credentials = {
-      username: username.attributes.value,
-      password: password.attributes.value
-    }
-
-    try {
-      await props.loginUser(credentials)
-    } catch (error) {
-      // props.showMessage('Wrong user name or password', 'error', 5000)
-      username.reset()
-      password.reset()
-    }
-  }
-
   return (
     <div>
-        <h2>Welcome to Declutter App</h2>
-        <form onSubmit={handleLogin} className={classes.form}>
-          <input {...username.attributes}></input>
-          <input {...password.attributes}></input>
-          <button type='submit'>Log in</button>
-        </form>
+      <h2 className={classes.maintitle}>Welcome to Declutter App</h2>
+        <Router>
+            <Route exact path="/" render={() => <LoginForm />} />
+            <Route exact path="/newaccount" render={() => <NewAccountForm />} />
+        </Router>
     </div>
   )
 }
 
-const mapDispatchToProps = {
-  loginUser
-}
 
-const ConnectedLanding= connect(
-  null,
-  mapDispatchToProps
-)(Landing)
-
-
-export default ConnectedLanding
+export default Landing
