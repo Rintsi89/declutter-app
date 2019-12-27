@@ -17,8 +17,12 @@ const getAll = async () => {
   }
 
 const create = async newRemoval => {
+  
   const config = {
-    headers: { Authorization: token },
+    headers: { 
+      'Content-Type': 'multipart/form-data',
+      Authorization: token
+     },
   }
 
   const response = await axios.post(baseUrl, newRemoval, config)

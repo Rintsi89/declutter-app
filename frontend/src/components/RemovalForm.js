@@ -15,12 +15,15 @@ const RemovalForm = (props) => {
     const weigth = useField('number','weigth', 'Weigth')
     const value = useField('number', 'value', 'Value')
     const note = useField('text', 'note', 'Notes')
-    const image = useField('file', 'image', 'Image')
     const date = useField('date', 'date', 'Date')
-
+    
     // Select
     const [location, setLocation] = useState(null)
     const [category, setCategory] = useState(null)
+
+    // Image
+
+    const [image, setImage] = useState(null)
 
     // Select options of category
     const categories = [
@@ -49,27 +52,61 @@ const RemovalForm = (props) => {
     }
 
      const handleLocationChange = (event, data) => {
-        setLocation(data.value)
+        setLocation(data.value)  
+    }
+
+    const handleFileChange = (file) => {
+        setImage(file)
+    }
+
+    const resetForm = () => {
+        name.reset()
+        quantity.reset()
+        length.reset()
+        width.reset()
+        height.reset()
+        weigth.reset()
+        value.reset()
+        note.reset()
+        date.reset()
+        setCategory(null)
+        setLocation(null)
+        setImage(null)
     }
     
     const addRemoval = async (event) => {
         event.preventDefault()
     
         try {
-          const removalObject = {
-              name: name.attributes.value,
-              quantity: quantity.attributes.value,
-              category,
-              weigth: weigth.attributes.value,
-              value: value.attributes.value,
-              date: date.attributes.value,
-              location,
-              note: note.attributes.value,
-              image: image.attributes.value,
-              cbm: ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2)
-          }
-          
-          props.createRemoval(removalObject)
+
+            let formData = new FormData()
+            formData.set('name', name.attributes.value)
+            formData.set('quantity', quantity.attributes.value)
+            formData.set('category', category)
+            formData.set('weight', weigth.attributes.value)
+            formData.set('value', value.attributes.value)
+            formData.set('date', date.attributes.value)
+            formData.set('location', location)
+            formData.set('note', note.attributes.value)
+            formData.set('cbm', ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2))
+            formData.append('image', image)
+            
+            props.createRemoval(formData)
+            resetForm()
+        //   const removalObject = {
+        //       name: name.attributes.value,
+        //       quantity: quantity.attributes.value,
+        //       category,
+        //       weigth: weigth.attributes.value,
+        //       value: value.attributes.value,
+        //       date: date.attributes.value,
+        //       location,
+        //       note: note.attributes.value,
+        //       image: image,
+        //       cbm: ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2)
+        //   }
+        
+        //   console.log(removalObject);
     
         } catch (exception) {
         //   title.reset()
@@ -82,7 +119,7 @@ const RemovalForm = (props) => {
     return (
       <div>
         <h3>Create a new removal</h3>
-        <Form onSubmit={addRemoval}>
+        <Form onSubmit={addRemoval} encType="multipart/form-data">
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Name</label>
@@ -126,7 +163,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Image</label>
-                    <input {...image.attributes}></input>
+                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
                 </Form.Field>
                 <Form.Field>
                     <label>Date</label>

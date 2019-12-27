@@ -87,7 +87,7 @@ const RemovalTable = (props) => {
                             {r.weigth} kg
                         </td>
                         <td>
-                            {r.image}
+                            {r.image ? <a href={r.image}>Image</a> : null }
                         </td>
                         <td>
                             {r.note}

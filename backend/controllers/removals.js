@@ -2,6 +2,40 @@ const router = require('express').Router()
 const jwt = require('jsonwebtoken')
 const Removal = require('../models/removal')
 const User = require('../models/user')
+// For AWS S3
+const multer = require('multer')
+const multerS3 = require('multer-s3')
+const aws = require('aws-sdk')
+
+aws.config.update({
+  secretAccessKey: process.env.BUCKET_ACCESSKEY,
+  accessKeyId: process.env.BUCKET_KEYID,
+  region: 'eu-north-1'
+})
+
+const s3 = new aws.S3()
+
+const fileFilter = (req, file, callback) => {
+  // accept a file
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    callback(null, true)
+  } else {
+    // reject a file
+    callback(null, false)
+  }
+}
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.BUCKET_NAME,
+    key: function(req, file, callback) {
+      callback(null, file.originalname)
+    }
+  }),
+  limits: { fileSize: 1000000 },
+  fileFilter: fileFilter
+})
 
 router.get('/', async (request, response, next) => {
   try {
@@ -14,9 +48,15 @@ router.get('/', async (request, response, next) => {
   }
 })
 
-router.post('/', async (request, response, next) => {
+router.post('/', upload.single('image'), async (request, response, next) => {
+
   try {
-    const removal = new Removal(request.body)
+
+    let imagelink = !request.file ? null : request.file.location
+
+    const body = { ...request.body, image: imagelink }
+
+    const removal = new Removal(body)
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
 
     const user = await User.findById(decodedToken.id)

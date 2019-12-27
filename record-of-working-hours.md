@@ -17,5 +17,9 @@
 | 21.12 | 3    | Working on frontend form which adds removals, positioning it and making minor changes to backend |
 | 22.12 | 1    | Creating form and select options for dropdown |
 |       | 3    | Trying to solve unknown Webpack problem. A lot of time wasted and had to go back to the previous commit *reset --hard*, no new commits to make now |
-|       | 1    | Making adding removals possible via form (no image upload yet), adjusting formatting |       
-| tot   | 36   | 
+|       | 1    | Making adding removals possible via form (no image upload yet), adjusting formatting |
+| 23.12 | 1.5  | Studying AWS S3 and image uploads, bucket policy creation | 
+|       | 2    | Integrating AWS S3 bucket into the application |
+| 24.12 | 1    | Studying file uploads, debuggin AWS S3 Bucket settings |
+| 27.12 | 1.5  | Debugging file upload in backend, problem was malformed access keys. File upload works now |       
+| tot   | 42   | 

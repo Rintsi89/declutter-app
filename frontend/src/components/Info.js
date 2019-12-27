@@ -35,20 +35,20 @@ const Info = (props) => {
         }
     ]
 
-    
     const createExample = () => {
         let exampleToReturn = []
 
         examples.forEach(e => {
-            if (e.volume < totalCbm) {
-                return null
-            }
-
-            exampleToReturn.push({...e, difference: e.volume - totalCbm }) 
+            (e.volume - totalCbm) < 0 ? null : exampleToReturn.push({...e, difference: e.volume - totalCbm }) 
         })
 
-        const result = exampleToReturn.reduce((res, obj) => (obj.difference < res.difference) ? obj : res, 0)
+        console.log('Examples to return', exampleToReturn);
+        const result = exampleToReturn.reduce((res, obj) => (obj.difference < res.difference) ? obj : res)
+        console.log('One example to return', result);
         const percentage = Math.round(totalCbm  / result.volume  * 100)
+        console.log('Percentage', percentage)
+        
+        
         return `Volume of removed items is ${percentage}% ${result.name}`
     }
 

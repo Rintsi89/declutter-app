@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export const useField = (type, name, placeholder, options) => {
+export const useField = (type, name, placeholder) => {
   const [value, setValue] = useState('')
 
   const onChange = (event) => {
