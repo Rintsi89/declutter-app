@@ -47,7 +47,7 @@ return (
                 </Form.Field>
             </div>
             <div className={classes.formfield}>
-                <Form.Field control={Button}>Log In</Form.Field> 
+                <Button positive>Log In</Button> 
                 <p>No account yet? <Link to="/newaccount">Create account</Link></p> 
             </div>
         </Form>

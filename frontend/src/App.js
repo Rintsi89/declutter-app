@@ -1,14 +1,18 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { initializeUser } from './reducers/loginReducer'
+import { initializeRemovals } from './reducers/removalReducer'
 import removalService from './services/removals'
 import Landing from './components/Landing'
 import Header from './components/Header'
 import Main from './components/Main'
+import UserPage from './components/UserPage'
+import {
+  BrowserRouter as Router,
+  Route, Link
+} from 'react-router-dom'
 
 const App = (props) => {
-
-  console.log(props.logged_user);
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -16,6 +20,7 @@ const App = (props) => {
       const user = JSON.parse(loggedUserJSON)
       props.initializeUser(user)
       removalService.setToken(user.token)
+      props.initializeRemovals()
     }
   }, [])
   
@@ -23,9 +28,12 @@ const App = (props) => {
     <div>
       {!props.logged_user ? 
         <Landing />
-      : <div>
+      : <div render={<Main />}>
+        <Router>
           <Header />
-          <Main />
+            <Route exact path="/" render={() => <Main />} />
+            <Route exact path="/myaccount" render={() => <UserPage />} />
+        </Router>
         </div>
       }
     </div>
@@ -39,7 +47,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = {
-  initializeUser
+  initializeUser,
+  initializeRemovals
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

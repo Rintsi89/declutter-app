@@ -3,15 +3,13 @@ import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
-import { initializeRemovals } from '../reducers/removalReducer'
 import { setTitle } from '../reducers/titleReducer'
 import classes from '../styles/Main.module.css'
 
 const Main = (props) => {
 
     useEffect(() => {
-        props.initializeRemovals()
-        props.setTitle('Your removals')
+        props.setTitle('My removals')
     }, [])
 
     const categories = [...new Set(props.removals.map(r => r.category))]
@@ -86,7 +84,6 @@ const mapStateToProps = (state) => {
   }
 
 const mapDispatchToProps = {
-    initializeRemovals,
     setTitle
 }
 

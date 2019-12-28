@@ -1,0 +1,16 @@
+.maintitle {
+    text-align: center;
+    padding-top: 100px;
+}
+
+.infoarea {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: 200px;
+}
+
+.content {
+    padding-right: 21px !important;
+}

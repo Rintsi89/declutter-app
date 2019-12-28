@@ -11,6 +11,8 @@ const userSchema = mongoose.Schema({
   name: String,
   passwordHash: String,
   locations: Array,
+  description: String,
+  image: String,
   removals: [
     {
       type: mongoose.Schema.Types.ObjectId,

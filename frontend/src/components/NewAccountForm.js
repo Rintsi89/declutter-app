@@ -1,11 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
-import { createUser } from '../reducers/userReducer' // Create this and connect!
+import { loginUser } from '../reducers/loginReducer'
+import userService from '../services/users'
 import classes from '../styles/Form.module.css'
 
-const NewAccountForm = () => {
+const NewAccountForm = (props) => {
     
 const username = useField('text', 'username')
 const name = useField('text', 'name')
@@ -21,8 +23,22 @@ const createUser = async (event) => {
       password: password.attributes.value
   }
 
+  const credentials = {
+    username: username.attributes.value,
+    password: password.attributes.value
+  }
+
   try {
-    await props.createUser(credentials) // Create this!
+
+    if (!(password === retypedpassword)) {
+        password.reset()
+        retypedpassword.reset()
+        return alert("Password did not match, try again")
+    }
+
+    await userService.create(newUser)
+    await props.loginUser(credentials)
+    
   } catch (error) {
     // props.showMessage('Wrong user name or password', 'error', 5000)
     username.reset()
@@ -71,4 +87,13 @@ return (
     )
 }
 
-export default NewAccountForm
+const mapDispatchToProps = {
+    loginUser
+  }
+  
+  const ConnectedNewAccountForm = connect(
+    null,
+    mapDispatchToProps
+  )(NewAccountForm)
+
+export default ConnectedNewAccountForm

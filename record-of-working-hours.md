@@ -23,5 +23,8 @@
 | 24.12 | 1    | Studying file uploads, debuggin AWS S3 Bucket settings |
 | 27.12 | 1.5  | Debugging file upload in backend, problem was malformed access keys. File upload works now |
 |       | 1    | Looking for landing page ideas and implementing them |
-|       | 1    | Working with React Router |        
-| tot   | 44   | 
+|       | 1    | Working with React Router |
+| 28.12 | 1    | Working on create user form and its functionality |
+|       | 1    | Working on user account page on frontend |
+|       | 1.5  | Investigating and implementing React Router |
+| tot   | 47.5 | 

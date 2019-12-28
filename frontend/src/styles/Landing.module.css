@@ -1,0 +1,12 @@
+.landing {
+    background: linear-gradient(117deg, rgba(163,230,155,1) 30%, rgba(87,198,109,1) 38%);
+    height: 100vh;  
+}
+
+.maintitle {
+    color: white;
+    font-size: 2.5rem;
+    text-shadow: -2px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    margin-left: 140px;
+    padding-top: 10px;
+}

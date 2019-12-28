@@ -1,9 +1,9 @@
 import React from 'react'
 import { Icon, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { logOutUser } from '../reducers/loginReducer'
 import classes from '../styles/Header.module.css'
-
 
 const Header = (props) => {
 
@@ -25,8 +25,9 @@ const Header = (props) => {
                 <Icon name='money bill alternate outline' size='big' />
             </div>
             <div>
-                {props.logged_user.username}
-                <Button negative size='tiny' onClick={() => handleLogOut()}>Log out</Button>
+                <Link to="/">My removals</Link>
+                <Link to="/myaccount">My account</Link>
+                <Button negative size='tiny' onClick={() => handleLogOut()}><Link to="/">Log out</Link></Button>
             </div>
         </header>
     )
