@@ -13,7 +13,7 @@ const Landing = () => {
     <div className={classes.landing}>
       <h1 className={classes.maintitle}>Welcome to Declutter App</h1>
         <Router>
-            <Route exact path="/" render={() => <LoginForm />} />
+            <Route path="/" render={() => <LoginForm />} />
             <Route exact path="/newaccount" render={() => <NewAccountForm />} />
         </Router>
     </div>

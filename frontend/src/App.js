@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { initializeUser } from './reducers/loginReducer'
 import { initializeRemovals } from './reducers/removalReducer'
 import removalService from './services/removals'
+import userService from './services/users'
 import Landing from './components/Landing'
 import Header from './components/Header'
 import Main from './components/Main'
@@ -20,6 +21,7 @@ const App = (props) => {
       const user = JSON.parse(loggedUserJSON)
       props.initializeUser(user)
       removalService.setToken(user.token)
+      userService.setToken(user.token)
       props.initializeRemovals()
     }
   }, [])

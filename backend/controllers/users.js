@@ -40,27 +40,29 @@ router.post('/', async (request, response, next) => {
   }
 })
 
+// Edit personal details (username, name and description)
 router.patch('/:id', async (request, response, next) => {
   try {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
-    const location = request.body.location
-    const name = request.body.name
-    const action = request.body.action
+    const updateObject = {
+      username: request.body.username,
+      name: request.body.name,
+      description: request.body.description
+    }
 
     if (!user) {
       return response.status(401).json({
         error: 'Invalid token or id'
       })
-    } else if (!(location && name)) {
+    } else if (!updateObject) {
       return response.status(400).json({
-        error: 'Location and name are required'
+        error: 'Update arguments are required'
       })
     }
 
-    const updatedUser = action === 'push' ? await User.findByIdAndUpdate(user.id, { $set: { name: name }, $push: { locations: location } }, { new: true }) :
-      await User.findByIdAndUpdate(user.id, { $set: { name: name }, $pull: { locations: location } }, { new: true })
+    const updatedUser = await User.findByIdAndUpdate(user.id, updateObject, { new: true })
 
     response.status(200).json(updatedUser)
 

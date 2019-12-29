@@ -1,13 +1,13 @@
-.formarea {
-    width: 75%;
-    margin-bottom: 10px;
-}
-
 .maintable {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 20px;
+}
+
+.formarea {
+    width: 75%;
+    margin-bottom: 10px;
 }
 
 .removals {

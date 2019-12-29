@@ -1,13 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'
-import { deleteRemoval } from '../reducers/removalReducer'
+import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
 import Togglable from './Togglable'
 import RemovalForm from './RemovalForm'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
 
+    useEffect(() => {
+        props.initializeRemovals()
+    }, [])
+    
     const deleteRemoval = async (event, id, name) => {
         event.preventDefault()
 
@@ -110,7 +114,8 @@ const mapStateToProps = (state) => {
   }
 
 const mapDispatchToProps = {
-    deleteRemoval
+    deleteRemoval,
+    initializeRemovals
 }
 
 const ConnectedRemovalTable = connect(

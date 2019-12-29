@@ -26,5 +26,7 @@
 |       | 1    | Working with React Router |
 | 28.12 | 1    | Working on create user form and its functionality |
 |       | 1    | Working on user account page on frontend |
-|       | 1.5  | Investigating and implementing React Router |
-| tot   | 47.5 | 
+|       | 2    | Investigating and implementing React Router |
+|       | 0.5  | Working on user account page on frontend forms |
+| 29.12 | 1.5  | Working on user account page on frontend forms. Conclusion: need to create more update endpoints and then fix their tests |
+| tot   | 50.5 | 

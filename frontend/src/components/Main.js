@@ -68,7 +68,7 @@ const Main = (props) => {
                     <Bar data={data} options={options}/>
                 </div>
                 <div>
-                    <Info user={props.loo}/>
+                    <Info />
                 </div>
             </div>
                 <RemovalTable />
