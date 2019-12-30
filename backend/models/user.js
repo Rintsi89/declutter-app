@@ -10,7 +10,10 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  locations: Array,
+  locations: [{
+    type: String,
+    unique: true
+  }],
   description: String,
   image: String,
   removals: [

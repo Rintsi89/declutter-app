@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { logOutUser } from '../reducers/loginReducer'
+import { logOutUser } from '../reducers/userReducer'
 import classes from '../styles/Header.module.css'
 
 const Header = (props) => {

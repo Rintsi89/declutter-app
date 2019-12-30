@@ -3,39 +3,7 @@ const jwt = require('jsonwebtoken')
 const Removal = require('../models/removal')
 const User = require('../models/user')
 // For AWS S3
-const multer = require('multer')
-const multerS3 = require('multer-s3')
-const aws = require('aws-sdk')
-
-aws.config.update({
-  secretAccessKey: process.env.BUCKET_ACCESSKEY,
-  accessKeyId: process.env.BUCKET_KEYID,
-  region: 'eu-north-1'
-})
-
-const s3 = new aws.S3()
-
-const fileFilter = (req, file, callback) => {
-  // accept a file
-  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    callback(null, true)
-  } else {
-    // reject a file
-    callback(null, false)
-  }
-}
-
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: process.env.BUCKET_NAME,
-    key: function(req, file, callback) {
-      callback(null, file.originalname)
-    }
-  }),
-  limits: { fileSize: 1000000 },
-  fileFilter: fileFilter
-})
+const S3 = require('../utils/s3-config')
 
 router.get('/', async (request, response, next) => {
   try {
@@ -48,7 +16,7 @@ router.get('/', async (request, response, next) => {
   }
 })
 
-router.post('/', upload.single('image'), async (request, response, next) => {
+router.post('/', S3.upload.single('image'), async (request, response, next) => {
 
   try {
 
@@ -87,8 +55,11 @@ router.delete('/:id', async (request, response, next) => {
       })
     }
 
-    await Removal.findByIdAndRemove(request.params.id)
+    const deletedRemoval = await Removal.findByIdAndRemove(request.params.id)
     await User.findByIdAndUpdate(decodedToken.id, { $pull: { removals: request.params.id } })
+    const key = deletedRemoval.image.substring(deletedRemoval.image.lastIndexOf('/') + 1)
+    S3.deleteImage(key)
+
     response.status(204).end()
   } catch (error) {
     next(error)

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { initializeUser } from './reducers/loginReducer'
+import { initializeUser } from './reducers/userReducer'
 import { initializeRemovals } from './reducers/removalReducer'
 import removalService from './services/removals'
 import userService from './services/users'

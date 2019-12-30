@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form, TextArea } from 'semantic-ui-react'
 import { useField } from '../hooks'
-import { updateUser } from '../reducers/loginReducer'
+import { updateUser } from '../reducers/userReducer'
 import classes from '../styles/EditForm.module.css'
 
 const EditForm = (props) => {

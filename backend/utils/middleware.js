@@ -1,3 +1,5 @@
+const multer = require('multer')
+
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
@@ -19,6 +21,8 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: 'ID is not valid' })
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({ error: 'Invalid or missing token' })
+  } else if (error instanceof multer.MulterError) {
+    return response.status(400).json({ error: 'Problem during file upload' })
   }
 
   next(error)

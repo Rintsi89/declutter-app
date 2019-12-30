@@ -3,13 +3,13 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'   
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
-import { loginUser } from '../reducers/loginReducer'
+import { loginUser } from '../reducers/userReducer'
 import classes from '../styles/Form.module.css'
 
 const LoginForm = (props) => {
 
-const username = useField('text', 'username')
-const password = useField('password', 'password')
+const username = useField('text', 'username', 'Username', '')
+const password = useField('password', 'password', 'Password', '')
 
 const handleLogin = async (event) => {
   event.preventDefault()

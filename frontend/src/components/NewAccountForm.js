@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
-import { loginUser } from '../reducers/loginReducer'
+import { loginUser } from '../reducers/userReducer'
 import userService from '../services/users'
 import classes from '../styles/Form.module.css'
 
