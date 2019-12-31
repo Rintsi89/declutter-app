@@ -182,6 +182,57 @@ router.patch('/:id/locations/remove', async (request, response, next) => {
 
 })
 
+// Add category
+router.patch('/:id/categories/add', async (request, response, next) => {
+  console.log(request.body);
+  
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
+    const category = request.body
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token or id'
+      })
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(user.id, { $addToSet: { categories: category } }, { new: true })
+
+    response.status(200).json(updatedUser)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+// Delete category
+router.patch('/:id/categories/remove', async (request, response, next) => {
+
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
+    const category = request.body.category
+ 
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token or id'
+      })
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(user.id, { $pull: { 'categories': { 'value': category  } } }, { new: true })
+
+    response.status(200).json(updatedUser)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
 // Change password
 router.put('/:id/password', async (request, response, next) => {
 
@@ -213,7 +264,9 @@ router.put('/:id/password', async (request, response, next) => {
 
 })
 
-router.delete('/:id', async (request, response, next) => {
+// Set user as inactive = delete
+router.put('/:id/delete', async (request, response, next) => {
+
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
@@ -221,10 +274,11 @@ router.delete('/:id', async (request, response, next) => {
 
     if (!(user && passwordCorrect)) {
       return response.status(401).json({
-        error: 'Invalid token or password'
+        error: 'Invalid token, id or password'
       })
     }
-    await User.findByIdAndDelete(user.id)
+
+    await User.findByIdAndUpdate(user.id, { $set: { active: false } })
     response.status(204).end()
   } catch (error) {
     next(error)

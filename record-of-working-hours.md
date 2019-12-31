@@ -31,4 +31,6 @@
 | 29.12 | 1.5  | Working on user account page on frontend forms. Conclusion: need to create more update endpoints and then fix their tests |
 | 30.12 | 1    | Debugging Router problem, decided to come back later after main functionalities are done |
 |       | 5    | Working on user account page on frontend forms (image upload, edit locations and change password) and their backend routes |
-| tot   | 56.5 | 
+| 31.12 | 3.5  | Working on user account page on frontend forms (inactive user, add or delete categories. ) and their backend routes. Fixing minor bugs |
+|       | 3    | Implementing Excel export. Conclusion: excel4node did not work with React! Had to use FileSaver and XLSX on frontend. Test data is now in file |
+| tot   | 63   | 

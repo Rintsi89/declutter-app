@@ -1,12 +1,16 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Button } from 'semantic-ui-react'
+import ExportCSV from './ExportCSV'
 import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
 import Togglable from './Togglable'
 import RemovalForm from './RemovalForm'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
+
+
+    const testidata = [{firstName: 'jee', lastName: 'jeah'}]
 
     useEffect(() => {
         props.initializeRemovals()
@@ -24,7 +28,7 @@ const RemovalTable = (props) => {
         }
         
     }
-
+    
     const sort = () => props.removals.sort((a, b) => {
    
         let dateA = a.date.toUpperCase()
@@ -49,6 +53,8 @@ const RemovalTable = (props) => {
             <RemovalForm user={props.logged_user} />
         </Togglable>
         </div>
+        <ExportCSV csvData={testidata} fileName={'tiedosto'}/>
+        {props.removals.length < 1 ? null :
          <table className={classes.removals}>
                 <tbody>
                     <tr>
@@ -102,6 +108,7 @@ const RemovalTable = (props) => {
                     </tr>)}
                 </tbody>
             </table>
+        }
     </div>
   )
 }

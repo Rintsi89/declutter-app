@@ -8,13 +8,21 @@ const setToken = newToken => {
 }
 
 const getAll = async () => {
-    const config = {
-        headers: { Authorization: token },
-      }
-      
-    const response = await axios.get(baseUrl, config)
-    return response.data
-  }
+  const config = {
+      headers: { Authorization: token },
+    }
+    
+  const response = await axios.get(baseUrl, config)
+  return response.data
+}
+
+const createExcel = async () => {
+  const config = {
+      headers: { Authorization: token },
+    }
+    
+  await axios.get(`${baseUrl}/excel`, config)
+}
 
 const create = async newRemoval => {
   
@@ -36,4 +44,4 @@ const deleteOne = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, config)
 } 
 
-export default { setToken, getAll, deleteOne, create }
+export default { setToken, getAll, deleteOne, create, createExcel }

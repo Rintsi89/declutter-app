@@ -1,5 +1,17 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
+const locations = ['Home']
+const categories = [
+  { key: 'c', text: 'Clothes', value: 'Clothes' },
+  { key: 'si', text: 'Sentimental items', value: 'Sentimental items' },
+  { key: 'se', text: 'Sport equipment', value: 'Sport equipment' },
+  { key: 'f', text: 'Furniture', value: 'Furniture' },
+  { key: 'ea', text: 'Electric appliances', value: 'Electric appliances' },
+  { key: 'd', text: 'Dishes', value: 'Dishes' },
+  { key: 'b', text: 'Books', value: 'Books' },
+  { key: 'do', text: 'Documents', value: 'Documents' },
+  { key: 'pasd', text: 'ddasdas', value: 'asdasdsad' }
+]
 
 const userSchema = mongoose.Schema({
   username: {
@@ -10,12 +22,11 @@ const userSchema = mongoose.Schema({
   },
   name: String,
   passwordHash: String,
-  locations: [{
-    type: String,
-    unique: true
-  }],
+  categories: { type: Array, default: categories },
+  locations: { type: Array, default: locations },
   description: String,
   image: String,
+  active: { type: Boolean, default: true },
   removals: [
     {
       type: mongoose.Schema.Types.ObjectId,

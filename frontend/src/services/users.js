@@ -20,6 +20,14 @@ const update = async (id, updatedUser) => {
   const response = await axios.patch(`${baseUrl}/${id}`, updatedUser, config)
   return response.data
 }
+const deleteUser = async (id, password) => {
+  const config = {
+    headers: { Authorization: token }
+  }
+  
+  const response = await axios.put(`${baseUrl}/${id}/delete`, password, config)
+  return response.data
+}
 
 const updateImage = async (id, updatedUser) => {
   const config = {
@@ -65,5 +73,35 @@ const changePassword = async (id, newPassword) => {
   return response.data
 }
 
+const addCategory = async (id, newCategory) => {
+  const config = {
+    headers: { Authorization: token },
+  }
 
-export default { setToken, create, update, updateImage, deleteImage, addLocation, deleteLocation, changePassword }
+  const response = await axios.patch(`${baseUrl}/${id}/categories/add`, newCategory, config)
+  return response.data
+}
+
+const deleteCategory = async (id, category) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.patch(`${baseUrl}/${id}/categories/remove`, category, config)
+  return response.data
+}
+
+
+export default { 
+  setToken, 
+  create,
+  update,
+  deleteUser,
+  updateImage,
+  deleteImage,
+  addLocation,
+  deleteLocation,
+  changePassword,
+  addCategory,
+  deleteCategory  
+}

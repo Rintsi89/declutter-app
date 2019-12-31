@@ -21,12 +21,9 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
   try {
 
     let imagelink = !request.file ? null : request.file.location
-
     const body = { ...request.body, image: imagelink }
-
     const removal = new Removal(body)
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
-
     const user = await User.findById(decodedToken.id)
 
     removal.user = user._id
@@ -56,9 +53,12 @@ router.delete('/:id', async (request, response, next) => {
     }
 
     const deletedRemoval = await Removal.findByIdAndRemove(request.params.id)
-    await User.findByIdAndUpdate(decodedToken.id, { $pull: { removals: request.params.id } })
-    const key = deletedRemoval.image.substring(deletedRemoval.image.lastIndexOf('/') + 1)
-    S3.deleteImage(key)
+    await User.findByIdAndUpdate(decodedToken.id, { $pull: { removals: deletedRemoval.id } })
+
+    if (deletedRemoval.image) {
+      const key = deletedRemoval.image.substring(deletedRemoval.image.lastIndexOf('/') + 1)
+      S3.deleteImage(key)
+    }
 
     response.status(204).end()
   } catch (error) {

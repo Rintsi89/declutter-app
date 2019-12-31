@@ -26,16 +26,16 @@ const RemovalForm = (props) => {
     const [image, setImage] = useState(null)
 
     // Select options of category
-    const categories = [
-        { key: 'c', text: 'Clothes', value: 'Clothes'},
-        { key: 's', text: 'Sentimental items', value: 'Sentimental items' },
-        { key: 'se', text: 'Sport equipment', value: 'Sport equipment' },
-        { key: 'f', text: 'Furniture', value: 'Furniture'},
-        { key: 'e', text: 'Electric appliances', value: 'Electric appliances' },
-        { key: 'd', text: 'Dishes', value: 'Dishes'},
-        { key: 'b', text: 'Books', value: 'Books'},
-        { key: 'do', text: 'Documents', value: 'Documents'}
-    ]
+    // const categories = [
+    //     { key: 'c', text: 'Clothes', value: 'Clothes'},
+    //     { key: 'si', text: 'Sentimental items', value: 'Sentimental items' },
+    //     { key: 'se', text: 'Sport equipment', value: 'Sport equipment' },
+    //     { key: 'f', text: 'Furniture', value: 'Furniture'},
+    //     { key: 'ea', text: 'Electric appliances', value: 'Electric appliances' },
+    //     { key: 'd', text: 'Dishes', value: 'Dishes'},
+    //     { key: 'b', text: 'Books', value: 'Books'},
+    //     { key: 'do', text: 'Documents', value: 'Documents'}
+    // ]
 
     // Select options of location
     const createLocations = (locations) => {
@@ -83,7 +83,7 @@ const RemovalForm = (props) => {
             formData.set('name', name.attributes.value)
             formData.set('quantity', quantity.attributes.value)
             formData.set('category', category)
-            formData.set('weight', weigth.attributes.value)
+            formData.set('weigth', weigth.attributes.value)
             formData.set('value', value.attributes.value)
             formData.set('date', date.attributes.value)
             formData.set('location', location)
@@ -93,20 +93,6 @@ const RemovalForm = (props) => {
             
             props.createRemoval(formData)
             resetForm()
-        //   const removalObject = {
-        //       name: name.attributes.value,
-        //       quantity: quantity.attributes.value,
-        //       category,
-        //       weigth: weigth.attributes.value,
-        //       value: value.attributes.value,
-        //       date: date.attributes.value,
-        //       location,
-        //       note: note.attributes.value,
-        //       image: image,
-        //       cbm: ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2)
-        //   }
-        
-        //   console.log(removalObject);
     
         } catch (exception) {
         //   title.reset()
@@ -129,7 +115,7 @@ const RemovalForm = (props) => {
                     <label>Quantity</label>
                     <input {...quantity.attributes}></input>
                 </Form.Field>
-                <Form.Select fluid label='Category' value={category} options={categories} onChange={handleCategoryChange}/>
+                <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange}/>
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>

@@ -5,7 +5,9 @@ import { setTitle } from '../reducers/titleReducer'
 import PasswordForm from './PasswordForm'
 import PictureForm from './PictureForm'
 import LocationForm from './LocationForm'
+import CategoryForm from './CategoryForm'
 import EditForm from './EditForm'
+import DeleteAccountPage from './DeleteAccountPage'
 import classes from '../styles/User.module.css'
 
 const UserPage = (props) => {
@@ -34,19 +36,24 @@ const UserPage = (props) => {
                     <Item.Content>
                         <Item.Header as='a'>Actions</Item.Header>
                         <Item.Meta>What you would like to do with your account?</Item.Meta>
+                        <div>
                         <Item.Description><Icon name='edit' /><button onClick={() => setForm('editform')}>Edit personal details</button></Item.Description>
+                        </div>
                         <Item.Description><Icon name='image outline' /><button onClick={() => setForm('pictureform')}>Edit profile picture</button></Item.Description>
                         <Item.Description><Icon name='home' /><button onClick={() => setForm('locationform')}>Edit locations</button></Item.Description>
+                        <Item.Description><Icon name='archive' /><button onClick={() => setForm('categoryform')}>Edit categories</button></Item.Description>
                         <Item.Description><Icon name='user secret' /><button onClick={() => setForm('passwordform')}>Change password</button></Item.Description>
-                        <Item.Description><Icon name='trash alternate outline' /><button>Delete account</button></Item.Description>
+                        <Item.Description><Icon name='trash alternate outline' /><button onClick={() => setForm('deleteaccount')}>Delete account</button></Item.Description>
                     </Item.Content>
                     </Item>
                 </Item.Group>
             </div>
             {!form ? null : form === 'passwordform' ? <PasswordForm /> :
              form === 'pictureform' ? <PictureForm /> :
-             form === 'locationform' ? <LocationForm /> 
-             : <EditForm />}
+             form === 'locationform' ? <LocationForm /> :
+             form === 'deleteaccount' ? <DeleteAccountPage /> :
+             form === 'categoryform' ?  <CategoryForm /> :
+             <EditForm />}
         </div>
     )
 }

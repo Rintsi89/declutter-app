@@ -14,10 +14,6 @@ app.use(express.static('build')) // Tämä tarvii olla täällä, jotta routet t
 
 console.log('connecting to', config.MONGODB_URI)
 
-console.log(process.env.BUCKET_KEYID)
-console.log(process.env.BUCKET_ACCESSKEY)
-console.log(process.env.BUCKET_NAME)
-
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true })
   .then(() => {
     console.log('connected to MongoDB')

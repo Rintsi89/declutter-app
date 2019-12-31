@@ -11,8 +11,12 @@ const PasswordForm = (props) => {
     const newPassword = useField('password', 'newPassword', 'New password', '')
     const newPasswordRe = useField('password', 'newPassword2', 'Retype new password', '')
 
-    console.log(oldPassword.attributes.value);
-    
+    const resetForm = (event) => {
+        event.preventDefault()
+        oldPassword.reset()
+        newPassword.reset()
+        newPasswordRe.reset()
+    }
 
     const changePassword = (id) => {
 
@@ -52,7 +56,7 @@ const PasswordForm = (props) => {
                         </Form.Field>
                     </Form.Group>
                     <Button.Group>
-                        <Button>Cancel</Button>
+                        <Button onClick={(event) => resetForm(event)}>Cancel</Button>
                         <Button.Or />
                         <Button positive>Change</Button>
                     </Button.Group>

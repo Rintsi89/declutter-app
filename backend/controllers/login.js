@@ -6,7 +6,7 @@ const User = require('../models/user')
 router.post('/', async (request, response, next) => {
   try {
     const body = request.body
-    const user = await User.findOne({ username: body.username })
+    const user = await User.findOne({ username: body.username, active: true })
     const passwordCorrect = user === null ? false : await bcrypt.compare(body.password, user.passwordHash)
 
     if (!(user && passwordCorrect)) {
@@ -22,7 +22,16 @@ router.post('/', async (request, response, next) => {
 
     const token = jwt.sign(userForToken, process.env.SECRET)
 
-    response.status(200).send({ token, username: user.username, name: user.name, locations: user.locations, image: user.image, description: user.description, id: user.id })
+    response.status(200).send({
+      token,
+      username: user.username,
+      name: user.name,
+      locations: user.locations,
+      image: user.image,
+      categories: user.categories,
+      description: user.description,
+      id: user.id })
+
   } catch (error) {
     next(error)
   }

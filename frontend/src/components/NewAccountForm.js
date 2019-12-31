@@ -9,10 +9,10 @@ import classes from '../styles/Form.module.css'
 
 const NewAccountForm = (props) => {
     
-const username = useField('text', 'username')
-const name = useField('text', 'name')
-const password = useField('password', 'password')
-const retypedpassword = useField('password', 'retypedpassword')
+const username = useField('text', 'username', 'Username', '')
+const name = useField('text', 'name', 'Name', '')
+const password = useField('password', 'password', 'Password', '')
+const retypedpassword = useField('password', 'retypedpassword', 'Retype password', '')
 
 const createUser = async (event) => {
   event.preventDefault()
@@ -30,7 +30,7 @@ const createUser = async (event) => {
 
   try {
 
-    if (!(password === retypedpassword)) {
+    if (password.attributes.value !== retypedpassword.attributes.value) {
         password.reset()
         retypedpassword.reset()
         return alert("Password did not match, try again")
