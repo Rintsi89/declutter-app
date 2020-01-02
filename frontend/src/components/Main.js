@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
+import Header from './Header'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
 import { setTitle } from '../reducers/titleReducer'
@@ -21,22 +22,35 @@ const Main = (props) => {
             const totalPerCategory = props.removals.filter(({ category }) => category === c).reduce((a, {cbm}) => a + cbm, 0)
             total.push(totalPerCategory)
         })
+  
         return total
     }
+
+    const totalCbms = sumCategories()
 
     const data = {
         labels: categories,
         datasets: [{
-            data: sumCategories(),
+            data: totalCbms,
             backgroundColor: [
             '#FF6384',
             '#36A2EB',
-            '#FFCE56'
+            '#FFCE56',
+            '#A2FB48',
+            '#7DCEA0',
+            '#2E4053',
+            '#4A235A',
+            '#7D6608 '
             ],
             hoverBackgroundColor: [
             '#FF6384',
             '#36A2EB',
-            '#FFCE56'
+            '#FFCE56',
+            '#A2FB48',
+            '#7DCEA0',
+            '#2E4053',
+            '#4A235A',
+            '#7D6608'
             ]
         }]
     }
@@ -54,7 +68,7 @@ const Main = (props) => {
             ticks: {
               beginAtZero: true,
               min: 0,
-              max: 10
+              max: Math.ceil((Math.max(...totalCbms) + 1) / 10) * 10
             }    
           }]
         }
@@ -62,7 +76,10 @@ const Main = (props) => {
 
     return (
         <div>
-            <h2 className={classes.maintitle}>{props.title}</h2>
+            <Header />
+            <div className={classes.maintitle}>
+                <h2 className={classes.mainh2}>{props.title}</h2>
+            </div>
             <div className={classes.infoarea}>
                 <div className={classes.chart}>
                     <Bar data={data} options={options}/>

@@ -33,4 +33,12 @@
 |       | 5    | Working on user account page on frontend forms (image upload, edit locations and change password) and their backend routes |
 | 31.12 | 3.5  | Working on user account page on frontend forms (inactive user, add or delete categories. ) and their backend routes. Fixing minor bugs |
 |       | 3    | Implementing Excel export. Conclusion: excel4node did not work with React! Had to use FileSaver and XLSX on frontend. Test data is now in file |
-| tot   | 63   | 
+| 1.1   | 1    | Implementing Excel export. Works now | 
+|       | 1    | Fixing frontend bugs on main page |
+|       | 1.5  | Watching YouTube videos about React Router Dom which has caused a lot of challenges now. No need to commit now |
+| 2.1   | 2.5  | Investigating React Router DOM and discussing on Telegram channel |
+|       | 0.5  | Restructuring landing page components, now they don't overlap each other |
+|       | 1.5  | Adjusting navigation bars, added sidebar. Essential for final layout and new components |
+|       | 2    | Studying pagination and implementing it on table page |
+|       | 0.5  | Fixing minor (annoying) bugs on frontend | 
+| tot   | 73.5 | 

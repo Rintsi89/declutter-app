@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Image, Item, Icon } from 'semantic-ui-react'
 import { setTitle } from '../reducers/titleReducer'
+import Header from './Header'
 import PasswordForm from './PasswordForm'
 import PictureForm from './PictureForm'
 import LocationForm from './LocationForm'
@@ -21,7 +22,12 @@ const UserPage = (props) => {
 
     return (
         <div>
-            <h2 className={classes.maintitle}>{props.title}</h2>
+            <div>
+                <Header />
+            </div>
+            <div className={classes.maintitle}>
+                <h2 className={classes.mainh2}>{props.title}</h2>
+            </div>
             <div className={classes.infoarea}>
                 <Item.Group>
                     <Item>

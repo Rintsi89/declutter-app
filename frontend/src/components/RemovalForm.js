@@ -7,15 +7,15 @@ import { useField } from '../hooks'
 const RemovalForm = (props) => {    
 
     // Input
-    const name = useField('text', 'name', 'Name')
-    const quantity = useField('number', 'quantity', 'Quantity')
-    const length = useField('number', 'length', 'Length')
-    const width = useField('number', 'width', 'Width')
-    const height = useField('number', 'height', 'Heigth')
-    const weigth = useField('number','weigth', 'Weigth')
-    const value = useField('number', 'value', 'Value')
-    const note = useField('text', 'note', 'Notes')
-    const date = useField('date', 'date', 'Date')
+    const name = useField('text', 'name', 'Name', '')
+    const quantity = useField('number', 'quantity', 'Quantity', '')
+    const length = useField('number', 'length', 'Length', '')
+    const width = useField('number', 'width', 'Width', '')
+    const height = useField('number', 'height', 'Heigth', '')
+    const weigth = useField('number','weigth', 'Weigth', '')
+    const value = useField('number', 'value', 'Value', '')
+    const note = useField('text', 'note', 'Notes', '')
+    const date = useField('date', 'date', 'Date', '')
     
     // Select
     const [location, setLocation] = useState(null)
@@ -24,18 +24,6 @@ const RemovalForm = (props) => {
     // Image
 
     const [image, setImage] = useState(null)
-
-    // Select options of category
-    // const categories = [
-    //     { key: 'c', text: 'Clothes', value: 'Clothes'},
-    //     { key: 'si', text: 'Sentimental items', value: 'Sentimental items' },
-    //     { key: 'se', text: 'Sport equipment', value: 'Sport equipment' },
-    //     { key: 'f', text: 'Furniture', value: 'Furniture'},
-    //     { key: 'ea', text: 'Electric appliances', value: 'Electric appliances' },
-    //     { key: 'd', text: 'Dishes', value: 'Dishes'},
-    //     { key: 'b', text: 'Books', value: 'Books'},
-    //     { key: 'do', text: 'Documents', value: 'Documents'}
-    // ]
 
     // Select options of location
     const createLocations = (locations) => {
@@ -105,6 +93,7 @@ const RemovalForm = (props) => {
     return (
       <div>
         <h3>Create a new removal</h3>
+        <p>Fill in the details <em><b>per unit</b></em></p>
         <Form onSubmit={addRemoval} encType="multipart/form-data">
             <Form.Group widths='equal'>
                 <Form.Field>

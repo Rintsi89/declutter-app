@@ -1,7 +1,28 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import ExportCSV from './ExportCSV'
 
 const Info = (props) => {
+
+    const getExcelData = (removals) => {
+        let arrayItems = []
+    for (let i = 0; i < removals.length; i++) {
+        const excelData = {
+            name: removals[i].name,
+            category: removals[i].category,
+            location: removals[i].location,
+            quantity: removals[i].quantity,
+            value: removals[i].value,
+            volume: removals[i].cbm,
+            weigth: removals[i].weigth,
+            date: removals[i].date,
+            note: removals[i].note,
+            image: removals[i].image
+        }
+        arrayItems.push(excelData)
+    }
+    return arrayItems
+}
 
     const totalCbm = props.removals.reduce((a, {cbm}) => a + cbm, 0)
     const totalMoney = props.removals.reduce((a, {value}) => a + value, 0)
@@ -32,19 +53,26 @@ const Info = (props) => {
         {
             name: 'of the boot volume of Volkswagen Crafter',
             volume:  16
+        },
+        {
+            name: 'of the volume of 20-foot shipping container',
+            volume:  33
+        },
+        {
+            name: 'of the volume of 40-foot shipping container',
+            volume:  67
         }
     ]
 
     const createExample = () => {
         let exampleToReturn = []
-
         examples.forEach(e => {
-            (e.volume - totalCbm) < 0 ? null : exampleToReturn.push({...e, difference: e.volume - totalCbm }) 
+            exampleToReturn.push({...e, difference: e.volume - totalCbm }) 
         })
 
-        const result = exampleToReturn.reduce((res, obj) => (obj.difference < res.difference) ? obj : res)
+        const differences = exampleToReturn.filter(d => d.difference > 0)
+        const result = differences.length === 0 ? examples[examples.length - 1] : differences.reduce((res, obj) => (obj.difference < res.difference) ? obj : res)     
         const percentage = Math.round(totalCbm  / result.volume  * 100)
-  
         return `Volume of removed items is ${percentage}% ${result.name}`
     }
 
@@ -59,6 +87,9 @@ const Info = (props) => {
             <li>Have {totalWeight} kg less to carry when you move!</li>
         </ul>
     <p><em>{createExample()}</em></p>
+    {props.removals.length < 1 ? null : 
+    <ExportCSV csvData={getExcelData(props.removals)} fileName={'My removals'}/>
+    }
     </div>
   )
 }

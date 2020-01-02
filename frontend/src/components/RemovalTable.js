@@ -1,21 +1,28 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Icon, Button } from 'semantic-ui-react'
-import ExportCSV from './ExportCSV'
+import { Icon } from 'semantic-ui-react'
 import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
 import Togglable from './Togglable'
+import Pagination from './Pagination'
 import RemovalForm from './RemovalForm'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
 
-
-    const testidata = [{firstName: 'jee', lastName: 'jeah'}]
-
+    const [currentPage, setCurrentPage] = useState(1)
+    const [rowsPerPage] = useState(10) 
+    
     useEffect(() => {
         props.initializeRemovals()
     }, [])
+
+    const indexOfLastRow = currentPage * rowsPerPage
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage
+    const currentRows = props.removals.slice(indexOfFirstRow, indexOfLastRow)
     
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
+
     const deleteRemoval = async (event, id, name) => {
         event.preventDefault()
 
@@ -29,7 +36,7 @@ const RemovalTable = (props) => {
         
     }
     
-    const sort = () => props.removals.sort((a, b) => {
+    const sort = () => currentRows.sort((a, b) => {
    
         let dateA = a.date.toUpperCase()
         let dateB = b.date.toUpperCase()
@@ -46,15 +53,14 @@ const RemovalTable = (props) => {
     })
 
   return (
-    
+    <div>
     <div className={classes.maintable}>
         <div className={classes.formarea}>
         <Togglable buttonLabel="Add new" >
             <RemovalForm user={props.logged_user} />
         </Togglable>
         </div>
-        <ExportCSV csvData={testidata} fileName={'tiedosto'}/>
-        {props.removals.length < 1 ? null :
+        {currentRows.length < 1 ? null :
          <table className={classes.removals}>
                 <tbody>
                     <tr>
@@ -76,7 +82,7 @@ const RemovalTable = (props) => {
                             {r.date}
                         </td>
                         <td>
-                            {r.name}
+                            <a href=''>{r.name} <Icon name='edit' /></a>
                         </td>
                         <td>
                             {r.category}
@@ -109,6 +115,8 @@ const RemovalTable = (props) => {
                 </tbody>
             </table>
         }
+        </div>
+        <Pagination rowsPerPage={rowsPerPage} totalRows={props.removals.length} paginate={paginate}/>
     </div>
   )
 }

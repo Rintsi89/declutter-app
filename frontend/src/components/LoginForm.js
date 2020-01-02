@@ -1,6 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'   
+import { connect } from 'react-redux' 
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { loginUser } from '../reducers/userReducer'
@@ -10,6 +9,11 @@ const LoginForm = (props) => {
 
 const username = useField('text', 'username', 'Username', '')
 const password = useField('password', 'password', 'Password', '')
+
+const changeForm = (event, formName) => {
+  event.preventDefault()
+  props.setPage(formName)
+}
 
 const handleLogin = async (event) => {
   event.preventDefault()
@@ -48,7 +52,7 @@ return (
             </div>
             <div className={classes.formfield}>
                 <Button positive>Log In</Button> 
-                <p>No account yet? <Link to="/newaccount">Create account</Link></p> 
+                <p>No account yet?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'newaccount')}>Create account</button></p> 
             </div>
         </Form>
     </div>

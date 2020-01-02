@@ -44,3 +44,7 @@
 .button:hover {
     color: red;
 }
+
+.pagination {
+    margin-left: 170px !important;
+}

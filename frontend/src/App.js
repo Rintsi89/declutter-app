@@ -1,16 +1,15 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { initializeUser } from './reducers/userReducer'
 import { initializeRemovals } from './reducers/removalReducer'
 import removalService from './services/removals'
 import userService from './services/users'
 import Landing from './components/Landing'
-import Header from './components/Header'
 import Main from './components/Main'
 import UserPage from './components/UserPage'
 import {
   BrowserRouter as Router,
-  Route, Link
+  Route, Redirect
 } from 'react-router-dom'
 
 const App = (props) => {
@@ -25,19 +24,18 @@ const App = (props) => {
       props.initializeRemovals()
     }
   }, [])
-  
+
+  if (!props.logged_user) {
+    return <Landing />
+  }
+
   return (
     <div>
-      {!props.logged_user ? 
-        <Landing />
-      : <div render={<Main />}>
-        <Router>
-          <Header />
-            <Route exact path="/" render={() => <Main />} />
-            <Route exact path="/myaccount" render={() => <UserPage />} />
-        </Router>
-        </div>
-      }
+      <Router>
+          <Route exact path="/" render={() => <Main />}/>
+          <Route exact path="/login" render={() => <Landing />} />
+          <Route exact path="/myaccount" render={() => <UserPage />}  /> 
+      </Router>
     </div>
   )
 }
