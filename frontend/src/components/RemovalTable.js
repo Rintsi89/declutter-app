@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'
+import { Link } from 'react-router-dom'
+import { withRouter } from "react-router"
 import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
 import Togglable from './Togglable'
 import Pagination from './Pagination'
@@ -11,6 +13,9 @@ const RemovalTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage] = useState(10) 
+
+    console.log("removal table", props.history);
+    
     
     useEffect(() => {
         props.initializeRemovals()
@@ -82,7 +87,7 @@ const RemovalTable = (props) => {
                             {r.date}
                         </td>
                         <td>
-                            <a href=''>{r.name} <Icon name='edit' /></a>
+                            <Link to={`/removals/${r.id}`}>{r.name} <Icon name='edit' /></Link>
                         </td>
                         <td>
                             {r.category}
@@ -139,4 +144,4 @@ const ConnectedRemovalTable = connect(
 )(RemovalTable)
 
 
-export default ConnectedRemovalTable
+export default withRouter(ConnectedRemovalTable)

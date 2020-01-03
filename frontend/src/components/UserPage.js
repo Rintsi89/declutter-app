@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { Image, Item, Icon } from 'semantic-ui-react'
-import { setTitle } from '../reducers/titleReducer'
+import { updateImage, deleteImage } from '../reducers/userReducer'
+import { withRouter } from "react-router"
 import Header from './Header'
+import Title from './Title'
 import PasswordForm from './PasswordForm'
 import PictureForm from './PictureForm'
 import LocationForm from './LocationForm'
@@ -16,17 +18,33 @@ const UserPage = (props) => {
     const [form, setForm] = useState(null)
 
     useEffect(() => {
-        props.setTitle('My account')
         setForm(null)
     }, [])
+
+    const updateImage = (id, image, callback) => {
+
+        if (!image) {
+            return alert('Select image first!')
+        }
+
+        let formData = new FormData()
+        formData.append('image', image)
+        props.updateImage(id, formData)
+        callback()
+    }
+
+    const deleteImage = (event, id) => {
+        event.preventDefault()
+        if (confirm('Are you sure you want to delete this picture')) {
+            props.deleteImage(id)
+        }
+    }
 
     return (
         <div>
             <div>
                 <Header />
-            </div>
-            <div className={classes.maintitle}>
-                <h2 className={classes.mainh2}>{props.title}</h2>
+                <Title title={'My account'} />
             </div>
             <div className={classes.infoarea}>
                 <Item.Group>
@@ -55,7 +73,7 @@ const UserPage = (props) => {
                 </Item.Group>
             </div>
             {!form ? null : form === 'passwordform' ? <PasswordForm /> :
-             form === 'pictureform' ? <PictureForm /> :
+             form === 'pictureform' ? <PictureForm id={props.logged_user.id} delete={deleteImage} label={'Select profile picture'} title={'Edit your profile picture'} update={updateImage}/> :
              form === 'locationform' ? <LocationForm /> :
              form === 'deleteaccount' ? <DeleteAccountPage /> :
              form === 'categoryform' ?  <CategoryForm /> :
@@ -67,13 +85,13 @@ const UserPage = (props) => {
 const mapStateToProps = (state) => {
     return {
       logged_user: state.logged_user,
-      removals: state.removals,
-      title: state.title
+      removals: state.removals
     }
   }
 
 const mapDispatchToProps = {
-    setTitle
+    updateImage,
+    deleteImage
 }
 
 const ConnectedUserPage = connect(
@@ -81,4 +99,4 @@ const ConnectedUserPage = connect(
     mapDispatchToProps
 )(UserPage)
 
-export default ConnectedUserPage
+export default withRouter(ConnectedUserPage)

@@ -2,16 +2,12 @@ import React, {useEffect} from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
 import Header from './Header'
+import Title from './Title'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
-import { setTitle } from '../reducers/titleReducer'
 import classes from '../styles/Main.module.css'
 
 const Main = (props) => {
-
-    useEffect(() => {
-        props.setTitle('My removals')
-    }, [])
 
     const categories = [...new Set(props.removals.map(r => r.category))]
 
@@ -77,9 +73,7 @@ const Main = (props) => {
     return (
         <div>
             <Header />
-            <div className={classes.maintitle}>
-                <h2 className={classes.mainh2}>{props.title}</h2>
-            </div>
+            <Title title={'My removals'} />
             <div className={classes.infoarea}>
                 <div className={classes.chart}>
                     <Bar data={data} options={options}/>
@@ -96,17 +90,12 @@ const Main = (props) => {
 const mapStateToProps = (state) => {
     return {
       removals: state.removals,
-      title: state.title
     }
   }
 
-const mapDispatchToProps = {
-    setTitle
-}
-
 const ConnectedMainPage = connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(Main)
 
 

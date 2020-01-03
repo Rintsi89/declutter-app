@@ -40,6 +40,44 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
   }
 })
 
+// Delete picture
+router.delete('/:id/picture/remove', async (request, response, next) => {
+
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token'
+      })
+    }
+
+    const removalToUpdate = await Removal.findOne({ _id: request.params.id })
+    const imageExists = !removalToUpdate || !removalToUpdate.image ? false : true
+    console.log(removalToUpdate);
+    console.log(removalToUpdate.image);
+    
+
+    if (!imageExists)
+      return response.status(404).json({
+        error: 'Removal or image does not exists'
+      })
+
+    const key = removalToUpdate.image.substring(removalToUpdate.image.lastIndexOf('/') + 1)
+    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: null } }, { new: true })
+
+    S3.deleteImage(key)
+
+    response.status(200).json(updatedRemoval)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
 router.delete('/:id', async (request, response, next) => {
   try {
 

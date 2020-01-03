@@ -184,8 +184,7 @@ router.patch('/:id/locations/remove', async (request, response, next) => {
 
 // Add category
 router.patch('/:id/categories/add', async (request, response, next) => {
-  console.log(request.body);
-  
+
   try {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -216,7 +215,7 @@ router.patch('/:id/categories/remove', async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
     const category = request.body.category
- 
+
     if (!user) {
       return response.status(401).json({
         error: 'Invalid token or id'
@@ -244,7 +243,7 @@ router.put('/:id/password', async (request, response, next) => {
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
     const retypedCorrect = newPassword !== newPassword2 ? false : true
     const passwordCorrect = (!user || !retypedCorrect) ? false : await bcrypt.compare(password, user.passwordHash)
- 
+
     if (!(user && passwordCorrect)) {
       return response.status(401).json({
         error: 'Invalid token, id or password'

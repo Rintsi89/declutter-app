@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { initializeUser } from './reducers/userReducer'
 import { initializeRemovals } from './reducers/removalReducer'
@@ -7,12 +7,15 @@ import userService from './services/users'
 import Landing from './components/Landing'
 import Main from './components/Main'
 import UserPage from './components/UserPage'
+import EditRemoval from './components/EditRemoval'
 import {
   BrowserRouter as Router,
-  Route, Redirect
+  Route, Switch, Redirect
 } from 'react-router-dom'
 
 const App = (props) => {
+
+  const removalById = (id) => props.removals.find(r => r.id === id)
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -25,6 +28,8 @@ const App = (props) => {
     }
   }, [])
 
+    console.log(props.removals);
+
   if (!props.logged_user) {
     return <Landing />
   }
@@ -32,9 +37,13 @@ const App = (props) => {
   return (
     <div>
       <Router>
-          <Route exact path="/" render={() => <Main />}/>
+      <Switch>
+          <Route exact path="/"><Redirect to='/removals'/></Route>
           <Route exact path="/login" render={() => <Landing />} />
-          <Route exact path="/myaccount" render={() => <UserPage />}  /> 
+          <Route exact path="/myaccount" render={() => <UserPage />}  />  
+          <Route exact path="/removals" render={() => <Main />}/>
+          <Route exact path="/removals/:id" render={({ match }) => <EditRemoval removal={removalById(match.params.id)} />} />
+      </Switch>
       </Router>
     </div>
   )
@@ -42,7 +51,8 @@ const App = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    logged_user: state.logged_user
+    logged_user: state.logged_user,
+    removals: state.removals
   }
 }
 

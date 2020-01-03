@@ -44,4 +44,20 @@ const deleteOne = async (id) => {
   await axios.delete(`${baseUrl}/${id}`, config)
 } 
 
-export default { setToken, getAll, deleteOne, create, createExcel }
+const deleteImage = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  
+  const response = await axios.delete(`${baseUrl}/${id}/picture/remove`, config)
+  return response.data
+}
+
+
+export default {
+  setToken,
+  getAll,
+  deleteImage,
+  deleteOne,
+  create,
+  createExcel }

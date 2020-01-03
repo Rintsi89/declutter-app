@@ -1,13 +1,3 @@
-.maintitle {
-    margin: 120px 180px 0px 180px;
-    background: green;
-}
-
-.mainh2 {
-    padding: 5px;
-    color: white;
-}
-
 .infoarea {
     display: flex;
     justify-content: center;

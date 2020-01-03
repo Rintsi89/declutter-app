@@ -40,5 +40,6 @@
 |       | 0.5  | Restructuring landing page components, now they don't overlap each other |
 |       | 1.5  | Adjusting navigation bars, added sidebar. Essential for final layout and new components |
 |       | 2    | Studying pagination and implementing it on table page |
-|       | 0.5  | Fixing minor (annoying) bugs on frontend | 
-| tot   | 73.5 | 
+|       | 0.5  | Fixing minor (annoying) bugs on frontend |
+| 3.1   | 6    | Working on edit removal page, a lot discussion on Telegram channel. Still bugs to be fixed (rendering issues after image delete) | 
+| tot   | 79.5 | 
