@@ -13,9 +13,6 @@ const RemovalTable = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage] = useState(10) 
-
-    console.log("removal table", props.history);
-    
     
     useEffect(() => {
         props.initializeRemovals()

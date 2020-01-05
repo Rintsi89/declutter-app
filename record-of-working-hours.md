@@ -42,4 +42,5 @@
 |       | 2    | Studying pagination and implementing it on table page |
 |       | 0.5  | Fixing minor (annoying) bugs on frontend |
 | 3.1   | 6    | Working on edit removal page, a lot discussion on Telegram channel. Still bugs to be fixed (rendering issues after image delete) | 
-| tot   | 79.5 | 
+| 5.1   | 2    | Working on edit removal page's image functionalities and adjust backend accordingly. Image upload and delete works now |
+| tot   | 81.5 | 

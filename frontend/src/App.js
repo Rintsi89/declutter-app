@@ -28,8 +28,6 @@ const App = (props) => {
     }
   }, [])
 
-    console.log(props.removals);
-
   if (!props.logged_user) {
     return <Landing />
   }

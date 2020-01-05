@@ -8,6 +8,9 @@ aws.config.update({
   region: 'eu-north-1'
 })
 
+const createRandomName = (max, originalFileName) => {
+  return Math.floor(Math.random() * Math.floor(max)) + originalFileName
+}
 const s3 = new aws.S3()
 
 const fileFilter = (req, file, callback) => {
@@ -25,7 +28,7 @@ const upload = multer({
     s3: s3,
     bucket: process.env.BUCKET_NAME,
     key: function(req, file, callback) {
-      callback(null, file.originalname)
+      callback(null, createRandomName(100, file.originalname))
     }
   }),
   limits: { fileSize: 3000000 },

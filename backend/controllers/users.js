@@ -165,7 +165,7 @@ router.patch('/:id/locations/remove', async (request, response, next) => {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
     const location = request.body.location
- 
+
     if (!user) {
       return response.status(401).json({
         error: 'Invalid token or id'

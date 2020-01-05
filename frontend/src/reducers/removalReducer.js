@@ -1,5 +1,4 @@
 import removalService from '../services/removals'
-import { loadPartialConfig } from '@babel/core'
 
 const removalReducer = (state = [], action) => {
     switch (action.type) {
@@ -7,10 +6,10 @@ const removalReducer = (state = [], action) => {
       return action.data
     case 'NEW_REMOVAL':
       return state.concat(action.data)
+    case 'UPDATE_IMAGE':
+      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
     case 'DELETE_IMAGE':
-      const newArray = state.filter(removal => removal.id !== action.data.id)
-      newArray.concat(action.data)
-      return newArray
+      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
     case 'DELETE_REMOVAL':
       const removalToDelete = action.data
       return state.filter(removal => removal.id !== removalToDelete)
@@ -35,6 +34,16 @@ export const createRemoval = (data) => {
     dispatch({
       type: 'NEW_REMOVAL',
       data: newRemoval
+    })
+  }
+}
+
+export const updateImage = (id, image) => {
+  return async dispatch => {
+    const removal = await removalService.updateImage(id, image)
+    dispatch ({
+      type: 'UPDATE_IMAGE',
+      data: removal
     })
   }
 }

@@ -35,7 +35,10 @@ const UserPage = (props) => {
 
     const deleteImage = (event, id) => {
         event.preventDefault()
-        if (confirm('Are you sure you want to delete this picture')) {
+        if (!props.logged_user.image) {
+            return alert('There is no image to delete')
+        } else { 
+            confirm('Are you sure you want to delete this picture') 
             props.deleteImage(id)
         }
     }

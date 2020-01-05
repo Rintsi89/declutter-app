@@ -11,16 +11,32 @@ import classes from '../styles/User.module.css'
 const EditRemoval = (props) => {
     
     const [form, setForm] = useState(null)
-
+    
     if (!props.removal) {
         return null
     }
 
+    const updateImage = (id, image, callback) => {
+
+        if (!image) {
+            return alert('Select image first!')
+        }
+
+        let formData = new FormData()
+        formData.append('image', image)
+        props.updateImage(id, formData)
+        callback()
+    }
+    
+
     const deleteImage = (event, id) => {
         event.preventDefault()
-        if (confirm('Are you sure you want to delete this picture')) {
+
+        if (!props.removal.image) {
+            return alert('There is no image to delete')
+        } else { 
+            confirm('Are you sure you want to delete this picture') 
             props.deleteImage(id)
-            setForm(null)
         }
     }
 
@@ -52,9 +68,9 @@ const EditRemoval = (props) => {
                     </Item>
                 </Item.Group>
             </div>
-            {!form ? null : form === 'editform' ? <h3>Jeee</h3> :
+            {!form ? null : form === 'editform' ? <div><h3>Jeee</h3></div> :
              form === 'imageform' ?
-             <PictureForm label={'Select new picture'} title={'Edit removal picture'} id={props.removal.id} delete={deleteImage}/> :
+             <PictureForm label={'Select new picture'} title={'Edit removal picture'} id={props.removal.id} delete={deleteImage} update={updateImage}/> :
              <EditForm />}
         </div>
     )
