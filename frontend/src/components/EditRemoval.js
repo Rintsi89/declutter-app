@@ -6,6 +6,7 @@ import { updateImage, deleteImage } from '../reducers/removalReducer'
 import Header from './Header'
 import Title from './Title'
 import PictureForm from './PictureForm'
+import EditRemovalForm from './EditRemovalForm'
 import classes from '../styles/User.module.css'
 
 const EditRemoval = (props) => {
@@ -68,10 +69,10 @@ const EditRemoval = (props) => {
                     </Item>
                 </Item.Group>
             </div>
-            {!form ? null : form === 'editform' ? <div><h3>Jeee</h3></div> :
+            {!form ? null : form === 'editform' ? <EditRemovalForm user={props.logged_user} removal={props.removal}/> :
              form === 'imageform' ?
              <PictureForm label={'Select new picture'} title={'Edit removal picture'} id={props.removal.id} delete={deleteImage} update={updateImage}/> :
-             <EditForm />}
+             null }
         </div>
     )
 }

@@ -6,6 +6,8 @@ const removalReducer = (state = [], action) => {
       return action.data
     case 'NEW_REMOVAL':
       return state.concat(action.data)
+    case 'UPDATE_REMOVAL':
+      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
     case 'UPDATE_IMAGE':
       return state.filter(removal => removal.id !== action.data.id).concat(action.data)
     case 'DELETE_IMAGE':
@@ -34,6 +36,16 @@ export const createRemoval = (data) => {
     dispatch({
       type: 'NEW_REMOVAL',
       data: newRemoval
+    })
+  }
+}
+
+export const updateRemoval = (id, removalObject) => {
+  return async dispatch => {
+    const removal = await removalService.update(id, removalObject)
+    dispatch ({
+      type: 'UPDATE_REMOVAL',
+      data: removal
     })
   }
 }

@@ -16,12 +16,13 @@ const getAll = async () => {
   return response.data
 }
 
-const createExcel = async () => {
+const update = async (id, updatedRemoval) => {
+  
   const config = {
-      headers: { Authorization: token },
-    }
-    
-  await axios.get(`${baseUrl}/excel`, config)
+    headers: { Authorization: token },
+  }
+  const response = await axios.patch(`${baseUrl}/${id}`, updatedRemoval, config)
+  return response.data
 }
 
 const create = async newRemoval => {
@@ -68,6 +69,6 @@ export default {
   deleteImage,
   deleteOne,
   create,
-  createExcel,
+  update,
   updateImage
  }

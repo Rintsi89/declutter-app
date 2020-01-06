@@ -40,6 +40,40 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
   }
 })
 
+// Edit details
+router.patch('/:id', async (request, response, next) => {
+
+  console.log(request.body);
+  
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token or id'
+      })
+    }
+
+    const removalToUpdate = await Removal.findOne({ _id: request.params.id })
+    const updateObject = request.body
+
+    if (!removalToUpdate)
+      return response.status(404).json({
+        error: 'Removal does not exists'
+      })
+
+    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, updateObject, { new: true })
+
+    response.status(200).json(updatedRemoval)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
 // Add picture
 router.put('/:id/picture/add', S3.upload.single('image'), async (request, response, next) => {
   try {

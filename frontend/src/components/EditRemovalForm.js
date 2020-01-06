@@ -1,29 +1,29 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form } from 'semantic-ui-react'
-import { createRemoval } from '../reducers/removalReducer'
+import { updateRemoval } from '../reducers/removalReducer'
 import { useField } from '../hooks'
+import classes from '../styles/EditForm.module.css'
 
-const RemovalForm = (props) => {    
+const EditRemovalForm = (props) => {    
+
+    console.log(props.removal.id);
+    
 
     // Input
-    const name = useField('text', 'name', 'Name', '')
-    const quantity = useField('number', 'quantity', 'Quantity', '')
-    const length = useField('number', 'length', 'Length', '')
-    const width = useField('number', 'width', 'Width', '')
-    const height = useField('number', 'height', 'Heigth', '')
-    const weigth = useField('number','weigth', 'Weigth', '')
-    const value = useField('number', 'value', 'Value', '')
-    const note = useField('text', 'note', 'Notes', '')
-    const date = useField('date', 'date', 'Date', '')
+    const name = useField('text', 'name', 'Name', props.removal.name)
+    const quantity = useField('number', 'quantity', 'Quantity', props.removal.quantity)
+    const length = useField('number', 'length', 'Length', props.removal.length)
+    const width = useField('number', 'width', 'Width', props.removal.width)
+    const heigth = useField('number', 'height', 'Heigth', props.removal.heigth)
+    const weigth = useField('number','weigth', 'Weigth', props.removal.weigth)
+    const value = useField('number', 'value', 'Value', props.removal.value)
+    const note = useField('text', 'note', 'Notes', props.removal.note)
+    const date = useField('date', 'date', 'Date', props.removal.date)
     
     // Select
-    const [location, setLocation] = useState(null)
-    const [category, setCategory] = useState(null)
-
-    // Image
-
-    const [image, setImage] = useState(null)
+    const [location, setLocation] = useState(props.removal.location)
+    const [category, setCategory] = useState(props.removal.category)
 
     // Select options of location
     const createLocations = (locations) => {
@@ -43,47 +43,41 @@ const RemovalForm = (props) => {
         setLocation(data.value)  
     }
 
-    const handleFileChange = (file) => {
-        setImage(file)
-    }
-
+    // Reset form to initial state
     const resetForm = () => {
-        name.reset()
-        quantity.reset()
-        length.reset()
-        width.reset()
-        height.reset()
-        weigth.reset()
-        value.reset()
-        note.reset()
-        date.reset()
-        setCategory(null)
-        setLocation(null)
-        setImage(null)
+        name.initialize()
+        quantity.initialize()
+        length.initialize()
+        width.initialize()
+        heigth.initialize()
+        weigth.initialize()
+        value.initialize()
+        note.initialize()
+        date.initialize()
+        setLocation(props.removal.location)
+        setCategory(props.removal.category)
     }
     
-    const addRemoval = async (event) => {
-        event.preventDefault()
-    
+    const updateRemoval = async (id) => {
+
         try {
 
-            let formData = new FormData()
-            formData.set('name', name.attributes.value)
-            formData.set('quantity', quantity.attributes.value)
-            formData.set('category', category)
-            formData.set('weigth', weigth.attributes.value)
-            formData.set('value', value.attributes.value)
-            formData.set('date', date.attributes.value)
-            formData.set('location', location)
-            formData.set('note', note.attributes.value)
-            formData.set('length', length.attributes.value),
-            formData.set('width', width.attributes.value),
-            formData.set('heigth', height.attributes.value)
-            formData.set('cbm', ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2))
-            formData.append('image', image)
-            
-            props.createRemoval(formData)
-            resetForm()
+            const updateObject = {
+                name: name.attributes.value,
+                quantity: quantity.attributes.value,
+                category: category,
+                weigth: weigth.attributes.value,
+                value: value.attributes.value,
+                date: date.attributes.value,
+                location: location,
+                note: note.attributes.value,
+                length: length.attributes.value,
+                width: width.attributes.value,
+                heigth: heigth.attributes.value,
+                cbm: ((length.attributes.value * width.attributes.value * heigth.attributes.value) / 1000000).toFixed(2),
+            }
+
+            props.updateRemoval(id, updateObject)
     
         } catch (exception) {
         //   title.reset()
@@ -95,9 +89,11 @@ const RemovalForm = (props) => {
 
     return (
       <div>
-        <h3>Create a new removal</h3>
+        <div className={classes.container}>
+        <div className={classes.formarea}>
+        <h3>Edit removal</h3>
         <p>Fill in the details <em><b>per unit</b></em></p>
-        <Form onSubmit={addRemoval} encType="multipart/form-data">
+        <Form onSubmit={() => updateRemoval(props.removal.id)}>
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Name</label>
@@ -120,7 +116,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Height (cm)</label>
-                    <input {...height.attributes}></input>
+                    <input {...heigth.attributes}></input>
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
@@ -140,28 +136,30 @@ const RemovalForm = (props) => {
                     <input {...note.attributes}></input>
                 </Form.Field>
                 <Form.Field>
-                    <label>Image</label>
-                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
-                </Form.Field>
-                <Form.Field>
                     <label>Date</label>
                     <input {...date.attributes}></input>
                 </Form.Field>
             </Form.Group>
-            <Form.Field control={Button}>Submit</Form.Field>
+            <Button.Group>
+                    <Button onClick={resetForm}>Cancel</Button>
+                    <Button.Or />
+                    <Button positive>Save</Button>
+                </Button.Group>
         </Form>
+        </div>
+        </div>
       </div>
     )
   }
 
 const mapDispatchToProps = {
-    createRemoval
+    updateRemoval
 }
 
-const ConnectedRemovalForm = connect(
+const ConnectedEditRemovalForm = connect(
     null,
     mapDispatchToProps
-)(RemovalForm)
+)(EditRemovalForm)
 
 
-export default ConnectedRemovalForm
+export default ConnectedEditRemovalForm
