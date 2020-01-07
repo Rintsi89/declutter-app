@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux' 
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
+import { showMessage } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/userReducer'
 import classes from '../styles/Form.module.css'
 
@@ -25,8 +26,9 @@ const handleLogin = async (event) => {
 
   try {
     await props.loginUser(credentials)
+    props.showMessage('Jee', 'Onnistui', 'positive')
   } catch (error) {
-    // props.showMessage('Wrong user name or password', 'error', 5000)
+    props.showMessage('Wrong user name or password', 'Check your user name and password', 'negative')
     username.reset()
     password.reset()
   }
@@ -60,7 +62,8 @@ return (
 }
 
 const mapDispatchToProps = {
-    loginUser
+    loginUser,
+    showMessage
   }
   
   const ConnectedLoginForm = connect(

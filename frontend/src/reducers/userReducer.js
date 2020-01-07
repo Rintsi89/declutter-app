@@ -36,6 +36,13 @@ const userReducer = (state = null, action) => {
     }
     window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithNewLocation))
     return updatedUserWithNewLocation
+  case 'ADD_SALE_LOCATION':
+    const updatedUserWithNewSaleLocation = {
+      ...state,
+      saleLocations: action.data.saleLocations
+    }
+    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithNewSaleLocation))
+    return updatedUserWithNewSaleLocation
   case 'DELETE_LOCATION':
     const updatedUserWithDeletedLocation = {
       ...state,
@@ -43,6 +50,13 @@ const userReducer = (state = null, action) => {
     }
     window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedLocation))
     return updatedUserWithDeletedLocation
+  case 'DELETE_SALE_LOCATION':
+    const updatedUserWithDeletedSaleLocation = {
+      ...state,
+      saleLocations: action.data.saleLocations
+    }
+    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedSaleLocation))
+    return updatedUserWithDeletedSaleLocation
   case 'ADD_CATEGORY':
     const updatedUserWithNewCategory = {
       ...state,
@@ -144,6 +158,26 @@ export const deleteLocation = (id, location) => {
     const user = await userService.deleteLocation(id, location)
     dispatch ({
       type: 'DELETE_LOCATION',
+      data: user
+    })
+  }
+}
+
+export const addSaleLocation = (id, newSaleLocation) => {
+  return async dispatch => {
+    const user = await userService.addSaleLocation(id, newSaleLocation)
+    dispatch ({
+      type: 'ADD_SALE_LOCATION',
+      data: user
+    })
+  }
+}
+
+export const deleteSaleLocation = (id, saleLocation) => {
+  return async dispatch => {
+    const user = await userService.deleteSaleLocation(id, saleLocation)
+    dispatch ({
+      type: 'DELETE_SALE_LOCATION',
       data: user
     })
   }

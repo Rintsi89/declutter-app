@@ -33,6 +33,7 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
     await user.save()
 
     const addedRemovalWithUser = await Removal.findById(removal._id).populate('user')
+
     response.status(201).json(addedRemovalWithUser)
 
   } catch (error) {
@@ -43,8 +44,6 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
 // Edit details
 router.patch('/:id', async (request, response, next) => {
 
-  console.log(request.body);
-  
   try {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)

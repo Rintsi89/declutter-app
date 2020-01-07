@@ -16,6 +16,7 @@ const Info = (props) => {
             volume: removals[i].cbm,
             weigth: removals[i].weigth,
             date: removals[i].date,
+            soldAt: removals[i].soldAt,
             note: removals[i].note,
             image: removals[i].image
         }
@@ -25,9 +26,9 @@ const Info = (props) => {
 }
 
     const totalCbm = props.removals.reduce((a, {cbm}) => a + cbm, 0)
-    const totalMoney = props.removals.reduce((a, {value}) => a + value, 0)
+    const totalMoney = props.removals.reduce((a, {totalValue}) => a + totalValue, 0)
     const totalQuantity = props.removals.reduce((a, {quantity}) => a + quantity, 0)
-    const totalWeight = props.removals.reduce((a, {weigth}) => a + weigth, 0)
+    const totalWeight = props.removals.reduce((a, {totalWeigth}) => a + totalWeigth, 0)
 
     const examples = [
         {
@@ -82,7 +83,7 @@ const Info = (props) => {
         <p>By decluttering unnecessary items you have:</p>
         <ul>
             <li>Gained {totalMoney}€</li>
-            <li>Freed up {totalCbm} m³ of space</li>
+            <li>Freed up {totalCbm.toFixed(2)} m³ of space</li>
             <li>Have {totalQuantity} items less on your way</li>
             <li>Have {totalWeight} kg less to carry when you move!</li>
         </ul>

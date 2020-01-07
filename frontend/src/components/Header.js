@@ -33,7 +33,7 @@ const Header = (props) => {
         <div className={classes.sidenav}>
           <Link to="/">Removals</Link>
           <Link to="/myaccount">Account</Link>
-          <a href="#">Gallery</a>
+          <Link to="/gallery">Gallery</Link>
         </div>
       </div>
     )

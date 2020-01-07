@@ -10,7 +10,12 @@ const categories = [
   { key: 'd', text: 'Dishes', value: 'Dishes' },
   { key: 'b', text: 'Books', value: 'Books' },
   { key: 'do', text: 'Documents', value: 'Documents' },
-  { key: 'pasd', text: 'ddasdas', value: 'asdasdsad' }
+]
+
+const saleLocations = [
+  { key: 'tori', text: 'Tori.fi', value: 'Tori.fi' },
+  { key: 'huuto', text: 'Huuto.net', value: 'Huuto.net' },
+  { key: 'kontti', text: 'SPR Kontti', value: 'SPR Kontti' },
 ]
 
 const userSchema = mongoose.Schema({
@@ -24,6 +29,7 @@ const userSchema = mongoose.Schema({
   passwordHash: String,
   categories: { type: Array, default: categories },
   locations: { type: Array, default: locations },
+  saleLocations: { type: Array, default: saleLocations },
   description: String,
   image: String,
   active: { type: Boolean, default: true },

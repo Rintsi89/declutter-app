@@ -75,7 +75,7 @@ const RemovalTable = (props) => {
                         <th>Size</th>
                         <th>Weight</th>
                         <th>Image</th>
-                        <th>Notes</th>
+                        <th>Sold at</th>
                         <th>Delete</th>
                     </tr>
                     {sort().map(r =>
@@ -84,7 +84,7 @@ const RemovalTable = (props) => {
                             {r.date}
                         </td>
                         <td>
-                            <Link to={`/removals/${r.id}`}>{r.name} <Icon name='edit' /></Link>
+                            {r.name} <Link to={`/removals/${r.id}`}><Icon name='edit' /></Link>
                         </td>
                         <td>
                             {r.category}
@@ -96,19 +96,19 @@ const RemovalTable = (props) => {
                             {r.quantity}
                         </td>
                         <td>
-                            {r.value}€
+                            {r.totalValue}€
                         </td>
                         <td>
                             {r.cbm} m³
                         </td>
                         <td>
-                            {r.weigth} kg
+                            {r.totalWeigth} kg
                         </td>
                         <td>
                             {r.image ? <a href={r.image}>Image</a> : null }
                         </td>
                         <td>
-                            {r.note}
+                            {r.soldAt}
                         </td>
                         <td>
                             <button className={classes.button} onClick={() => deleteRemoval(event, r.id, r.name)}><Icon name="trash alternate outline"></Icon></button>

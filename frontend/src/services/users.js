@@ -64,6 +64,24 @@ const deleteLocation = async (id, location) => {
   return response.data
 }
 
+const addSaleLocation = async (id, newSaleLocation) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.patch(`${baseUrl}/${id}/salelocations/add`, newSaleLocation, config)
+  return response.data
+}
+
+const deleteSaleLocation = async (id, saleLocation) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+
+  const response = await axios.patch(`${baseUrl}/${id}/salelocations/remove`, saleLocation, config)
+  return response.data
+}
+
 const changePassword = async (id, newPassword) => {
   const config = {
     headers: { Authorization: token },
@@ -101,6 +119,8 @@ export default {
   deleteImage,
   addLocation,
   deleteLocation,
+  addSaleLocation,
+  deleteSaleLocation,
   changePassword,
   addCategory,
   deleteCategory  

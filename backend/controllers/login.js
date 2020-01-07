@@ -30,7 +30,9 @@ router.post('/', async (request, response, next) => {
       image: user.image,
       categories: user.categories,
       description: user.description,
-      id: user.id })
+      id: user.id,
+      saleLocations: user.saleLocations
+    })
 
   } catch (error) {
     next(error)

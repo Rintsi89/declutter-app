@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
-import Header from './Header'
 import Title from './Title'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
@@ -72,7 +71,6 @@ const Main = (props) => {
 
     return (
         <div>
-            <Header />
             <Title title={'My removals'} />
             <div className={classes.infoarea}>
                 <div className={classes.chart}>

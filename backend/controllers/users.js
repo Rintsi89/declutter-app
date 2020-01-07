@@ -182,6 +182,55 @@ router.patch('/:id/locations/remove', async (request, response, next) => {
 
 })
 
+// Add sale location
+router.patch('/:id/salelocations/add', async (request, response, next) => {
+
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
+    const saleLocation = request.body
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token or id'
+      })
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(user.id, { $addToSet: { saleLocations: saleLocation } }, { new: true })
+    response.status(200).json(updatedUser)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+// Delete sale location
+router.patch('/:id/salelocations/remove', async (request, response, next) => {
+
+  try {
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
+    const saleLocation = request.body.saleLocation
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token or id'
+      })
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(user.id, { $pull: { 'saleLocations': { 'value':saleLocation  } } }, { new: true })
+
+    response.status(200).json(updatedUser)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
 // Add category
 router.patch('/:id/categories/add', async (request, response, next) => {
 

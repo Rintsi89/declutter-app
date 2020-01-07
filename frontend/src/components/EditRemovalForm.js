@@ -7,9 +7,6 @@ import classes from '../styles/EditForm.module.css'
 
 const EditRemovalForm = (props) => {    
 
-    console.log(props.removal.id);
-    
-
     // Input
     const name = useField('text', 'name', 'Name', props.removal.name)
     const quantity = useField('number', 'quantity', 'Quantity', props.removal.quantity)
@@ -24,6 +21,7 @@ const EditRemovalForm = (props) => {
     // Select
     const [location, setLocation] = useState(props.removal.location)
     const [category, setCategory] = useState(props.removal.category)
+    const [saleLocation, setSaleLocation] = useState(props.removal.soldAt)
 
     // Select options of location
     const createLocations = (locations) => {
@@ -43,6 +41,10 @@ const EditRemovalForm = (props) => {
         setLocation(data.value)  
     }
 
+    const handleSaleLocationChange = (event, data) => {
+        setSaleLocation(data.value)  
+    }
+
     // Reset form to initial state
     const resetForm = () => {
         name.initialize()
@@ -56,6 +58,7 @@ const EditRemovalForm = (props) => {
         date.initialize()
         setLocation(props.removal.location)
         setCategory(props.removal.category)
+        setSaleLocation(props.removal.soldAt)
     }
     
     const updateRemoval = async (id) => {
@@ -67,17 +70,21 @@ const EditRemovalForm = (props) => {
                 quantity: quantity.attributes.value,
                 category: category,
                 weigth: weigth.attributes.value,
+                totalWeigth: weigth.attributes.value * quantity.attributes.value,
                 value: value.attributes.value,
+                totalValue: value.attributes.value *quantity.attributes.value,
                 date: date.attributes.value,
                 location: location,
+                soldAt: saleLocation,
                 note: note.attributes.value,
                 length: length.attributes.value,
                 width: width.attributes.value,
                 heigth: heigth.attributes.value,
-                cbm: ((length.attributes.value * width.attributes.value * heigth.attributes.value) / 1000000).toFixed(2),
+                cbm: (((length.attributes.value * width.attributes.value * heigth.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2),
             }
 
             props.updateRemoval(id, updateObject)
+            props.setBack(null)
     
         } catch (exception) {
         //   title.reset()
@@ -131,6 +138,9 @@ const EditRemovalForm = (props) => {
                     <Form.Select fluid label='Location' value={location} options={createLocations(props.user.locations)} onChange={handleLocationChange}/> 
             </Form.Group>
             <Form.Group widths='equal'>
+                <Form.Field>
+                    <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange}/>
+                </Form.Field>
                 <Form.Field>
                     <label>Notes</label>
                     <input {...note.attributes}></input>

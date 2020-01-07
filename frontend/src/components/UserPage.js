@@ -3,11 +3,11 @@ import { connect } from 'react-redux'
 import { Image, Item, Icon } from 'semantic-ui-react'
 import { updateImage, deleteImage } from '../reducers/userReducer'
 import { withRouter } from "react-router"
-import Header from './Header'
 import Title from './Title'
 import PasswordForm from './PasswordForm'
 import PictureForm from './PictureForm'
 import LocationForm from './LocationForm'
+import SaleLocationForm from './SaleLocationForm'
 import CategoryForm from './CategoryForm'
 import EditForm from './EditForm'
 import DeleteAccountPage from './DeleteAccountPage'
@@ -46,7 +46,6 @@ const UserPage = (props) => {
     return (
         <div>
             <div>
-                <Header />
                 <Title title={'My account'} />
             </div>
             <div className={classes.infoarea}>
@@ -68,6 +67,7 @@ const UserPage = (props) => {
                         </div>
                         <Item.Description><Icon name='image outline' /><button onClick={() => setForm('pictureform')}>Edit profile picture</button></Item.Description>
                         <Item.Description><Icon name='home' /><button onClick={() => setForm('locationform')}>Edit locations</button></Item.Description>
+                        <Item.Description><Icon name='dollar sign' /><button onClick={() => setForm('salelocationform')}>Edit sale locations</button></Item.Description>
                         <Item.Description><Icon name='archive' /><button onClick={() => setForm('categoryform')}>Edit categories</button></Item.Description>
                         <Item.Description><Icon name='user secret' /><button onClick={() => setForm('passwordform')}>Change password</button></Item.Description>
                         <Item.Description><Icon name='trash alternate outline' /><button onClick={() => setForm('deleteaccount')}>Delete account</button></Item.Description>
@@ -78,6 +78,7 @@ const UserPage = (props) => {
             {!form ? null : form === 'passwordform' ? <PasswordForm /> :
              form === 'pictureform' ? <PictureForm id={props.logged_user.id} delete={deleteImage} label={'Select profile picture'} title={'Edit your profile picture'} update={updateImage}/> :
              form === 'locationform' ? <LocationForm /> :
+             form === 'salelocationform' ? <SaleLocationForm /> :
              form === 'deleteaccount' ? <DeleteAccountPage /> :
              form === 'categoryform' ?  <CategoryForm /> :
              <EditForm />}

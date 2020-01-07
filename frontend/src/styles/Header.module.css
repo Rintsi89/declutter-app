@@ -1,6 +1,5 @@
 .header {
     width: 100%;
-    margin-bottom: 20px;
     z-index: 2;
     top: 0;
     left: 0;
@@ -11,6 +10,10 @@
     background: rgb(155,230,171);
     background: radial-gradient(circle, rgba(155,230,171,1) 61%, rgba(79,158,97,1) 97%);
     border-bottom: 1px solid black;
+}
+
+.jee {
+  margin-bottom: 20px;
 }
 
 .h2 {

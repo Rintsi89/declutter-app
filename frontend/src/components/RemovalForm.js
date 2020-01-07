@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form } from 'semantic-ui-react'
 import { createRemoval } from '../reducers/removalReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
 const RemovalForm = (props) => {    
@@ -20,6 +21,7 @@ const RemovalForm = (props) => {
     // Select
     const [location, setLocation] = useState(null)
     const [category, setCategory] = useState(null)
+    const [saleLocation, setSaleLocation] = useState(null)
 
     // Image
 
@@ -41,6 +43,9 @@ const RemovalForm = (props) => {
 
      const handleLocationChange = (event, data) => {
         setLocation(data.value)  
+    }
+     const handleSaleLocationChange = (event, data) => {
+        setSaleLocation(data.value)  
     }
 
     const handleFileChange = (file) => {
@@ -71,18 +76,22 @@ const RemovalForm = (props) => {
             formData.set('name', name.attributes.value)
             formData.set('quantity', quantity.attributes.value)
             formData.set('category', category)
-            formData.set('weigth', weigth.attributes.value)
-            formData.set('value', value.attributes.value)
             formData.set('date', date.attributes.value)
             formData.set('location', location)
+            formData.set('soldAt', saleLocation)
             formData.set('note', note.attributes.value)
+            formData.set('weigth', weigth.attributes.value)
+            formData.set('totalWeigth', weigth.attributes.value * quantity.attributes.value)
+            formData.set('value', value.attributes.value)
+            formData.set('totalValue', (value.attributes.value *quantity.attributes.value))
             formData.set('length', length.attributes.value),
             formData.set('width', width.attributes.value),
             formData.set('heigth', height.attributes.value)
-            formData.set('cbm', ((length.attributes.value * width.attributes.value * height.attributes.value) / 1000000).toFixed(2))
+            formData.set('cbm', (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2))
             formData.append('image', image)
             
             props.createRemoval(formData)
+            props.showMessage('Jee', 'Onnistui', 'positive')
             resetForm()
     
         } catch (exception) {
@@ -136,16 +145,21 @@ const RemovalForm = (props) => {
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>
+                    <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange}/> 
+                </Form.Field>
+                <Form.Field>
                     <label>Notes</label>
                     <input {...note.attributes}></input>
                 </Form.Field>
                 <Form.Field>
-                    <label>Image</label>
-                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
-                </Form.Field>
-                <Form.Field>
                     <label>Date</label>
                     <input {...date.attributes}></input>
+                </Form.Field>
+            </Form.Group>
+            <Form.Group>
+            <Form.Field>
+                    <label>Image</label>
+                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
                 </Form.Field>
             </Form.Group>
             <Form.Field control={Button}>Submit</Form.Field>
@@ -155,7 +169,8 @@ const RemovalForm = (props) => {
   }
 
 const mapDispatchToProps = {
-    createRemoval
+    createRemoval,
+    showMessage
 }
 
 const ConnectedRemovalForm = connect(

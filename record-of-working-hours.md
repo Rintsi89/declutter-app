@@ -44,4 +44,7 @@
 | 3.1   | 6    | Working on edit removal page, a lot discussion on Telegram channel. Still bugs to be fixed (rendering issues after image delete) | 
 | 5.1   | 2    | Working on edit removal page's image functionalities and adjust backend accordingly. Image upload and delete works now |
 | 6.1   | 1    | Working on removal details update route and frontend. It works now |
-| tot   | 82.5 | 
+| 7.1   | 2    | Working on forms, restructuring models and routes in backend to match |
+|       | 2    | Working on frontend image gallery page |
+|       | 3    | Studying and implementing flash messages to the application, CSS challenges | 
+| tot   | 89.5 | 
