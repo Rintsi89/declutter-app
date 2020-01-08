@@ -1,6 +1,7 @@
 import loginService from '../services/login'
 import userService from '../services/users'
 import removalService from '../services/removals'
+import { showMessage } from './notificationReducer'
 
 const userReducer = (state = null, action) => {
   switch (action.type) {
@@ -88,12 +89,16 @@ export const loginUser = (credentials) => {
       type: 'SET_USER',
       data: user
     })
+    dispatch(showMessage('Logged in', `${user.username} has logged in successfully`, 'positive'))
   }
 }
 
 export const logOutUser = () => {
-  return {
-    type: 'UNSET_USER'
+  return async dispatch =>{
+    dispatch({
+      type: 'UNSET_USER'
+    })
+  dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
   }
 }
 

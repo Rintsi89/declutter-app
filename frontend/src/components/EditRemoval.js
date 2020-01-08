@@ -46,7 +46,7 @@ const EditRemoval = (props) => {
         if (confirm(`Are you sure you want to delete ${name}`))
      
         try {
-            await props.deleteRemoval(id)
+            await props.deleteRemoval(id, name)
             props.history.push('/')
         } catch (error) {
             // here props.message

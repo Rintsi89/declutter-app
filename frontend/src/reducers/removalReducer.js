@@ -1,4 +1,5 @@
 import removalService from '../services/removals'
+import { showMessage } from './notificationReducer'
 
 const removalReducer = (state = [], action) => {
     switch (action.type) {
@@ -37,6 +38,7 @@ export const createRemoval = (data) => {
       type: 'NEW_REMOVAL',
       data: newRemoval
     })
+    dispatch(showMessage('Removal created', `${newRemoval.name} was created successfully`, 'positive'))
   }
 }
 
@@ -70,13 +72,14 @@ export const deleteImage = (id) => {
   }
 }
 
-export const deleteRemoval = (id) => {
+export const deleteRemoval = (id, name) => {
   return async dispatch => {
     await removalService.deleteOne(id)
     dispatch({
       type: 'DELETE_REMOVAL',
       data: id
     })
+    dispatch(showMessage('Removal deleted', `${name} was deleted successfully`, 'positive'))
   }
 }
 

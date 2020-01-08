@@ -27,8 +27,6 @@ const notificationReducer = (state = [], action) => {
   }
   
   export const showMessage = (header, message, status) => {
-      console.log(header, message, status);
-      
     return async dispatch => {
       dispatch({
         type: 'SET_NOTIFICATION',

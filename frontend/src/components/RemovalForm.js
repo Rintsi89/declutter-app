@@ -5,8 +5,10 @@ import { createRemoval } from '../reducers/removalReducer'
 import { showMessage } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 
-const RemovalForm = (props) => {    
+const RemovalForm = (props) => { 
 
+    // Today's date for date field's default value
+    const today = new Date().toISOString().substr(0, 10)
     // Input
     const name = useField('text', 'name', 'Name', '')
     const quantity = useField('number', 'quantity', 'Quantity', '')
@@ -16,12 +18,12 @@ const RemovalForm = (props) => {
     const weigth = useField('number','weigth', 'Weigth', '')
     const value = useField('number', 'value', 'Value', '')
     const note = useField('text', 'note', 'Notes', '')
-    const date = useField('date', 'date', 'Date', '')
+    const date = useField('date', 'date', 'Date', today)
     
     // Select
-    const [location, setLocation] = useState(null)
-    const [category, setCategory] = useState(null)
-    const [saleLocation, setSaleLocation] = useState(null)
+    const [location, setLocation] = useState('')
+    const [category, setCategory] = useState('')
+    const [saleLocation, setSaleLocation] = useState('')
 
     // Image
 
@@ -66,6 +68,12 @@ const RemovalForm = (props) => {
         setLocation(null)
         setImage(null)
     }
+
+    const resetAndHide = () => {
+        resetForm()
+        props.hide()
+        window.scrollTo(0, 0)
+    }
     
     const addRemoval = async (event) => {
         event.preventDefault()
@@ -91,8 +99,7 @@ const RemovalForm = (props) => {
             formData.append('image', image)
             
             props.createRemoval(formData)
-            props.showMessage('Jee', 'Onnistui', 'positive')
-            resetForm()
+            resetAndHide()
     
         } catch (exception) {
         //   title.reset()
@@ -110,11 +117,11 @@ const RemovalForm = (props) => {
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Name</label>
-                    <input {...name.attributes}></input>
+                    <input {...name.attributes} required></input>
                 </Form.Field>
                 <Form.Field>
                     <label>Quantity</label>
-                    <input {...quantity.attributes}></input>
+                    <input {...quantity.attributes} required></input>
                 </Form.Field>
                 <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange}/>
             </Form.Group>
@@ -144,8 +151,8 @@ const RemovalForm = (props) => {
                     <Form.Select fluid label='Location' value={location} options={createLocations(props.user.locations)} onChange={handleLocationChange}/> 
             </Form.Group>
             <Form.Group widths='equal'>
-                <Form.Field>
-                    <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange}/> 
+                <Form.Field> 
+                    <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange} /> 
                 </Form.Field>
                 <Form.Field>
                     <label>Notes</label>
@@ -153,7 +160,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Date</label>
-                    <input {...date.attributes}></input>
+                    <input {...date.attributes} required max={today}></input>
                 </Form.Field>
             </Form.Group>
             <Form.Group>
@@ -162,7 +169,11 @@ const RemovalForm = (props) => {
                     <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
                 </Form.Field>
             </Form.Group>
-            <Form.Field control={Button}>Submit</Form.Field>
+            <Button.Group>
+                    <Button onClick={resetAndHide}>Cancel</Button>
+                    <Button.Or />
+                    <Button positive>Save</Button>
+            </Button.Group>
         </Form>
       </div>
     )

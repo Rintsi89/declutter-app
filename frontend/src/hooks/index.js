@@ -10,7 +10,7 @@ export const useField = (type, name, placeholder, initialValue) => {
   const reset = () => setValue('')
   const initialize = () => setValue(initialValue)
 
-  const attributes = { type, value, name, onChange, placeholder }
+  const attributes = { type, value, name, onChange, placeholder, }
 
   return {
     attributes,

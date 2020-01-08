@@ -26,9 +26,8 @@ const handleLogin = async (event) => {
 
   try {
     await props.loginUser(credentials)
-    props.showMessage('Jee', 'Onnistui', 'positive')
   } catch (error) {
-    props.showMessage('Wrong user name or password', 'Check your user name and password', 'negative')
+    props.showMessage('Error', error.response.data.error, 'negative')
     username.reset()
     password.reset()
   }

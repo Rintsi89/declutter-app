@@ -46,5 +46,9 @@
 | 6.1   | 1    | Working on removal details update route and frontend. It works now |
 | 7.1   | 2    | Working on forms, restructuring models and routes in backend to match |
 |       | 2    | Working on frontend image gallery page |
-|       | 3    | Studying and implementing flash messages to the application, CSS challenges | 
-| tot   | 89.5 | 
+|       | 3    | Studying and implementing flash messages to the application, CSS challenges |
+| 8.1   | 2    | Working on validation messages and searching for best practices |
+|       | 1    | Finishing removal form frontend validation | 
+|       | 2.5  | Looking for different search bars and implementing Semantic UI search bar |
+|       | 1.5  | Adding image modal (pop-up) into the table | 
+| tot   | 96.5 | 

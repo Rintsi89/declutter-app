@@ -19,9 +19,6 @@ import classes from './styles/App.module.css'
 
 const App = (props) => {
 
-  console.log(props.notifications);
-  
-
   const removalById = (id) => props.removals.find(r => r.id === id)
   
   useEffect(() => {

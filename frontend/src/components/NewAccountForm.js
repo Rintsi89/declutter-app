@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { loginUser } from '../reducers/userReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import userService from '../services/users'
 import classes from '../styles/Form.module.css'
 
 const NewAccountForm = (props) => {
     
-const username = useField('text', 'username', 'Username', '')
+const username = useField('text', 'username', 'Username', '', true)
 const name = useField('text', 'name', 'Name', '')
 const password = useField('password', 'password', 'Password', '')
 const retypedpassword = useField('password', 'retypedpassword', 'Retype password', '')
@@ -37,14 +38,15 @@ const createUser = async (event) => {
     if (password.attributes.value !== retypedpassword.attributes.value) {
         password.reset()
         retypedpassword.reset()
-        return alert("Password did not match, try again")
+        return props.showMessage('Password mismatch', 'Check that password is typed correctly ', 'negative')
     }
 
     await userService.create(newUser)
     await props.loginUser(credentials)
     
-  } catch (error) {
-    // props.showMessage('Wrong user name or password', 'error', 5000)
+  } catch (error) {     
+
+    props.showMessage('Error', error.response.data.error, 'negative')
     username.reset()
     password.reset()
     retypedpassword.reset()
@@ -83,7 +85,7 @@ return (
                 </Form.Field>
             </div>
             <div className={classes.formfield}>
-                <Form.Field control={Button}>Create</Form.Field> 
+                <Button positive>Create</Button>  
                 <p>Already have an account?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p> 
             </div>
         </Form>
@@ -92,7 +94,8 @@ return (
 }
 
 const mapDispatchToProps = {
-    loginUser
+    loginUser,
+    showMessage
   }
   
   const ConnectedNewAccountForm = connect(

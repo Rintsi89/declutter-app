@@ -3,6 +3,7 @@ import { Icon, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logOutUser } from '../reducers/userReducer'
+import SearchBar from './Search/SearchBar'
 import classes from '../styles/Header.module.css'
 
 const Header = (props) => {
@@ -25,6 +26,7 @@ const Header = (props) => {
                   <Icon name='dolly' size='big' />
                   <Icon name='money bill alternate outline' size='big' />
               </div>
+              <SearchBar />
               <div>
                   <span>{props.logged_user.username} logged in</span>
                   <Button negative size='tiny' onClick={() => handleLogOut()}><Link to="/">Log out</Link></Button>

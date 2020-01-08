@@ -1,11 +1,9 @@
 const mongoose = require('mongoose')
-const moment = require('moment')
-const date = moment()
 
 const removalSchema = mongoose.Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
-  category: { type: String, required: true },
+  category: String,
   length: { type: Number, default: 0 },
   width: { type: Number, default: 0 },
   heigth: { type: Number, default: 0 },
@@ -18,7 +16,7 @@ const removalSchema = mongoose.Schema({
   location: String,
   note: String,
   image: String,
-  date: { type: String, default: date.format('DD.MM.YYYY') },
+  date: { type: String  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
+import { Icon,  Button, Header, Image, Modal } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router"
 import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
-import Togglable from './Togglable'
 import Pagination from './Pagination'
 import RemovalForm from './RemovalForm'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
 
+    const [showForm, setShowForm] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage] = useState(10) 
     
@@ -31,7 +31,8 @@ const RemovalTable = (props) => {
         if (confirm(`Are you sure you want to delete ${name}`))
      
         try {
-            await props.deleteRemoval(id)
+            await props.deleteRemoval(id, name)
+            window.scrollTo(0, 0)
         } catch (error) {
             // here props.message
         }
@@ -58,9 +59,12 @@ const RemovalTable = (props) => {
     <div>
     <div className={classes.maintable}>
         <div className={classes.formarea}>
-        <Togglable buttonLabel="Add new" >
-            <RemovalForm user={props.logged_user} />
-        </Togglable>
+        {!showForm ? 
+        <button onClick={() => setShowForm(!showForm)}>
+            Add new
+        </button> : 
+            <RemovalForm user={props.logged_user} hide={() => setShowForm(!showForm)}/>    
+        }
         </div>
         {currentRows.length < 1 ? null :
          <table className={classes.removals}>
@@ -105,7 +109,21 @@ const RemovalTable = (props) => {
                             {r.totalWeigth} kg
                         </td>
                         <td>
-                            {r.image ? <a href={r.image}>Image</a> : null }
+                        {r.image ? 
+                            <Modal trigger={<Button>Show Modal</Button>}>
+                            <Modal.Header>Removal image</Modal.Header>
+                                <Modal.Content image >
+                                    <Image wrapped size='medium' src={r.image} />
+                                    <Modal.Description>
+                                        <Header>{r.name}</Header>
+                                        <p>
+                                         This item was removed on {r.date} in {r.soldAt}
+                                        </p>
+                                    </Modal.Description>
+                            </Modal.Content>
+                            </Modal>  
+                        : null
+                        }
                         </td>
                         <td>
                             {r.soldAt}
