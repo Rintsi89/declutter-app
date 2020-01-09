@@ -8,6 +8,7 @@ import classes from '../styles/Header.module.css'
 
 const Header = (props) => {
 
+
     const handleLogOut = () => {
 
         const user = props.logged_user

@@ -82,6 +82,17 @@ const deleteSaleLocation = async (id, saleLocation) => {
   return response.data
 }
 
+const checkToken = async (token) => {
+  console.log("This is from Services", token);
+  
+  const response = await axios.get(`${baseUrl}/reset/${token}`)
+  return response.data
+}
+const forgotPassword = async (email) => {
+  const response = await axios.post(`${baseUrl}/forgotPassword`, email)
+  return response.data
+}
+
 const changePassword = async (id, newPassword) => {
   const config = {
     headers: { Authorization: token },
@@ -114,6 +125,8 @@ export default {
   setToken, 
   create,
   update,
+  forgotPassword,
+  checkToken,
   deleteUser,
   updateImage,
   deleteImage,

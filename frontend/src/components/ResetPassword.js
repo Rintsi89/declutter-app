@@ -4,57 +4,47 @@ import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { showMessage } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/userReducer'
+import userService from '../services/users'
 import classes from '../styles/Form.module.css'
 
 const LoginForm = (props) => {
 
-const username = useField('text', 'username', 'Username', '')
-const password = useField('password', 'password', 'Password', '')
+const email = useField('email', 'email', 'Email', '')
 
 const changeForm = (event, formName) => {
   event.preventDefault()
   props.setPage(formName)
 }
 
-const handleLogin = async (event) => {
+const sendEmail = async (event) => {
   event.preventDefault()
 
-  const credentials = {
-    username: username.attributes.value,
-    password: password.attributes.value
-  }
-
   try {
-    await props.loginUser(credentials)
+    await userService.forgotPassword({ email: email.attributes.value })
   } catch (error) {
     props.showMessage('Error', error.response.data.error, 'negative')
     username.reset()
     password.reset()
   }
 }
+
 return (
     <div>
-        <Form onSubmit={handleLogin} className={classes.form}>
+        <Form className={classes.form} onSubmit={sendEmail}>
             <div className={classes.formfield}>
-            <h3>Log In</h3>
-            <i>Type your username and password to log in</i>
+            <h3>Reset password</h3>
+            <i>Type your email to reset password</i>
             </div>
             <div>
                 <Form.Field className={classes.formfield}>
-                    <label>Username</label>
-                    <input {...username.attributes}></input>
-                </Form.Field>
-            </div>
-            <div>
-                <Form.Field className={classes.formfield}>
-                    <label>Password</label>
-                    <input {...password.attributes}></input>
+                    <label>Email</label>
+                    <input {...email.attributes} required></input>
                 </Form.Field>
             </div>
             <div className={classes.formfield}>
-                <Button positive>Log In</Button> 
+                <Button positive>Reset</Button> 
+                <p>Already have an account?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p> 
                 <p>No account yet?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'newaccount')}>Create account</button></p> 
-                <p>Forgot your password?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
             </div>
         </Form>
     </div>
@@ -72,4 +62,3 @@ const mapDispatchToProps = {
   )(LoginForm)
 
   export default ConnectedLoginForm
-  

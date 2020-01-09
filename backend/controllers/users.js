@@ -1,7 +1,10 @@
 const bcrypt = require('bcrypt')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
 const router = require('express').Router()
 const User = require('../models/user')
+// For mailer
+const Mailer = require('../utils/mailer')
 // For AWS S3
 const S3 = require('../utils/s3-config')
 
@@ -15,8 +18,9 @@ router.get('/', async (request, response, next) => {
 })
 
 router.post('/', async (request, response, next) => {
+
   try {
-    const { username, password, name, locations } = request.body
+    const { username, password, email, locations } = request.body
 
     if (!password || password.length < 5) {
       return response.status(400).send({
@@ -29,17 +33,110 @@ router.post('/', async (request, response, next) => {
 
     const user = new User({
       username,
-      name,
+      email,
       locations,
       passwordHash,
     })
 
     const savedUser = await user.save()
 
-    response.status(201).json(savedUser)
+    const userForToken = {
+      username: savedUser.username,
+      id: savedUser._id,
+    }
+
+    const emailToken = jwt.sign(userForToken, process.env.EMAILSECRET, { expiresIn: '1h' })
+    const url = `${request.protocol}://${request.get('host')}/api/users/confirmation/${emailToken}`
+
+    const mailerOptions = {
+      email: savedUser.email,
+      url: url,
+      subject: 'Confirm your Declutter account',
+      html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`
+    }
+
+    Mailer.sendEmail(mailerOptions)
+
+    response.status(200)
+
   } catch (error) {
     next(error)
   }
+})
+
+// Confirm user account via link in email
+router.get('/confirmation/:token', async (request, response, next) => {
+  try {
+
+    const user = jwt.verify(request.params.token, process.env.EMAILSECRET)
+
+    if (!user) {
+      return response.status(401).json({
+        error: 'Invalid token'
+      })
+    }
+
+    await User.findByIdAndUpdate(user.id, { $set: { confirmed: true } }, { new: true })
+    response.status(200).redirect('/confirmed')
+
+  } catch (error) {
+    next(error)
+  }
+})
+
+// Request for link to reset password
+
+router.post('/forgotPassword', async (request, response, next) => {
+
+  try {
+
+    const { email } = request.body
+
+    if (!email) {
+      response.status(400).json({
+        error: 'Email is needed!'
+      })
+    }
+
+    const user = await User.findOne({ email: email })
+
+    if (!user) {
+      return response.status(404).json({
+        error: 'Email not found'
+      })
+    }
+
+    const token = crypto.randomBytes(20).toString('hex')
+    await User.findByIdAndUpdate(user.id, { $set: { resetPasswordToken: token, resetPasswordExpires: Date.now() + 3600000 } } )
+
+    const url = `${request.protocol}://${request.get('host')}/reset/${token}`
+
+    const mailerOptions = {
+      email: user.email,
+      url: url,
+      subject: 'Link to reset your password',
+      html: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n'
+    + 'Please click on the following link, or paste this into your browser to complete the process within one hour of receiving it:\n\n'
+    + `<a href="${url}">${url}</a>`
+    + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
+    }
+
+    Mailer.sendEmail(mailerOptions)
+
+  } catch (error) {
+    next(error)
+  }
+
+})
+
+// Verify token to change password
+
+router.get('/reset/:token', async (request, response, next) => {
+  console.log(request.params);
+  
+  const user = await User.findOne({ resetPasswordToken: request.params.token, resetPasswordExpires: { $gt: Date.now() } })
+  console.log(user);
+  
 })
 
 // Edit personal details (username, name and description)
@@ -58,7 +155,9 @@ router.patch('/:id', async (request, response, next) => {
       return response.status(401).json({
         error: 'Invalid token or id'
       })
-    } else if (!updateObject) {
+    }
+
+    if (!updateObject) {
       return response.status(400).json({
         error: 'Update arguments are required'
       })

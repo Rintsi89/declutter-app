@@ -2,7 +2,6 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
-import { loginUser } from '../reducers/userReducer'
 import { showMessage } from '../reducers/notificationReducer'
 import userService from '../services/users'
 import classes from '../styles/Form.module.css'
@@ -10,7 +9,7 @@ import classes from '../styles/Form.module.css'
 const NewAccountForm = (props) => {
     
 const username = useField('text', 'username', 'Username', '', true)
-const name = useField('text', 'name', 'Name', '')
+const email = useField('email', 'email', 'Email', '')
 const password = useField('password', 'password', 'Password', '')
 const retypedpassword = useField('password', 'retypedpassword', 'Retype password', '')
 
@@ -24,13 +23,8 @@ const createUser = async (event) => {
 
   const newUser = {
       username: username.attributes.value,
-      name: name.attributes.value,
+      email: email.attributes.value,
       password: password.attributes.value
-  }
-
-  const credentials = {
-    username: username.attributes.value,
-    password: password.attributes.value
   }
 
   try {
@@ -41,8 +35,12 @@ const createUser = async (event) => {
         return props.showMessage('Password mismatch', 'Check that password is typed correctly ', 'negative')
     }
 
-    await userService.create(newUser)
-    await props.loginUser(credentials)
+    userService.create(newUser)
+    props.showMessage('Verification email sent', `Verification email has been send to ${email.attributes.value}. Please verify your account and log in`, 'positive')
+    username.reset()
+    password.reset()
+    retypedpassword.reset()
+    email.reset()
     
   } catch (error) {     
 
@@ -50,7 +48,7 @@ const createUser = async (event) => {
     username.reset()
     password.reset()
     retypedpassword.reset()
-    name.reset()
+    email.reset()
   }
 }
 return (
@@ -63,30 +61,31 @@ return (
             <div>
                 <Form.Field className={classes.formfield}>
                     <label>Username</label>
-                    <input {...username.attributes}></input>
+                    <input {...username.attributes} required></input>
                 </Form.Field>
             </div>
             <div>
                 <Form.Field className={classes.formfield}>
-                    <label>Name</label>
-                    <input {...name.attributes}></input>
+                    <label>Email</label>
+                    <input {...email.attributes} required></input>
                 </Form.Field>
             </div>
             <div>
                 <Form.Field className={classes.formfield}>
                     <label>Password</label>
-                    <input {...password.attributes}></input>
+                    <input {...password.attributes} required></input>
                 </Form.Field>
             </div>
             <div>
                 <Form.Field className={classes.formfield}>
                     <label>Retype password</label>
-                    <input {...retypedpassword.attributes}></input>
+                    <input {...retypedpassword.attributes} required></input>
                 </Form.Field>
             </div>
             <div className={classes.formfield}>
                 <Button positive>Create</Button>  
-                <p>Already have an account?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p> 
+                <p>Already have an account?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p>
+                <p>Forgot your password?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
             </div>
         </Form>
     </div>
@@ -94,7 +93,6 @@ return (
 }
 
 const mapDispatchToProps = {
-    loginUser,
     showMessage
   }
   

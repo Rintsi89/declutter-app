@@ -50,5 +50,7 @@
 | 8.1   | 2    | Working on validation messages and searching for best practices |
 |       | 1    | Finishing removal form frontend validation | 
 |       | 2.5  | Looking for different search bars and implementing Semantic UI search bar |
-|       | 1.5  | Adding image modal (pop-up) into the table | 
-| tot   | 96.5 | 
+|       | 1.5  | Adding image modal (pop-up) into the table |
+| 9.1   | 3    | Studying backend email sending solutions and implement user account confirmation via email and token. Nodemailer package is used |
+|       | 3.5  | Studying and implementing reset user account functionality which uses email and token verification. Not ready yet |
+| tot   | 103  | 

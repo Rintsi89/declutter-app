@@ -19,6 +19,7 @@ import classes from './styles/App.module.css'
 
 const App = (props) => {
 
+  const userByToken = (token) => userService.checkToken(token)
   const removalById = (id) => props.removals.find(r => r.id === id)
   
   useEffect(() => {
@@ -46,11 +47,12 @@ const App = (props) => {
             <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
           <Switch>
               <Route exact path="/"><Redirect to='/removals'/></Route>
-              <Route exact path="/login" render={() => <Landing />} />
+              <Route exact path="/login">{!props.logged_user ? <Landing /> : <Redirect to='/removals'/> }</Route> 
               <Route exact path="/myaccount" render={() => <UserPage />}  />  
               <Route exact path="/gallery" render={() => <Gallery />}  />  
               <Route exact path="/removals" render={() => <Main />}/>
               <Route exact path="/removals/:id" render={({ match }) => <EditRemoval removal={removalById(match.params.id)} />} />
+              <Route exact path="/reset/:token" render={({ match }) => <PasswordResetForm user={userByToken(match.params.token)} />}  />
           </Switch>
       </Router>
   )

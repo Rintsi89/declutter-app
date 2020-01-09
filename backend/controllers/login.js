@@ -13,6 +13,10 @@ router.post('/', async (request, response, next) => {
       return response.status(401).json({
         error: 'Invalid username or password'
       })
+    } else if (!user.confirmed) {
+      return response.status(401).json({
+        error: 'User account is not confirmed, please confirm your account'
+      })
     }
 
     const userForToken = {
