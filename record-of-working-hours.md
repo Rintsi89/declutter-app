@@ -53,4 +53,5 @@
 |       | 1.5  | Adding image modal (pop-up) into the table |
 | 9.1   | 3    | Studying backend email sending solutions and implement user account confirmation via email and token. Nodemailer package is used |
 |       | 3.5  | Studying and implementing reset user account functionality which uses email and token verification. Not ready yet |
-| tot   | 103  | 
+| 10.1  | 3    | Implementing reset user account functionality. It works now, but page style is plain |
+| tot   | 106  | 

@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from "react-router"
 import { Icon, Button } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -8,7 +9,6 @@ import classes from '../styles/Header.module.css'
 
 const Header = (props) => {
 
-
     const handleLogOut = () => {
 
         const user = props.logged_user
@@ -16,6 +16,7 @@ const Header = (props) => {
           'loggedUser', JSON.stringify(user)
         )
         props.logOutUser()
+        props.history.push('/login')
       }
 
     return(
@@ -57,4 +58,4 @@ const ConnectedHeader = connect(
     mapDispatchToProps
 )(Header)
 
-export default ConnectedHeader
+export default withRouter(ConnectedHeader)

@@ -1,5 +1,6 @@
 import React from 'react'
-import { connect } from 'react-redux' 
+import { connect } from 'react-redux'
+import { withRouter } from "react-router" 
 import { Button, Form } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { showMessage } from '../reducers/notificationReducer'
@@ -26,6 +27,7 @@ const handleLogin = async (event) => {
 
   try {
     await props.loginUser(credentials)
+    props.history.push('/removals')
   } catch (error) {
     props.showMessage('Error', error.response.data.error, 'negative')
     username.reset()
@@ -71,5 +73,5 @@ const mapDispatchToProps = {
     mapDispatchToProps
   )(LoginForm)
 
-  export default ConnectedLoginForm
+  export default withRouter(ConnectedLoginForm)
   

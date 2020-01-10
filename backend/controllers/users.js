@@ -77,7 +77,7 @@ router.get('/confirmation/:token', async (request, response, next) => {
     }
 
     await User.findByIdAndUpdate(user.id, { $set: { confirmed: true } }, { new: true })
-    response.status(200).redirect('/confirmed')
+    response.status(200).redirect('/')
 
   } catch (error) {
     next(error)
@@ -132,11 +132,60 @@ router.post('/forgotPassword', async (request, response, next) => {
 // Verify token to change password
 
 router.get('/reset/:token', async (request, response, next) => {
-  console.log(request.params);
-  
-  const user = await User.findOne({ resetPasswordToken: request.params.token, resetPasswordExpires: { $gt: Date.now() } })
-  console.log(user);
-  
+  try {
+
+    const user = await User.findOne({ resetPasswordToken: request.params.token, resetPasswordExpires: { $gt: Date.now() } })
+
+    if (!user) {
+      return response.status(404).json({
+        error: 'User not found, authentication token might be expired'
+      })
+    }
+
+    response.status(200).json(user)
+
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.put('/resetPassword', async (request, response, next) => {
+
+  try {
+
+    const { username, password, password2 } = request.body
+    const user = await User.findOne({ username: username })
+    const retypedCorrect = password !== password2 ? false : true
+
+    if (!user) {
+      return response.status(404).json({
+        error: 'User not exists'
+      })
+    }
+
+    if (!password || password.length < 5) {
+      return response.status(400).send({
+        error: 'Password minimum length is 5'
+      })
+    }
+
+    if (!retypedCorrect) {
+      return response.status(400).json({
+        error: 'Retyped password did not match the first one'
+      })
+    }
+
+    const saltRounds = 10
+    const passwordHash = await bcrypt.hash(password, saltRounds)
+
+    await User.findByIdAndUpdate(user.id, { $set: { passwordHash: passwordHash } }, { new: true })
+
+    response.status(200).send()
+
+  } catch (error) {
+    next(error)
+  }
+
 })
 
 // Edit personal details (username, name and description)
@@ -395,6 +444,12 @@ router.put('/:id/password', async (request, response, next) => {
     if (!(user && passwordCorrect)) {
       return response.status(401).json({
         error: 'Invalid token, id or password'
+      })
+    }
+
+    if (!newPassword || newPassword.length < 5) {
+      return response.status(400).send({
+        error: 'Password minimum length is 5'
       })
     }
 

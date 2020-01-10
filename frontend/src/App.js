@@ -11,6 +11,7 @@ import Main from './components/Main'
 import UserPage from './components/UserPage'
 import Gallery from './components/Gallery'
 import EditRemoval from './components/EditRemoval'
+import PasswordResetForm from './components/PasswordResetForm'
 import {
   BrowserRouter as Router,
   Route, Switch, Redirect
@@ -19,7 +20,6 @@ import classes from './styles/App.module.css'
 
 const App = (props) => {
 
-  const userByToken = (token) => userService.checkToken(token)
   const removalById = (id) => props.removals.find(r => r.id === id)
   
   useEffect(() => {
@@ -34,7 +34,13 @@ const App = (props) => {
   }, [])
 
   if (!props.logged_user) {
-    return <Landing />
+    return (
+    <Router>
+      <Route exact path="/" render={() => <Landing />}  />
+      <Route exact path="/login" render={() => <Landing />}  />
+      <Route exact path="/reset/:token" render={({ match }) => <PasswordResetForm token={match.params.token} />}  /> 
+    </Router>
+    )
   }
 
   return (
@@ -47,12 +53,10 @@ const App = (props) => {
             <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
           <Switch>
               <Route exact path="/"><Redirect to='/removals'/></Route>
-              <Route exact path="/login">{!props.logged_user ? <Landing /> : <Redirect to='/removals'/> }</Route> 
               <Route exact path="/myaccount" render={() => <UserPage />}  />  
               <Route exact path="/gallery" render={() => <Gallery />}  />  
               <Route exact path="/removals" render={() => <Main />}/>
               <Route exact path="/removals/:id" render={({ match }) => <EditRemoval removal={removalById(match.params.id)} />} />
-              <Route exact path="/reset/:token" render={({ match }) => <PasswordResetForm user={userByToken(match.params.token)} />}  />
           </Switch>
       </Router>
   )

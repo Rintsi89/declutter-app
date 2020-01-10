@@ -21,10 +21,12 @@ const sendEmail = async (event) => {
 
   try {
     await userService.forgotPassword({ email: email.attributes.value })
+    props.showMessage('Email sent', `Link to reset your password has been send to ${email.attributes.value}`, 'positive')
+    email.reset()
+
   } catch (error) {
     props.showMessage('Error', error.response.data.error, 'negative')
-    username.reset()
-    password.reset()
+    email.reset()
   }
 }
 

@@ -83,13 +83,19 @@ const deleteSaleLocation = async (id, saleLocation) => {
 }
 
 const checkToken = async (token) => {
-  console.log("This is from Services", token);
   
   const response = await axios.get(`${baseUrl}/reset/${token}`)
   return response.data
 }
+
 const forgotPassword = async (email) => {
   const response = await axios.post(`${baseUrl}/forgotPassword`, email)
+  return response.data
+}
+
+const resetPassword = async (userForReset) => {
+
+  const response = await axios.put(`${baseUrl}/resetPassword`, userForReset)
   return response.data
 }
 
@@ -136,5 +142,6 @@ export default {
   deleteSaleLocation,
   changePassword,
   addCategory,
-  deleteCategory  
+  deleteCategory,
+  resetPassword   
 }
