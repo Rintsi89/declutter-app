@@ -54,4 +54,7 @@
 | 9.1   | 3    | Studying backend email sending solutions and implement user account confirmation via email and token. Nodemailer package is used |
 |       | 3.5  | Studying and implementing reset user account functionality which uses email and token verification. Not ready yet |
 | 10.1  | 3    | Implementing reset user account functionality. It works now, but page style is plain |
-| tot   | 106  | 
+| 12.1  | 0.5  | Asking and writing down feedback from people outside project. Ideas were related to time used to sell or donate items |
+| 13.1  | 4.5  | Working on backend models and forms to match the new improvement ideas |
+|       | 2    | Working on chart and chart data on removal page |
+| tot   | 113  | 

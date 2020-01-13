@@ -4,6 +4,7 @@ const removalSchema = mongoose.Schema({
   name: { type: String, required: true },
   quantity: { type: Number, required: true },
   category: String,
+  saleItem: Boolean,
   length: { type: Number, default: 0 },
   width: { type: Number, default: 0 },
   heigth: { type: Number, default: 0 },
@@ -16,7 +17,9 @@ const removalSchema = mongoose.Schema({
   location: String,
   note: String,
   image: String,
-  date: { type: String  },
+  removed: Boolean,
+  date: String,
+  dateRemoved: String,
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

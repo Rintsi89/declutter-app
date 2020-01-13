@@ -22,6 +22,7 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
 
     let imagelink = !request.file ? null : request.file.location
     const body = { ...request.body, image: imagelink }
+
     const removal = new Removal(body)
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = await User.findById(decodedToken.id)

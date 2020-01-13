@@ -49,6 +49,7 @@ export const updateRemoval = (id, removalObject) => {
       type: 'UPDATE_REMOVAL',
       data: removal
     })
+    dispatch(showMessage('Removal updated', `${removal.name} was updated successfully`, 'positive'))
   }
 }
 

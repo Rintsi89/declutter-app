@@ -38,7 +38,7 @@ const SearchBar = (props) => {
                   description: r.category,
                   image: r.image,
                   id: r.id,
-                  price: r.value ? r.value.toString() + '€' : null
+                  price: r.totalValue ? r.totalValue.toString() + '€' : '0€'
                 }
                 resultsForSearch.push(matchedRemoval)
           })

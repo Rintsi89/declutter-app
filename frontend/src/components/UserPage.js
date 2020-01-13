@@ -70,7 +70,7 @@ const UserPage = (props) => {
                         <Item.Description><Icon name='dollar sign' /><button onClick={() => setForm('salelocationform')}>Edit sale locations</button></Item.Description>
                         <Item.Description><Icon name='archive' /><button onClick={() => setForm('categoryform')}>Edit categories</button></Item.Description>
                         <Item.Description><Icon name='user secret' /><button onClick={() => setForm('passwordform')}>Change password</button></Item.Description>
-                        <Item.Description><Icon name='trash alternate outline' /><button onClick={() => setForm('deleteaccount')}>Delete account</button></Item.Description>
+                        <Item.Description><Icon name='user delete' /><button onClick={() => setForm('deleteaccount')}>Delete account</button></Item.Description>
                     </Item.Content>
                     </Item>
                 </Item.Group>
