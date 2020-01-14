@@ -25,10 +25,12 @@ const Info = (props) => {
     return arrayItems
 }
 
-    const totalCbm = props.removals.reduce((a, {cbm}) => a + cbm, 0)
-    const totalMoney = props.removals.reduce((a, {totalValue}) => a + totalValue, 0)
-    const totalQuantity = props.removals.reduce((a, {quantity}) => a + quantity, 0)
-    const totalWeight = props.removals.reduce((a, {totalWeigth}) => a + totalWeigth, 0)
+    const totalCbm = props.removals.filter(r => r.removed).reduce((a, {cbm}) => a + cbm, 0)
+    const totalMoney = props.removals.filter(r => r.removed).reduce((a, {totalValue}) => a + totalValue, 0)
+    const totalQuantity = props.removals.filter(r => r.removed).reduce((a, {quantity}) => a + quantity, 0)
+    const totalSaleQuantity = props.removals.filter(r => r.removed && r.saleItem).reduce((a, {quantity}) => a + quantity, 0)
+    const totalDonatedQuantity = totalQuantity - totalSaleQuantity
+    const totalWeight = props.removals.filter(r => r.removed).reduce((a, {totalWeigth}) => a + totalWeigth, 0)
 
     const examples = [
         {
@@ -84,7 +86,8 @@ const Info = (props) => {
         <ul>
             <li>Gained {totalMoney}€</li>
             <li>Freed up {totalCbm.toFixed(2)} m³ of space</li>
-            <li>Have {totalQuantity} items less on your way</li>
+            <li>Have {totalQuantity} items less on your way...</li>
+            <li>...from which {totalSaleQuantity} are sold and {totalDonatedQuantity} donated</li>
             <li>Have {totalWeight} kg less to carry when you move!</li>
         </ul>
     <p><em>{createExample()}</em></p>

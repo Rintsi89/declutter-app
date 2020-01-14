@@ -57,4 +57,7 @@
 | 12.1  | 0.5  | Asking and writing down feedback from people outside project. Ideas were related to time used to sell or donate items |
 | 13.1  | 4.5  | Working on backend models and forms to match the new improvement ideas |
 |       | 2    | Working on chart and chart data on removal page |
-| tot   | 113  | 
+| 14.1  | 1.5  | Making small improvements on frontend based on comments |
+|       | 3.5  | Working with CSS and styling of landin page related components |
+|       | 2    | Looking for suitable menus for final layout. Decided to ask suggestions and opinions before implementation |
+| tot   | 120  | 

@@ -61,18 +61,6 @@ return (
             value={value}
           />
         </Grid.Column>
-        {/* <Grid.Column width={10}>
-          <Segment>
-            <Header>State</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify({isLoading, results, value}, null, 2)}
-            </pre>
-            <Header>Options</Header>
-            <pre style={{ overflowX: 'auto' }}>
-              {JSON.stringify(props.removals, null, 2)}
-            </pre>
-          </Segment>
-        </Grid.Column> */}
       </Grid>
     )
 }

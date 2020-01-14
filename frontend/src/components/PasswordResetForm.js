@@ -5,12 +5,14 @@ import { useField } from '../hooks'
 import { showMessage } from '../reducers/notificationReducer'
 import { Button, Form } from 'semantic-ui-react'
 import userService from '../services/users'
+import NoAccessPage from './NoAccessPage'
 import FlashMessage from './Flash/FlashMessage'
+import classes from '../styles/ResetPasswordPage.module.css'
 
 const PasswordResetForm = (props) => {
 
     const [user, setUser] = useState(null)
-    const password = useField('password', 'password', 'Password', '')
+    const password = useField('password', 'password', 'New password', '')
     const retypedpassword = useField('password', 'retypedpassword', 'Retype password', '')
 
     const userByToken = (token) => userService.checkToken(token)
@@ -53,29 +55,24 @@ const PasswordResetForm = (props) => {
       }
     
     if (!user) {
-        // Add here standard template for errors, remember to make!
-        return <h3>You dont have access to be here!</h3>
+        return <NoAccessPage />
     }
 
 return (
-    <div>
-         <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
-        <Form onSubmit={updatePassword}>
-            <h3>Reset your password</h3>
-            <i>Type new password</i>
-            <div>
-                <Form.Field>
-                    <label>Password</label>
-                    <input {...password.attributes} required></input>
+    <div className={classes.main}>
+        <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
+        <Form onSubmit={updatePassword} className={classes.form}>
+            <h3 className={classes.title}>Reset your password</h3>
+                <Form.Field className={classes.formfield}>
+                    <label><span className={classes.label}>New password</span></label>
+                    <input {...password.attributes} required />
                 </Form.Field>
-            </div>
-            <div>
-                <Form.Field>
-                    <label>Retype password</label>
-                    <input {...retypedpassword.attributes} required></input>
+                <Form.Field className={classes.formfield}>
+                    <label><span className={classes.label}>Retype password</span></label>
+                    <input {...retypedpassword.attributes} required />
                 </Form.Field>
-            </div>
-            <Button positive>Change</Button>  
+            <Button positive>Reset</Button>
+            <p className={classes.minifooter}>Declutter App 2020</p>  
         </Form>
     </div>
     )
@@ -92,4 +89,4 @@ const mapDispatchToProps = {
   }
   
 
-  export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PasswordResetForm))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(PasswordResetForm))

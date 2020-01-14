@@ -38,25 +38,20 @@ return (
     <div>
         <Form onSubmit={handleLogin} className={classes.form}>
             <div className={classes.formfield}>
-            <h3>Log In</h3>
-            <i>Type your username and password to log in</i>
+              <h3 className={classes.title}>Log In</h3>
             </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Username</label>
-                    <input {...username.attributes}></input>
+                    <input {...username.attributes} />
                 </Form.Field>
-            </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Password</label>
-                    <input {...password.attributes}></input>
+                    <input {...password.attributes} />
                 </Form.Field>
-            </div>
-            <div className={classes.formfield}>
+            <div className={classes.submitfield}>
                 <Button positive>Log In</Button> 
-                <p>No account yet?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'newaccount')}>Create account</button></p> 
-                <p>Forgot your password?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
+                <p><span className={classes.text}>No account yet?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'newaccount')}>Create account</button></p> 
+                <p><span className={classes.text}>Forgot your password?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
             </div>
         </Form>
     </div>

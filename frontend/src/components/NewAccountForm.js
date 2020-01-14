@@ -55,37 +55,29 @@ return (
     <div>
         <Form onSubmit={createUser} className={classes.form}>
             <div className={classes.formfield}>
-            <h3>Create user account</h3>
-            <i>Fill in the form to create new account</i>
+                <h3 className={classes.title}>Create user account</h3>
+                <i>Fill in the form to create new account</i>
             </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Username</label>
-                    <input {...username.attributes} required></input>
+                    <input {...username.attributes} required />
                 </Form.Field>
-            </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Email</label>
-                    <input {...email.attributes} required></input>
+                    <input {...email.attributes} required />
                 </Form.Field>
-            </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Password</label>
-                    <input {...password.attributes} required></input>
+                    <input {...password.attributes} />
                 </Form.Field>
-            </div>
-            <div>
                 <Form.Field className={classes.formfield}>
                     <label>Retype password</label>
-                    <input {...retypedpassword.attributes} required></input>
+                    <input {...retypedpassword.attributes} />
                 </Form.Field>
-            </div>
-            <div className={classes.formfield}>
+            <div className={classes.submitfield}>
                 <Button positive>Create</Button>  
-                <p>Already have an account?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p>
-                <p>Forgot your password?<button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
+                <p><span className={classes.text}>Already have an account?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p>
+                <p><span className={classes.text}>Forgot your password?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p> 
             </div>
         </Form>
     </div>

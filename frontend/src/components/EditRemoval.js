@@ -27,60 +27,58 @@ const EditRemoval = (props) => {
     console.log(daysUsed);
     
     // Days used to remove all items which have the same status as the removal (sold and donated items are treated differently)
-    const daysUsedAllItems = props.removals.filter((r) => r.saleItem === props.removal.saleItem && (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24))
-    console.log(daysUsedAllItems);
+    const daysUsedAllItems = props.removals.filter((r) => r.saleItem === props.removal.saleItem && (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date)) / (1000*60*60*24) + 1)
+    console.log("All items", daysUsedAllItems);
     const daysUsedAllItemsAverage = Math.round(daysUsedAllItems.reduce((total, day) => total + day, 0) / daysUsedAllItems.length)
     console.log(daysUsedAllItemsAverage)
 
     // Days used to remove all items which have same category (sold or donated) and status as the sale item
     const sameCategoryItems = props.removals.filter((r) =>  r.saleItem === props.removal.saleItem && r.category === props.removal.category)
-    const daysUsedAllCategory = sameCategoryItems.filter((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24))
+    const daysUsedAllCategory = sameCategoryItems.filter((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24) + 1)
     const daysUsedAllCategoryAverage = Math.round(daysUsedAllCategory.reduce((total, day) => total + day, 0) / daysUsedAllCategory.length)
     console.log(daysUsedAllCategoryAverage);
 
+    const labels = ['All items average', props.removal.category + ' average', props.removal.name]
+    const barData = [daysUsedAllItemsAverage, daysUsedAllCategoryAverage, daysUsed]
+    const allAverages = [].concat(daysUsedAllCategoryAverage, daysUsedAllItemsAverage, daysUsed)
+    
 
 
-const labels = ['All items average', props.removal.category + ' average', props.removal.name]
-const barData = [daysUsedAllItemsAverage, daysUsedAllCategoryAverage, daysUsed]
-const allAverages = [].concat(daysUsedAllCategoryAverage, daysUsedAllItemsAverage, daysUsed)
-console.log(...allAverages);
-
-
-const data = {
-    labels: labels,
-    datasets: [{
-        data: barData,
-        backgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56',
-        ],
-        hoverBackgroundColor: [
-        '#FF6384',
-        '#36A2EB',
-        '#FFCE56',
-        ]
-    }]
-}
-
-const options = {
-    legend: {
-        display: false
-    },
-    title: {
-        display: true,
-        text: props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'
-    },
-    scales: {
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          min: 0,
-          max: Math.ceil((Math.max(...allAverages) + 1) / 10) * 10
-        }    
-      }]
+    const data = {
+        labels: labels,
+        datasets: [{
+            data: barData,
+            backgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            ],
+            hoverBackgroundColor: [
+            '#FF6384',
+            '#36A2EB',
+            '#FFCE56',
+            ]
+        }]
     }
-  }
+
+    const options = {
+        legend: {
+            display: false
+        },
+        title: {
+            display: true,
+            text: props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'
+        },
+        scales: {
+        yAxes: [{
+            ticks: {
+            beginAtZero: true,
+            min: 0,
+            max: Math.ceil((Math.max(...allAverages) + 1) / 10) * 10
+            }    
+        }]
+        }
+    }
 
     const [form, setForm] = useState(null)
     const [showmModal, setShowModal] = useState(false)
@@ -196,14 +194,16 @@ const options = {
                         <Item.Description>Name: {props.removal.name}</Item.Description>
                         <Item.Description>Locations: {props.removal.name}</Item.Description>
                         <Item.Extra>You have currently {props.removal.name} removals</Item.Extra>
-                        
                     </Item.Content>
-                    <Item.Content className={classes.bar}>
-                    <Bar data={data} options={options}/>
+                    <Item.Content >
+                    {props.removal.removed ?
+                    <Bar data={data} options={options}/> :
+                    <p>This item is not yet removed</p>
+                    }
                     </Item.Content>
                     <Item.Content>
                         <Item.Header as='a'>Actions</Item.Header>
-                        <Item.Meta>What you would like to do with your account?</Item.Meta>
+                        <Item.Meta>What you would like to do with removal?</Item.Meta>
                         {props.removal.removed ? 
                         <div>
                             <Item.Description><Icon name='delete' /><button onClick={(event) => markUnSold(event, props.removal)}>Mark not removed</button></Item.Description>

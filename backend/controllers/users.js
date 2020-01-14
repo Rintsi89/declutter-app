@@ -57,7 +57,7 @@ router.post('/', async (request, response, next) => {
 
     Mailer.sendEmail(mailerOptions)
 
-    response.status(200)
+    response.status(200).send()
 
   } catch (error) {
     next(error)
@@ -122,6 +122,7 @@ router.post('/forgotPassword', async (request, response, next) => {
     }
 
     Mailer.sendEmail(mailerOptions)
+    response.status(200).json({ message: `Link to reset your password has been send to ${user.email}` })
 
   } catch (error) {
     next(error)

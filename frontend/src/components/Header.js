@@ -27,18 +27,16 @@ const Header = (props) => {
                   <Icon name='trash' size='big' />
                   <Icon name='dolly' size='big' />
                   <Icon name='money bill alternate outline' size='big' />
+                  <div className={classes.signature}>By Ville Rintala</div>
               </div>
               <SearchBar />
-              <div>
-                  <span>{props.logged_user.username} logged in</span>
+              <div className={classes.navitems}>
+                  <Link to="/">Removals</Link>
+                  <Link to="/myaccount">Account</Link>
+                  <Link to="/gallery">Gallery</Link>
                   <Button negative size='tiny' onClick={() => handleLogOut()}><Link to="/">Log out</Link></Button>
               </div>
               </div>
-        <div className={classes.sidenav}>
-          <Link to="/">Removals</Link>
-          <Link to="/myaccount">Account</Link>
-          <Link to="/gallery">Gallery</Link>
-        </div>
       </div>
     )
 }
