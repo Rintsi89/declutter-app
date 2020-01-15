@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import ExportCSV from './ExportCSV'
+import classes from '../styles/Info.module.css'
 
 const Info = (props) => {
 
@@ -80,16 +81,17 @@ const Info = (props) => {
     }
 
   return (
-    <div>
-        <h3>{props.logged_user.username}</h3>
-        <p>By decluttering unnecessary items you have:</p>
-        <ul>
-            <li>Gained {totalMoney}€</li>
-            <li>Freed up {totalCbm.toFixed(2)} m³ of space</li>
-            <li>Have {totalQuantity} items less on your way...</li>
-            <li>...from which {totalSaleQuantity} are sold and {totalDonatedQuantity} donated</li>
-            <li>Have {totalWeight} kg less to carry when you move!</li>
+    <div className={classes.container}>
+        <h3 className={classes.title}>{props.logged_user.username}</h3>
+        <p className={classes.subtitle}>By decluttering unnecessary items you have:</p>
+        <ul className={classes.list}>
+            <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney}€</span></li>
+            <li className={classes.listitem}>Freed up <span className={classes.highlight}>{totalCbm.toFixed(2)} m³</span> of space</li>
+            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalQuantity}</span> items less on your way...</li>
+            <li className={classes.listitem}>...from which <span className={classes.highlight}>{totalSaleQuantity}</span> are sold and <span className={classes.highlight}>{totalDonatedQuantity}</span> donated</li>
+            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalWeight}</span> kg less to carry when you move!</li>
         </ul>
+    <p>Did you know?</p>
     <p><em>{createExample()}</em></p>
     {props.removals.length < 1 ? null : 
     <ExportCSV csvData={getExcelData(props.removals)} fileName={'My removals'}/>

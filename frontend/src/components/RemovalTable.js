@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Icon,  Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter } from "react-router"
 import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
 import Pagination from './Pagination'
 import RemovalForm from './RemovalForm'
+import SaleModal from './SaleModal'
 import classes from '../styles/Table.module.css'
 
 const RemovalTable = (props) => {
 
     const [showForm, setShowForm] = useState(false)
+
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage] = useState(10) 
     
@@ -58,10 +60,11 @@ const RemovalTable = (props) => {
   return (
     <div>
     <div className={classes.maintable}>
+        <SaleModal />
         <div className={classes.formarea}>
         {!showForm ? 
-        <button onClick={() => setShowForm(!showForm)}>
-            Add new
+        <button className={classes.addbutton} onClick={() => setShowForm(!showForm)}>
+            <Icon name="add circle" size='large'/> Add new
         </button> : 
             <RemovalForm user={props.logged_user} hide={() => setShowForm(!showForm)}/>    
         }
@@ -76,10 +79,10 @@ const RemovalTable = (props) => {
                         <th>Location</th>
                         <th>Quantity</th>
                         <th>Value</th>
-                        <th>Size</th>
-                        <th>Weight</th>
-                        <th>Image</th>
+                        <th>Removed</th>
+                        <th>Type</th>
                         <th>Sold at</th>
+                        <th>Actions</th>
                         <th>Delete</th>
                     </tr>
                     {sort().map(r =>
@@ -103,33 +106,24 @@ const RemovalTable = (props) => {
                             {r.totalValue}€
                         </td>
                         <td>
-                            {r.cbm} m³
+                            {r.removed ? 
+                            'Yes' :
+                            'No'}
                         </td>
                         <td>
-                            {r.totalWeigth} kg
+                            {r.saleItem ?
+                            <span><Icon name="money bill alternate" /> sell</span> 
+                            : <span><Icon name="gift" /> donate</span>
+                            } 
                         </td>
                         <td>
-                        {r.image ? 
-                            <Modal trigger={<Button>Show Modal</Button>}>
-                            <Modal.Header>Removal image</Modal.Header>
-                                <Modal.Content image >
-                                    <Image wrapped size='medium' src={r.image} />
-                                    <Modal.Description>
-                                        <Header>{r.name}</Header>
-                                        <p>
-                                         This item was removed on {r.date} in {r.soldAt}
-                                        </p>
-                                    </Modal.Description>
-                            </Modal.Content>
-                            </Modal>  
-                        : null
-                        }
+                        {r.soldAt}
                         </td>
                         <td>
-                            {r.soldAt}
+                        <button className={classes.button}><Icon name="trash alternate outline" /></button>
                         </td>
                         <td>
-                            <button className={classes.button} onClick={() => deleteRemoval(event, r.id, r.name)}><Icon name="trash alternate outline"></Icon></button>
+                            <button className={classes.button} onClick={() => deleteRemoval(event, r.id, r.name)}><Icon name="trash alternate outline" /></button>
                         </td>
                     </tr>)}
                 </tbody>

@@ -17,7 +17,7 @@ export const ExportCSV = ( { csvData, fileName }) => {
     }
 
     return (
-        <Button onClick={() => exportToCSV(csvData,fileName)}><Icon name='file excel outline'></Icon>Export xlsx</Button>
+        <Button positive size='tiny' onClick={() => exportToCSV(csvData,fileName)}><Icon name='file excel outline'></Icon>Export xlsx</Button>
     )
 }
 

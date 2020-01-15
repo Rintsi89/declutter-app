@@ -60,4 +60,6 @@
 | 14.1  | 1.5  | Making small improvements on frontend based on comments |
 |       | 3.5  | Working with CSS and styling of landin page related components |
 |       | 2    | Looking for suitable menus for final layout. Decided to ask suggestions and opinions before implementation |
-| tot   | 120  | 
+|       | 1.5  | Discussing about styling options and started to implement on front page after log in. No need to commit now |
+| 15.1  | 6    | Working on main page CSS challenges and theme |
+| tot   | 127.5| 

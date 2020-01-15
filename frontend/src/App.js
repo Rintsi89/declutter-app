@@ -44,12 +44,15 @@ const App = (props) => {
   }
 
   return (
+    <div className={classes.main}>
       <Router>
+        
           <Header />
           {/* This add extra spacer after fixed header so elements underneath it can refer their margins to this */}
           <div className={classes.spacer}>
               &nbsp;
           </div>
+          
             <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
           <Switch>
               <Route exact path="/"><Redirect to='/removals'/></Route>
@@ -58,7 +61,9 @@ const App = (props) => {
               <Route exact path="/removals" render={() => <Main />}/>
               <Route exact path="/removals/:id" render={({ match }) => <EditRemoval removal={removalById(match.params.id)} />} />
           </Switch>
+          
       </Router>
+    </div>
   )
 }
 

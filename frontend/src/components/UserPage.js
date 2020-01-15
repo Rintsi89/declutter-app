@@ -45,9 +45,7 @@ const UserPage = (props) => {
 
     return (
         <div>
-            <div>
                 <Title title={'My account'} />
-            </div>
             <div className={classes.infoarea}>
                 <Item.Group>
                     <Item>

@@ -3,6 +3,7 @@
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .formarea {
@@ -29,11 +30,11 @@
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #4CAF50;
+    background-color: #FF8C00;
     color: white;
 }
 
-.button {
+.button, .addbutton {
     background-color: Transparent;
     background-repeat: no-repeat;
     border: none;
@@ -43,6 +44,10 @@
 
 .button:hover {
     color: red;
+}
+
+.addbutton:hover {
+    color: green;
 }
 
 .pagination {

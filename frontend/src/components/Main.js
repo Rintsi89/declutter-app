@@ -76,12 +76,12 @@ const Main = (props) => {
                 <div className={classes.chart}>
                     <Bar data={data} options={options}/>
                 </div>
-                <div>
+                <div className={classes.details}>
                     <Info />
                 </div>
             </div>
-                <RemovalTable />
-        </div>
+                <RemovalTable /> 
+        </div>  
     )
 }
 

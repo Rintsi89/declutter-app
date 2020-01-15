@@ -1,9 +1,14 @@
 .maintitle {
-    margin: 30px 180px 0px 180px;
-    background: green;
+    margin: 0px 180px 0px 180px;
+    padding-top: 20px;
 }
 
 .mainh2 {
     padding: 5px;
-    color: white;
+    font-size: 3.5rem;
+    font-family: 'Britannic Bold';
+    display: inline-block;
+    color: black;
+    text-shadow: -1px 0 #FF8C00, 0 1px #FF8C00, 1px 0 #FF8C00, 0 -1px #FF8C00;
+    font-weight: bold;
 }

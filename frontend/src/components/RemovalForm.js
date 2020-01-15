@@ -4,6 +4,7 @@ import { Button, Form } from 'semantic-ui-react'
 import { createRemoval } from '../reducers/removalReducer'
 import { showMessage } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
+import classes from '../styles/AddRemovalForm.module.css'
 
 const RemovalForm = (props) => {     
 
@@ -141,8 +142,8 @@ const RemovalForm = (props) => {
       }
 
     return (
-      <div>
-        <h3>Create a new removal</h3>
+      <div className={classes.container}>
+        <h3 className={classes.title}>Create a new removal</h3>
         <p>Fill in the details <em><b>per unit</b></em></p>
         <Form onSubmit={addRemoval} encType="multipart/form-data">
             <Form.Group widths='equal'>
