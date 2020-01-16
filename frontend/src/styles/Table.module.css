@@ -18,23 +18,24 @@
   }
   
 .removals td, .removals th {
-    border: 1px solid #ddd;
+    border: 1px solid #FF8C00;
     padding: 8px;
 }
   
 .removals tr:nth-child(even){background-color: #f2f2f2;}
 
-.removals tr:hover {background-color: #ddd;}
+.removals tr:hover {background-color: rgb(245, 231, 218);}
 
 .removals th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
-    background-color: #FF8C00;
-    color: white;
+    border: 1px solid #FF8C00;
+    background-color: black;
+    color: #FF8C00;
 }
 
-.button, .addbutton {
+.button, .addbutton, .removebutton {
     background-color: Transparent;
     background-repeat: no-repeat;
     border: none;
@@ -42,12 +43,22 @@
     outline:none;
 }
 
-.button:hover {
-    color: red;
-}
-
 .addbutton:hover {
     color: green;
+}
+
+.removebutton {
+    font-weight: bold;
+}
+
+.button:hover, .not:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+.removebutton:hover {
+    color: green;
+    text-decoration: underline;
 }
 
 .pagination {

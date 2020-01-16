@@ -6,7 +6,6 @@ import removalService from './services/removals'
 import userService from './services/users'
 import Landing from './components/Landing'
 import Header from './components/Header'
-import FlashMessage from './components/Flash/FlashMessage'
 import Main from './components/Main'
 import UserPage from './components/UserPage'
 import Gallery from './components/Gallery'
@@ -52,8 +51,6 @@ const App = (props) => {
           <div className={classes.spacer}>
               &nbsp;
           </div>
-          
-            <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
           <Switch>
               <Route exact path="/"><Redirect to='/removals'/></Route>
               <Route exact path="/myaccount" render={() => <UserPage />}  />  
@@ -61,7 +58,6 @@ const App = (props) => {
               <Route exact path="/removals" render={() => <Main />}/>
               <Route exact path="/removals/:id" render={({ match }) => <EditRemoval removal={removalById(match.params.id)} />} />
           </Switch>
-          
       </Router>
     </div>
   )

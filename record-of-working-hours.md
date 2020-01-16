@@ -62,4 +62,6 @@
 |       | 2    | Looking for suitable menus for final layout. Decided to ask suggestions and opinions before implementation |
 |       | 1.5  | Discussing about styling options and started to implement on front page after log in. No need to commit now |
 | 15.1  | 6    | Working on main page CSS challenges and theme |
-| tot   | 127.5| 
+|       | 0.5  | Came back to fix modal and place it into separate component. No commit on this one yet |
+| 16.1  | 6.5  | Working on main page functionalities and fix many issues. Also styling the page |   
+| tot   | 134.5| 

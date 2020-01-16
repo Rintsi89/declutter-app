@@ -1,17 +1,17 @@
 import React from 'react'
 import classes from '../styles/Pagination.module.css'
 
-const Pagination = ({ rowsPerPage, totalRows, paginate }) => {
+const Pagination = ({ rowsPerPage, totalRows, paginate, currentPage }) => {
     const pageNumbers = []
     
     for(let i = 1; i <= Math.ceil(totalRows / rowsPerPage); i++) {
         pageNumbers.push(i)
     }
-    
+
     return (
         <div className={classes.pagination}>
             {pageNumbers.map(number => (
-                <a key={number} onClick={() => paginate(number)}>
+                <a key={number} onClick={() => paginate(number)} className={number === currentPage ? classes.active : null}>
                     {number}
                 </a>
             ))}

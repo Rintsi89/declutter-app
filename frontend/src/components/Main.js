@@ -4,17 +4,19 @@ import { Bar } from 'react-chartjs-2'
 import Title from './Title'
 import Info from './Info'
 import RemovalTable from './RemovalTable'
+import FlashMessage from './Flash/FlashMessage'
 import classes from '../styles/Main.module.css'
 
 const Main = (props) => {
 
     const categories = [...new Set(props.removals.map(r => r.category))]
+    const removedItems = props.removals.filter(r => r.removed)
 
     const sumCategories = () => {
         let total = []
 
         categories.forEach(c => {
-            const totalPerCategory = props.removals.filter(({ category }) => category === c).reduce((a, {cbm}) => a + cbm, 0)
+            const totalPerCategory = removedItems.filter(({ category }) => category === c).reduce((a, {cbm}) => a + cbm, 0)
             total.push(totalPerCategory)
         })
   
@@ -63,7 +65,7 @@ const Main = (props) => {
             ticks: {
               beginAtZero: true,
               min: 0,
-              max: Math.ceil((Math.max(...totalCbms) + 1) / 10) * 10
+              max: Math.max(...totalCbms) < 10 ? Math.ceil(Math.max(...totalCbms) + 1) : Math.ceil((Math.max(...totalCbms) + 1) / 10) * 10
             }    
           }]
         }
@@ -80,6 +82,7 @@ const Main = (props) => {
                     <Info />
                 </div>
             </div>
+                <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
                 <RemovalTable /> 
         </div>  
     )
@@ -88,6 +91,7 @@ const Main = (props) => {
 const mapStateToProps = (state) => {
     return {
       removals: state.removals,
+      notifications: state.notifications
     }
   }
 

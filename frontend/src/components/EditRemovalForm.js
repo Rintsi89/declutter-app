@@ -21,8 +21,8 @@ const EditRemovalForm = (props) => {
     const quantity = useField('number', 'quantity', 'Quantity', props.removal.quantity)
     const length = useField('number', 'length', 'Length', props.removal.length)
     const width = useField('number', 'width', 'Width', props.removal.width)
-    const heigth = useField('number', 'height', 'Heigth', props.removal.heigth)
-    const weigth = useField('number','weigth', 'Weigth', props.removal.weigth)
+    const height = useField('number', 'height', 'Height', props.removal.height)
+    const weight = useField('number','weight', 'Weight', props.removal.weight)
     const value = useField('number', 'value', 'Value', props.removal.value)
     const note = useField('text', 'note', 'Notes', props.removal.note)
     const date = useField('date', 'date', 'Date', props.removal.date)
@@ -66,8 +66,8 @@ const EditRemovalForm = (props) => {
         quantity.initialize()
         length.initialize()
         width.initialize()
-        heigth.initialize()
-        weigth.initialize()
+        height.initialize()
+        weight.initialize()
         value.initialize()
         note.initialize()
         date.initialize()
@@ -86,8 +86,8 @@ const EditRemovalForm = (props) => {
                 name: name.attributes.value,
                 quantity: quantity.attributes.value,
                 category: category,
-                weigth: weigth.attributes.value,
-                totalWeigth: weigth.attributes.value * quantity.attributes.value,
+                weight: weight.attributes.value,
+                totalweight: weight.attributes.value * quantity.attributes.value,
                 value: !type ? 0 : value.attributes.value,
                 totalValue: value.attributes.value * quantity.attributes.value,
                 date: date.attributes.value,
@@ -97,8 +97,8 @@ const EditRemovalForm = (props) => {
                 note: note.attributes.value,
                 length: length.attributes.value,
                 width: width.attributes.value,
-                heigth: heigth.attributes.value,
-                cbm: (((length.attributes.value * width.attributes.value * heigth.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2),
+                height: height.attributes.value,
+                cbm: (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2)
             }
 
             props.updateRemoval(id, updateObject)
@@ -141,11 +141,11 @@ const EditRemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Height (cm)</label>
-                    <input {...heigth.attributes}></input>
+                    <input {...height.attributes}></input>
                 </Form.Field>
                 <Form.Field>
-                    <label>Weigth (kg)</label>
-                    <input {...weigth.attributes}></input>
+                    <label>Weight (kg)</label>
+                    <input {...weight.attributes}></input>
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>

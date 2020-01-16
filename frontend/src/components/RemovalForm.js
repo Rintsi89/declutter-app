@@ -6,7 +6,7 @@ import { showMessage } from '../reducers/notificationReducer'
 import { useField } from '../hooks'
 import classes from '../styles/AddRemovalForm.module.css'
 
-const RemovalForm = (props) => {     
+const RemovalForm = (props) => {    
 
     // Today's date for date field's default value
     const today = new Date().toISOString().substr(0, 10)
@@ -23,6 +23,33 @@ const RemovalForm = (props) => {
         { key: 'yes', text: 'Yes', value: true },
         { key: 'no', text: 'No', value: false },
     ]
+
+    // Sort helper
+
+    const compare = (a, b) => {
+        if (a.text < b.text) {
+          return -1
+        }
+        if (a.text > b.text) {
+          return 1
+        }
+        return 0
+      }
+
+    // Select options of location - different way than the other, let it be for practise :)
+    const createLocations = (locations) => {
+        const locationsArray = []
+        locations.forEach(l => {
+            const locationToMap = { 'key': l, 'text': l, 'value': l } 
+            locationsArray.push(locationToMap)
+        }) 
+        return locationsArray.sort(compare)
+    }
+    
+    // Sorted options for select field
+    const sortedCategories = props.user.categories.sort(compare)
+    const sortedLocations = createLocations(props.user.locations)
+    const sortedSaleLocations = props.user.saleLocations.sort(compare)
     
     // Input
     const name = useField('text', 'name', 'Name', '')
@@ -30,7 +57,7 @@ const RemovalForm = (props) => {
     const length = useField('number', 'length', 'Length', '')
     const width = useField('number', 'width', 'Width', '')
     const height = useField('number', 'height', 'Heigth', '')
-    const weigth = useField('number','weigth', 'Weigth', '')
+    const weight = useField('number','weight', 'Weight', '')
     const value = useField('number', 'value', 'Value', '')
     const note = useField('text', 'note', 'Notes', '')
     const date = useField('date', 'date', 'Date', today)
@@ -39,23 +66,15 @@ const RemovalForm = (props) => {
     // Select
     const [type, setType] = useState(types[0].value)
     const [removed, setRemoved] = useState(removedTypes[0].value)
-    const [location, setLocation] = useState('')
-    const [category, setCategory] = useState('')
-    const [saleLocation, setSaleLocation] = useState('')
+    const [location, setLocation] = useState(sortedLocations[0].value)
+    const [category, setCategory] = useState(sortedCategories[0].value)
+    const [saleLocation, setSaleLocation] = useState(sortedSaleLocations[0].value)
 
     // Image
 
     const [image, setImage] = useState(null)
 
-    // Select options of location
-    const createLocations = (locations) => {
-        const locationsArray = []
-        locations.forEach(l => {
-            const locationToMap = { 'key': l, 'text': l, 'value': l } 
-            locationsArray.push(locationToMap)
-        }) 
-        return locationsArray
-        }
+    // Event handlers
 
     const handleTypeChange = (event, data) => {
         setType(data.value)
@@ -86,7 +105,7 @@ const RemovalForm = (props) => {
         length.reset()
         width.reset()
         height.reset()
-        weigth.reset()
+        weight.reset()
         value.reset()
         note.reset()
         date.reset()
@@ -101,7 +120,7 @@ const RemovalForm = (props) => {
     const resetAndHide = () => {
         resetForm()
         props.hide()
-        window.scrollTo(0, 0)
+        window.scrollTo(0, document.body.scrollHeight)
     }
     
     const addRemoval = async (event) => {
@@ -120,13 +139,13 @@ const RemovalForm = (props) => {
             formData.set('location', location)
             formData.set('soldAt', saleLocation)
             formData.set('note', note.attributes.value)
-            formData.set('weigth', weigth.attributes.value)
-            formData.set('totalWeigth', weigth.attributes.value * quantity.attributes.value)
+            formData.set('weight', weight.attributes.value)
+            formData.set('totalWeight', weight.attributes.value * quantity.attributes.value)
             formData.set('value', !removed ? 0 : value.attributes.value)
             formData.set('totalValue', (value.attributes.value *quantity.attributes.value))
             formData.set('length', length.attributes.value),
             formData.set('width', width.attributes.value),
-            formData.set('heigth', height.attributes.value)
+            formData.set('height', height.attributes.value)
             formData.set('cbm', (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2))
             formData.append('image', image)
             
@@ -134,10 +153,8 @@ const RemovalForm = (props) => {
             resetAndHide()
     
         } catch (exception) {
-        //   title.reset()
-        //   author.reset()
-        //   url.reset()
-        //   props.showMessage('Error', 'No blog was added, something went wrong', 'error', 5000)
+            window.scrollTo(0, 0)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
       }
 
@@ -147,8 +164,8 @@ const RemovalForm = (props) => {
         <p>Fill in the details <em><b>per unit</b></em></p>
         <Form onSubmit={addRemoval} encType="multipart/form-data">
             <Form.Group widths='equal'>
-            <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} required />
-            <Form.Select fluid label='Removed already?' value={removed} options={removedTypes} onChange={handleRemovedChange} required />
+            <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} />
+            <Form.Select fluid label='Removed already?' value={removed} options={removedTypes} onChange={handleRemovedChange} />
                 <Form.Field>
                     <label>Name</label>
                     <input {...name.attributes} required></input>
@@ -159,7 +176,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
-            <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange}/>
+            <Form.Select fluid label='Category' value={category} options={sortedCategories} onChange={handleCategoryChange}/>
                 <Form.Field>
                     <label>Length (cm)</label>
                     <input {...length.attributes}></input>
@@ -175,15 +192,15 @@ const RemovalForm = (props) => {
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>
-                    <label>Weigth (kg)</label>
-                    <input {...weigth.attributes}></input>
+                    <label>Weight (kg)</label>
+                    <input {...weight.attributes}></input>
                 </Form.Field>
                 <Form.Field>
                     <label>Value (€)</label>
-                    {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} /> }
+                    {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} required min='1'/> }
                 </Form.Field>
-                    <Form.Select fluid label='Location' value={location} options={createLocations(props.user.locations)} onChange={handleLocationChange}/>
-                    <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange} />  
+                    <Form.Select fluid label='Location' value={location} options={sortedLocations} onChange={handleLocationChange}/>
+                    <Form.Select fluid label='Sold at' value={saleLocation} options={sortedSaleLocations} onChange={handleSaleLocationChange} />  
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>
@@ -206,7 +223,7 @@ const RemovalForm = (props) => {
             <Button.Group>
                     <Button onClick={resetAndHide}>Cancel</Button>
                     <Button.Or />
-                    <Button positive>Save</Button>
+                    <Button primary>Save</Button>
             </Button.Group>
         </Form>
       </div>

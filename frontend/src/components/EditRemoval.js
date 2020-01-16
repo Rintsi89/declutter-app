@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { Modal, Item, Icon, Form, Header, Button } from 'semantic-ui-react'
+import { Item, Icon } from 'semantic-ui-react'
 import { Bar } from 'react-chartjs-2'
 import { withRouter } from "react-router"
+import SaleModal from './SaleModal'
 import { updateImage, deleteImage, deleteRemoval, updateRemoval } from '../reducers/removalReducer'
 import { showMessage } from '../reducers/notificationReducer'
-import { useField } from '../hooks'
+import { initModal } from '../reducers/removalModalReducer'
 import Title from './Title'
 import PictureForm from './PictureForm'
 import EditRemovalForm from './EditRemovalForm'
@@ -24,6 +25,8 @@ const EditRemoval = (props) => {
 
     // Days used to remove this item
     const daysUsed = ((Date.parse(props.removal.dateRemoved) - Date.parse(props.removal.date)) / (1000*60*60*24) + 1)
+    console.log((Date.parse(props.removal.dateRemoved) - Date.parse(props.removal.date)) / (1000*60*60*24) +1);
+    
     console.log(daysUsed);
     
     // Days used to remove all items which have the same status as the removal (sold and donated items are treated differently)
@@ -34,7 +37,11 @@ const EditRemoval = (props) => {
 
     // Days used to remove all items which have same category (sold or donated) and status as the sale item
     const sameCategoryItems = props.removals.filter((r) =>  r.saleItem === props.removal.saleItem && r.category === props.removal.category)
-    const daysUsedAllCategory = sameCategoryItems.filter((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24) + 1)
+    console.log(sameCategoryItems);
+    
+    const daysUsedAllCategory = sameCategoryItems.filter((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) >= 0)).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24) + 1)
+    console.log(daysUsedAllCategory);
+    
     const daysUsedAllCategoryAverage = Math.round(daysUsedAllCategory.reduce((total, day) => total + day, 0) / daysUsedAllCategory.length)
     console.log(daysUsedAllCategoryAverage);
 
@@ -81,31 +88,6 @@ const EditRemoval = (props) => {
     }
 
     const [form, setForm] = useState(null)
-    const [showmModal, setShowModal] = useState(false)
-    const dateRemoved = useField('date', 'dateRemoved', 'Date removed', today)
-    const value = useField('number', 'value', 'Value', props.removal.value)
-
-    const markSold = (event, removal) => {
-
-        event.preventDefault()
-
-        try {
-
-            const updateObject = {
-                ...removal,
-                removed: true,
-                dateRemoved: dateRemoved.attributes.value,
-                value: value.attributes.value,
-                totalValue: value.attributes.value * removal.quantity
-            }
-
-            props.updateRemoval(removal.id, updateObject)
-            setShowModal(false)
-            
-        } catch (error) {
-            
-        }
-    }
 
     const markUnSold = (event, removal) => {
         event.preventDefault()
@@ -119,11 +101,6 @@ const EditRemoval = (props) => {
         props.updateRemoval(removal.id, updateObject)
     }
     
-    const hideModal = async (event) => {
-        event.preventDefault()
-        setShowModal(false)
-    }
-
     const updateImage = (id, image, callback) => {
 
         if (!image) {
@@ -167,24 +144,7 @@ const EditRemoval = (props) => {
                 <Title title={props.removal.name} />
             </div>
             <div className={classes.infoarea}>
-                <Modal as={Form} onSubmit={(event) => markSold(event, props.removal)} open={showmModal} size="tiny">
-                    <Header content="When this item was removed?" as="h2" />
-                    <Modal.Content>
-                        <label>Date removed</label>
-                        <input {...dateRemoved.attributes} required max={today} min={props.removal.date}/>
-                        {props.removal.saleItem ?
-                        <div>
-                            <label>Unit value (€)</label>
-                            <input {...value.attributes} />
-                        </div>
-                        : null 
-                        }
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button onClick={(event) => hideModal(event)} color="red" content="Cancel" />
-                        <Button type="submit" color="green" content="Save" />
-                    </Modal.Actions>
-                </Modal>
+                <SaleModal />
                 <Item.Group>
                     <Item>
                     <Item.Image size='small' src={props.removal.image} />
@@ -208,7 +168,7 @@ const EditRemoval = (props) => {
                         <div>
                             <Item.Description><Icon name='delete' /><button onClick={(event) => markUnSold(event, props.removal)}>Mark not removed</button></Item.Description>
                         </div> :
-                        <Item.Description><Icon name='money bill alternate outline' /><button onClick={() => setShowModal(true)}>Mark removed</button></Item.Description> 
+                        <Item.Description><Icon name='money bill alternate outline' /><button onClick={() => props.initModal(props.removal)}>Mark removed</button></Item.Description> 
                         }
                         <Item.Description><Icon name='edit' /><button onClick={() => setForm('editform')}>Edit removal details</button></Item.Description>
                             <Item.Description><Icon name='image outline' /><button onClick={() => setForm('imageform')}>Edit removal image</button></Item.Description>
@@ -237,7 +197,8 @@ const mapDispatchToProps = {
     updateImage,
     deleteImage,
     deleteRemoval,
-    showMessage
+    showMessage,
+    initModal
 }
 
 const ConnectedEditRemoval = connect(

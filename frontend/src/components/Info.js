@@ -10,13 +10,21 @@ const Info = (props) => {
     for (let i = 0; i < removals.length; i++) {
         const excelData = {
             name: removals[i].name,
+            saleItem: removals[i].saleItem,
+            removed:  removals[i].removed,
             category: removals[i].category,
             location: removals[i].location,
             quantity: removals[i].quantity,
-            value: removals[i].value,
-            volume: removals[i].cbm,
-            weigth: removals[i].weigth,
+            unitValue: removals[i].value,
+            totalValue: removals[i].totalValue,
+            unitLength: removals[i].length,
+            unitWidth: removals[i].width,
+            unitHeight: removals[i].height,
+            totalVolume: removals[i].cbm,
+            unitWeigth: removals[i].weigth,
+            totalWeight: removals[i].totalWeigth,
             date: removals[i].date,
+            dateRemoved: removals[i].dateRemoved,
             soldAt: removals[i].soldAt,
             note: removals[i].note,
             image: removals[i].image
@@ -31,7 +39,7 @@ const Info = (props) => {
     const totalQuantity = props.removals.filter(r => r.removed).reduce((a, {quantity}) => a + quantity, 0)
     const totalSaleQuantity = props.removals.filter(r => r.removed && r.saleItem).reduce((a, {quantity}) => a + quantity, 0)
     const totalDonatedQuantity = totalQuantity - totalSaleQuantity
-    const totalWeight = props.removals.filter(r => r.removed).reduce((a, {totalWeigth}) => a + totalWeigth, 0)
+    const totalWeight = props.removals.filter(r => r.removed).reduce((a, {totalWeight}) => a + totalWeight, 0)
 
     const examples = [
         {
@@ -85,11 +93,11 @@ const Info = (props) => {
         <h3 className={classes.title}>{props.logged_user.username}</h3>
         <p className={classes.subtitle}>By decluttering unnecessary items you have:</p>
         <ul className={classes.list}>
-            <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney}€</span></li>
+            <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney.toFixed(2)}€</span></li>
             <li className={classes.listitem}>Freed up <span className={classes.highlight}>{totalCbm.toFixed(2)} m³</span> of space</li>
-            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalQuantity}</span> items less on your way...</li>
-            <li className={classes.listitem}>...from which <span className={classes.highlight}>{totalSaleQuantity}</span> are sold and <span className={classes.highlight}>{totalDonatedQuantity}</span> donated</li>
-            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalWeight}</span> kg less to carry when you move!</li>
+            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalQuantity.toFixed(0)}</span> items less on your way...</li>
+            <li className={classes.listitem}>...from which <span className={classes.highlight}>{totalSaleQuantity.toFixed(0)}</span> are sold and <span className={classes.highlight}>{totalDonatedQuantity}</span> donated</li>
+            <li className={classes.listitem}>Have <span className={classes.highlight}>{totalWeight}kg</span> less to carry when you move!</li>
         </ul>
     <p>Did you know?</p>
     <p><em>{createExample()}</em></p>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
+import moment from 'moment'
 import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Confirm } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { withRouter } from "react-router"
-import { deleteRemoval, initializeRemovals } from '../reducers/removalReducer'
+import { deleteRemoval, initializeRemovals, updateRemoval } from '../reducers/removalReducer'
+import { initModal } from '../reducers/removalModalReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import Pagination from './Pagination'
 import RemovalForm from './RemovalForm'
 import SaleModal from './SaleModal'
@@ -12,6 +14,10 @@ import classes from '../styles/Table.module.css'
 const RemovalTable = (props) => {
 
     const [showForm, setShowForm] = useState(false)
+    const [showDelete, setShowDelete] = useState(false)
+    const [removalToDelete, setRemovalToDelete] = useState(null)
+    const [showNotRemoved, setShowNotRemoved] = useState(false)
+    const [removalNotToRemove, setRemovalNotToRemove] = useState(null)
 
     const [currentPage, setCurrentPage] = useState(1)
     const [rowsPerPage] = useState(10) 
@@ -20,42 +26,78 @@ const RemovalTable = (props) => {
         props.initializeRemovals()
     }, [])
 
+    const sortBy = [{
+        prop:'date',
+        direction: -1
+    },{
+        prop:'name',
+        direction: 1
+    }]
+    
+    // Sort removals by date and name. It first sorts result one time and then another time with different property.
+    const sort = () => props.removals.sort((a, b) => {
+
+        let i = 0, result = 0
+
+        while(i < sortBy.length && result === 0) {
+            result = sortBy[i].direction*(a[ sortBy[i].prop ].toString() < b[ sortBy[i].prop ].toString() ? -1 : (a[ sortBy[i].prop ].toString() > b[ sortBy[i].prop ].toString() ? 1 : 0))
+            i++
+        }
+        return result
+    })
+
+
     const indexOfLastRow = currentPage * rowsPerPage
     const indexOfFirstRow = indexOfLastRow - rowsPerPage
-    const currentRows = props.removals.slice(indexOfFirstRow, indexOfLastRow)
+    const currentRows = sort().slice(indexOfFirstRow, indexOfLastRow)
     
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
-    const deleteRemoval = async (event, id, name) => {
-        event.preventDefault()
+    const setRemoveCancel = (removal) => {
+        setRemovalNotToRemove(removal)
+        setShowNotRemoved(true)
+    }
 
-        if (confirm(`Are you sure you want to delete ${name}`))
-     
+    const markUnSold = async (removal) => {
+
+            try {
+
+                const updateObject = {
+                    ...removal,
+                    removed: false,
+                    dateRemoved: null
+                }
+        
+                await props.updateRemoval(removal.id, updateObject)
+                setShowNotRemoved(false)
+                window.scrollTo(0, document.body.scrollHeight)
+                
+            } catch (error) {
+                setShowNotRemoved(false)
+                window.scrollTo(0, 0)
+                props.showMessage('Error', error.response.data.error, 'negative')
+        }
+    }
+
+    const setDelete = (removal) => {
+        setRemovalToDelete(removal)
+        setShowDelete(true)
+    }
+
+    const deleteRemoval = async (id, name) => {
+
         try {
             await props.deleteRemoval(id, name)
-            window.scrollTo(0, 0)
+            window.scrollTo(0, document.body.scrollHeight)
+            setShowDelete(false)
         } catch (error) {
-            // here props.message
+            window.scrollTo(0, document.body.scrollHeight)
+            setShowDelete(false)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
         
     }
-    
-    const sort = () => currentRows.sort((a, b) => {
-   
-        let dateA = a.date.toUpperCase()
-        let dateB = b.date.toUpperCase()
-
-        if (dateA < dateB) {
-            return 1
-        }
-
-        if (dateA > dateB) {
-            return -1
-        }
-    
-        return 0
-    })
 
   return (
     <div>
@@ -73,7 +115,7 @@ const RemovalTable = (props) => {
          <table className={classes.removals}>
                 <tbody>
                     <tr>
-                        <th>Removal date</th>
+                        <th>Created at</th>
                         <th>Item</th>
                         <th>Category</th>
                         <th>Location</th>
@@ -85,10 +127,10 @@ const RemovalTable = (props) => {
                         <th>Actions</th>
                         <th>Delete</th>
                     </tr>
-                    {sort().map(r =>
+                    {currentRows.map(r =>
                     <tr key={r.id}>
                         <td>
-                            {r.date}
+                            {moment(r.date).format('DD.MM.YYYY')}
                         </td>
                         <td>
                             {r.name} <Link to={`/removals/${r.id}`}><Icon name='edit' /></Link>
@@ -107,8 +149,8 @@ const RemovalTable = (props) => {
                         </td>
                         <td>
                             {r.removed ? 
-                            'Yes' :
-                            'No'}
+                            <div><Icon color='green' name='checkmark' /> Yes</div> :
+                            <div><Icon color='red' name='x' /> No</div>}
                         </td>
                         <td>
                             {r.saleItem ?
@@ -120,17 +162,35 @@ const RemovalTable = (props) => {
                         {r.soldAt}
                         </td>
                         <td>
-                        <button className={classes.button}><Icon name="trash alternate outline" /></button>
+                            {!r.removed ?
+                              <button className={classes.removebutton} onClick={() => props.initModal(r)}><Icon color='green' name='checkmark' />Mark removed</button>
+                            : <button className={classes.removebutton} onClick={() => setRemoveCancel(r)}><div className={classes.not}><Icon color='red' name='x' />Mark <span >not</span> removed</div> </button>}
+                            <Confirm
+                                open={showNotRemoved}
+                                header={'Mark NOT removed'}
+                                confirmButton={'Yes'}
+                                content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} ${removalNotToRemove.id} not removed?` : null}
+                                onCancel={() => setShowNotRemoved(false)}
+                                onConfirm={() => markUnSold(removalNotToRemove)}
+                            />
                         </td>
                         <td>
-                            <button className={classes.button} onClick={() => deleteRemoval(event, r.id, r.name)}><Icon name="trash alternate outline" /></button>
+                            <button className={classes.button} onClick={() => setDelete(r)}><Icon name="trash alternate outline" /></button>
+                            <Confirm
+                                open={showDelete}
+                                header={'Delete removal'}
+                                confirmButton={'Yes'}
+                                content={removalToDelete ? `Are you sure you want to delete ${removalToDelete.name}` : null}
+                                onCancel={() => setShowDelete(false)}
+                                onConfirm={() => deleteRemoval(removalToDelete.id, removalToDelete.name)}
+                            />
                         </td>
                     </tr>)}
                 </tbody>
             </table>
         }
         </div>
-        <Pagination rowsPerPage={rowsPerPage} totalRows={props.removals.length} paginate={paginate}/>
+        <Pagination rowsPerPage={rowsPerPage} totalRows={props.removals.length} paginate={paginate} currentPage={currentPage}/>
     </div>
   )
 }
@@ -138,19 +198,17 @@ const RemovalTable = (props) => {
 const mapStateToProps = (state) => {
     return {
       removals: state.removals,
-      logged_user: state.logged_user
+      logged_user: state.logged_user,
     }
   }
 
 const mapDispatchToProps = {
     deleteRemoval,
-    initializeRemovals
+    initializeRemovals,
+    updateRemoval,
+    initModal,
+    showMessage
 }
 
-const ConnectedRemovalTable = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(RemovalTable)
 
-
-export default withRouter(ConnectedRemovalTable)
+export default connect(mapStateToProps, mapDispatchToProps)(RemovalTable)

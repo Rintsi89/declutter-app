@@ -1,25 +1,23 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
 import { Modal, Form, Header, Button } from 'semantic-ui-react'
+import { hideModal } from '../reducers/removalModalReducer'
+import { updateRemoval } from '../reducers/removalReducer'
 import { useField } from '../hooks'
 
 const SaleModal = (props) => {
 
-
-    if (!props.show) {
+    if (!props.modal.visible) {
         return null
     }
-
-    console.log(props);
-    
 
     // Today's date for date field's default value
     const today = new Date().toISOString().substr(0, 10)
 
     const dateRemoved = useField('date', 'dateRemoved', 'Date removed', today)
-    const value = useField('number', 'value', 'Value', props.removal.value)
-    const [showModal, setShowModal] = useState(props.show)
+    const value = useField('number', 'value', 'Value', props.modal.removal.value)
 
-    const markSold = (event, removal) => {
+    const markSold = async (event, removal) => {
 
         event.preventDefault()
 
@@ -33,28 +31,22 @@ const SaleModal = (props) => {
                 totalValue: value.attributes.value * removal.quantity
             }
 
-            props.updateRemoval(removal.id, updateObject)
-            setShowModal(false)
+            await props.updateRemoval(removal.id, updateObject)
+            props.hideModal()
+            window.scrollTo(0, document.body.scrollHeight)
             
         } catch (error) {
             
         }
     }
 
-    const hideModal = async (event) => {
-        console.log('Jee');
-        
-        event.preventDefault()
-        setShowModal(false)
-    }
-
     return (
-        <Modal as={Form} onSubmit={(event) => markSold(event, props.removal)} open={showModal} size="tiny">
+        <Modal as={Form} onSubmit={(event) => markSold(event, props.modal.removal)} open={props.modal.visible} size="tiny">
             <Header content="When this item was removed?" as="h2" />
             <Modal.Content>
                 <label>Date removed</label>
-                <input {...dateRemoved.attributes} required max={today} min={props.removal.date}/>
-                {props.removal.saleItem ?
+                <input {...dateRemoved.attributes} required max={today} min={props.modal.removal.date}/>
+                {props.modal.removal.saleItem ?
                 <div>
                     <label>Unit value (€)</label>
                     <input {...value.attributes} />
@@ -63,11 +55,28 @@ const SaleModal = (props) => {
                 }
             </Modal.Content>
             <Modal.Actions>
-                <Button onClick={(event) => hideModal(event)} color="red" content="Cancel" />
-                <Button type="submit" color="green" content="Save" />
+                <Button onClick={() => props.hideModal()} color="#e0e1e2" content="Cancel" />
+                <Button type="submit" color="blue" content="Save" />
             </Modal.Actions>
         </Modal>
     )
 }
 
-export default SaleModal
+const mapStateToProps = (state) => {
+    return {
+        modal: state.modal
+    }
+  }
+
+const mapDispatchToProps = {
+    hideModal,
+    updateRemoval
+}
+
+const ConnectedSaleModal = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SaleModal)
+
+
+export default ConnectedSaleModal
