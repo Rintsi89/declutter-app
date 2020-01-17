@@ -60,7 +60,7 @@ const RemovalTable = (props) => {
     }
 
     const markUnSold = async (removal) => {
-
+        
             try {
 
                 const updateObject = {
@@ -169,7 +169,7 @@ const RemovalTable = (props) => {
                                 open={showNotRemoved}
                                 header={'Mark NOT removed'}
                                 confirmButton={'Yes'}
-                                content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} ${removalNotToRemove.id} not removed?` : null}
+                                content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} not removed?` : null}
                                 onCancel={() => setShowNotRemoved(false)}
                                 onConfirm={() => markUnSold(removalNotToRemove)}
                             />

@@ -93,7 +93,7 @@ const Info = (props) => {
         <h3 className={classes.title}>{props.logged_user.username}</h3>
         <p className={classes.subtitle}>By decluttering unnecessary items you have:</p>
         <ul className={classes.list}>
-            <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney.toFixed(2)}€</span></li>
+            <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney.toFixed(2)} €</span></li>
             <li className={classes.listitem}>Freed up <span className={classes.highlight}>{totalCbm.toFixed(2)} m³</span> of space</li>
             <li className={classes.listitem}>Have <span className={classes.highlight}>{totalQuantity.toFixed(0)}</span> items less on your way...</li>
             <li className={classes.listitem}>...from which <span className={classes.highlight}>{totalSaleQuantity.toFixed(0)}</span> are sold and <span className={classes.highlight}>{totalDonatedQuantity}</span> donated</li>

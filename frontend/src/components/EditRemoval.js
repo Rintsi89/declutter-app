@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import moment from 'moment'
 import { connect } from 'react-redux'
-import { Item, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import { Bar } from 'react-chartjs-2'
 import { withRouter } from "react-router"
 import SaleModal from './SaleModal'
@@ -30,7 +31,7 @@ const EditRemoval = (props) => {
     console.log(daysUsed);
     
     // Days used to remove all items which have the same status as the removal (sold and donated items are treated differently)
-    const daysUsedAllItems = props.removals.filter((r) => r.saleItem === props.removal.saleItem && (Date.parse(r.dateRemoved) - Date.parse(r.date))).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date)) / (1000*60*60*24) + 1)
+    const daysUsedAllItems = props.removals.filter((r) => r.saleItem === props.removal.saleItem && (Date.parse(r.dateRemoved) - Date.parse(r.date) + 1)).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date)) / (1000*60*60*24) + 1)
     console.log("All items", daysUsedAllItems);
     const daysUsedAllItemsAverage = Math.round(daysUsedAllItems.reduce((total, day) => total + day, 0) / daysUsedAllItems.length)
     console.log(daysUsedAllItemsAverage)
@@ -69,11 +70,17 @@ const EditRemoval = (props) => {
     }
 
     const options = {
+        responsive: true,
+        maintainAspectRatio: true,
+        tooltips: {
+            enabled: true
+         },
         legend: {
-            display: false
+            display: false,
         },
         title: {
             display: true,
+            fontSize: 12,
             text: props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'
         },
         scales: {
@@ -83,6 +90,12 @@ const EditRemoval = (props) => {
             min: 0,
             max: Math.ceil((Math.max(...allAverages) + 1) / 10) * 10
             }    
+        }],
+        xAxes: [{
+            ticks: {
+                display: true, //this will remove only the label
+                fontSize: 9
+            }
         }]
         }
     }
@@ -143,39 +156,60 @@ const EditRemoval = (props) => {
             <div>
                 <Title title={props.removal.name} />
             </div>
+            <SaleModal />
             <div className={classes.infoarea}>
-                <SaleModal />
-                <Item.Group>
-                    <Item>
-                    <Item.Image size='small' src={props.removal.image} />
-                    <Item.Content className={classes.content}>
-                        <Item.Header as='a'>{props.removal.name}</Item.Header>
-                        <Item.Meta>{props.removal.note}</Item.Meta>
-                        <Item.Description>Name: {props.removal.name}</Item.Description>
-                        <Item.Description>Locations: {props.removal.name}</Item.Description>
-                        <Item.Extra>You have currently {props.removal.name} removals</Item.Extra>
-                    </Item.Content>
-                    <Item.Content >
-                    {props.removal.removed ?
-                    <Bar data={data} options={options}/> :
-                    <p>This item is not yet removed</p>
+                    <img src={props.removal.image} className={classes.image}/>
+                <div className={classes.contentcontainer}>
+                    <div className={classes.contentspacer}>
+                        <div className={classes.content}>
+                            <h4>Details</h4>
+                            <ul>
+                                <li>Name: {props.removal.name}</li>
+                                <li>Quantity: {props.removal.quantity}</li>
+                                <li>Category: {props.removal.category}</li>
+                                <li>Locations: {props.removal.location}</li>
+                                <li>Unit value: {props.removal.value}€</li>
+                                <li>Total value: {props.removal.totalValue}€</li>
+                                <li>Type: {props.removal.saleItem ? "Sell" : "Donate"}</li>
+                                <li>Sold at: {props.removal.soldAt}</li>
+                            </ul>
+                        </div>
+                        <div className={classes.content2}>
+                            <h4>Dimension</h4>
+                            <ul>
+                                <li>Unit length: {props.removal.length}</li>
+                                <li>Unit width: {props.removal.width}</li>
+                                <li>Unit height: {props.removal.height}</li>
+                                <li>Total volume: {props.removal.cbm}</li>
+                                <li>Unit weight: {props.removal.weight}</li>
+                                <li>Total weight: {props.removal.totalWeight}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div className={classes.notes}>
+                        <h4>Notes</h4>
+                            <p>{props.removal.note}</p>
+                    </div>
+                </div>
+                        {props.removal.removed ?
+                            <div className={classes.chart}>
+                                <Bar data={data} options={options} className={classes.bar}/>
+                            </div>
+                            :
+                            <p>This item is not yet removed</p>
+                            }
+                <div className={classes.actions}>
+                    <h4>Actions</h4>
+                    <i>What you would like to do with removal?</i>
+                    {props.removal.removed ? 
+                    <div><Icon name='delete' /><button onClick={(event) => markUnSold(event, props.removal)}>Mark not removed</button></div> :
+                    <div><Icon name='money bill alternate outline' /><button onClick={() => props.initModal(props.removal)}>Mark removed</button></div>
                     }
-                    </Item.Content>
-                    <Item.Content>
-                        <Item.Header as='a'>Actions</Item.Header>
-                        <Item.Meta>What you would like to do with removal?</Item.Meta>
-                        {props.removal.removed ? 
-                        <div>
-                            <Item.Description><Icon name='delete' /><button onClick={(event) => markUnSold(event, props.removal)}>Mark not removed</button></Item.Description>
-                        </div> :
-                        <Item.Description><Icon name='money bill alternate outline' /><button onClick={() => props.initModal(props.removal)}>Mark removed</button></Item.Description> 
-                        }
-                        <Item.Description><Icon name='edit' /><button onClick={() => setForm('editform')}>Edit removal details</button></Item.Description>
-                            <Item.Description><Icon name='image outline' /><button onClick={() => setForm('imageform')}>Edit removal image</button></Item.Description>
-                            <Item.Description><Icon name='trash alternate outline' /><button onClick={(event) => deleteRemoval(event, props.removal.id, props.removal.name)}>Delete removal</button></Item.Description>
-                    </Item.Content>
-                    </Item>
-                </Item.Group>
+                    <Icon name='edit' /><button onClick={() => setForm('editform')}>Edit removal details</button>
+                    <Icon name='image outline' /><button onClick={() => setForm('imageform')}>Edit removal image</button>
+                    <Icon name='trash alternate outline' /><button onClick={(event) => deleteRemoval(event, props.removal.id, props.removal.name)}>Delete removal</button>
+
+                </div>
             </div>
             {!form ? null : form === 'editform' ? <EditRemovalForm user={props.logged_user} removal={props.removal} setBack={setForm}/> :
              form === 'imageform' ?
