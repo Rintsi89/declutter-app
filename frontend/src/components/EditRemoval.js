@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import moment from 'moment'
 import { connect } from 'react-redux'
-import { Icon } from 'semantic-ui-react'
+import { Icon, Confirm } from 'semantic-ui-react'
 import { Bar } from 'react-chartjs-2'
 import { withRouter } from "react-router"
 import SaleModal from './SaleModal'
-import { updateImage, deleteImage, deleteRemoval, updateRemoval } from '../reducers/removalReducer'
+import { updateRemovalImage, deleteRemovalImage, deleteRemoval, updateRemoval } from '../reducers/removalReducer'
 import { showMessage } from '../reducers/notificationReducer'
 import { initModal } from '../reducers/removalModalReducer'
+import FlashMessage from './Flash/FlashMessage'
 import Title from './Title'
 import PictureForm from './PictureForm'
 import EditRemovalForm from './EditRemovalForm'
@@ -18,40 +18,36 @@ const EditRemoval = (props) => {
     if (!props.removal) {
         return null
     }
-    
-    // Today's date for date field's default value
-    const today = new Date().toISOString().substr(0, 10)
+
+    const [form, setForm] = useState(null)
+    const [showNotRemoved, setShowNotRemoved] = useState(false)
+    const [removalNotToRemove, setRemovalNotToRemove] = useState(null)
+
+    const setRemoveCancel = (removal) => {
+        setRemovalNotToRemove(removal)
+        setShowNotRemoved(true)
+    }
 
     // Data for chart 
 
     // Days used to remove this item
     const daysUsed = ((Date.parse(props.removal.dateRemoved) - Date.parse(props.removal.date)) / (1000*60*60*24) + 1)
-    console.log((Date.parse(props.removal.dateRemoved) - Date.parse(props.removal.date)) / (1000*60*60*24) +1);
-    
-    console.log(daysUsed);
-    
+
     // Days used to remove all items which have the same status as the removal (sold and donated items are treated differently)
     const daysUsedAllItems = props.removals.filter((r) => r.saleItem === props.removal.saleItem && (Date.parse(r.dateRemoved) - Date.parse(r.date) + 1)).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date)) / (1000*60*60*24) + 1)
-    console.log("All items", daysUsedAllItems);
     const daysUsedAllItemsAverage = Math.round(daysUsedAllItems.reduce((total, day) => total + day, 0) / daysUsedAllItems.length)
-    console.log(daysUsedAllItemsAverage)
 
     // Days used to remove all items which have same category (sold or donated) and status as the sale item
     const sameCategoryItems = props.removals.filter((r) =>  r.saleItem === props.removal.saleItem && r.category === props.removal.category)
-    console.log(sameCategoryItems);
     
     const daysUsedAllCategory = sameCategoryItems.filter((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) >= 0)).map((r) => (Date.parse(r.dateRemoved) - Date.parse(r.date) ) / (1000*60*60*24) + 1)
-    console.log(daysUsedAllCategory);
     
     const daysUsedAllCategoryAverage = Math.round(daysUsedAllCategory.reduce((total, day) => total + day, 0) / daysUsedAllCategory.length)
-    console.log(daysUsedAllCategoryAverage);
 
     const labels = ['All items average', props.removal.category + ' average', props.removal.name]
     const barData = [daysUsedAllItemsAverage, daysUsedAllCategoryAverage, daysUsed]
     const allAverages = [].concat(daysUsedAllCategoryAverage, daysUsedAllItemsAverage, daysUsed)
     
-
-
     const data = {
         labels: labels,
         datasets: [{
@@ -79,13 +75,14 @@ const EditRemoval = (props) => {
             display: false,
         },
         title: {
-            display: true,
+            display: false,
             fontSize: 12,
             text: props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'
         },
         scales: {
         yAxes: [{
             ticks: {
+            fontSize: 11,
             beginAtZero: true,
             min: 0,
             max: Math.ceil((Math.max(...allAverages) + 1) / 10) * 10
@@ -100,42 +97,64 @@ const EditRemoval = (props) => {
         }
     }
 
-    const [form, setForm] = useState(null)
+    const markUnSold = async (removal) => {
 
-    const markUnSold = (event, removal) => {
-        event.preventDefault()
+        try {
 
-        const updateObject = {
-            ...removal,
-            removed: false,
-            dateRemoved: null
+            const updateObject = {
+                ...removal,
+                removed: false,
+                dateRemoved: null
+            }
+    
+            setShowNotRemoved(false)
+            await props.updateRemoval(removal.id, updateObject)
+            
+        } catch (error) {
+            setShowNotRemoved(false)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
-
-        props.updateRemoval(removal.id, updateObject)
     }
     
-    const updateImage = (id, image, callback) => {
+    const updateImage = async (id, image) => {
 
         if (!image) {
-            return alert('Select image first!')
+            window.scrollTo(0, 0)
+            return props.showMessage('Error', 'Select image first!', 'negative') 
         }
 
-        let formData = new FormData()
-        formData.append('image', image)
-        props.updateImage(id, formData)
-        callback()
+        try {
+
+            let formData = new FormData()
+            formData.append('image', image)
+            setForm(null)
+            await props.updateRemovalImage(id, formData)  
+            
+        } catch (error) {
+            setForm(null)
+            props.showMessage('Error', error.response.data.error, 'negative')
+        }
+       
     }
     
-
-    const deleteImage = (event, id) => {
+    const deleteImage = async (event, id) => {
         event.preventDefault()
 
-        if (!props.removal.image) {
-            return alert('There is no image to delete')
-        } else { 
-            confirm('Are you sure you want to delete this picture') 
-            props.deleteImage(id)
+        if (!props.removal.image || props.removal.image.substr(props.removal.image.length - 18) === 'No-image-found.jpg') {
+            window.scrollTo(0, 0)
+            return props.showMessage('Error', 'There is no image to delete!', 'negative') 
+        } 
+        
+        if (confirm('Are you sure you want to delete this image')) 
+
+        try {
+            setForm(null) 
+            await props.deleteRemovalImage(id)
+        } catch (error) {
+            setForm(null)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
+
     }
 
     const deleteRemoval = async (event, id, name) => {
@@ -147,12 +166,13 @@ const EditRemoval = (props) => {
             await props.deleteRemoval(id, name)
             props.history.push('/')
         } catch (error) {
-            // here props.message
+            props.showMessage('Error', error.response.data.error, 'negative')
         } 
     }
 
     return(
         <div>
+            <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
             <div>
                 <Title title={props.removal.name} />
             </div>
@@ -162,7 +182,9 @@ const EditRemoval = (props) => {
                 <div className={classes.contentcontainer}>
                     <div className={classes.contentspacer}>
                         <div className={classes.content}>
-                            <h4>Details</h4>
+                            <div className={classes.contenttitle}>
+                                <h4>Details</h4>
+                            </div>
                             <ul>
                                 <li>Name: {props.removal.name}</li>
                                 <li>Quantity: {props.removal.quantity}</li>
@@ -170,19 +192,21 @@ const EditRemoval = (props) => {
                                 <li>Locations: {props.removal.location}</li>
                                 <li>Unit value: {props.removal.value}€</li>
                                 <li>Total value: {props.removal.totalValue}€</li>
-                                <li>Type: {props.removal.saleItem ? "Sell" : "Donate"}</li>
+                                <li>Type: {props.removal.saleItem ? <span><Icon name="money bill alternate" /> sell</span> : <span><Icon name="gift" /> donate</span>}</li>
                                 <li>Sold at: {props.removal.soldAt}</li>
                             </ul>
                         </div>
                         <div className={classes.content2}>
-                            <h4>Dimension</h4>
+                            <div className={classes.contenttitle}>
+                                <h4>Dimensions</h4>
+                            </div>
                             <ul>
-                                <li>Unit length: {props.removal.length}</li>
-                                <li>Unit width: {props.removal.width}</li>
-                                <li>Unit height: {props.removal.height}</li>
-                                <li>Total volume: {props.removal.cbm}</li>
-                                <li>Unit weight: {props.removal.weight}</li>
-                                <li>Total weight: {props.removal.totalWeight}</li>
+                                <li>Unit length: {props.removal.length} cm</li>
+                                <li>Unit width: {props.removal.width} cm</li>
+                                <li>Unit height: {props.removal.height} cm</li>
+                                <li>Total volume: {props.removal.cbm} m³</li>
+                                <li>Unit weight: {props.removal.weight} kg</li>
+                                <li>Total weight: {props.removal.totalWeight} kg</li>
                             </ul>
                         </div>
                     </div>
@@ -193,27 +217,41 @@ const EditRemoval = (props) => {
                 </div>
                         {props.removal.removed ?
                             <div className={classes.chart}>
-                                <Bar data={data} options={options} className={classes.bar}/>
+                                <h4>{props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'}</h4>
+                                <div className={classes.bar}>
+                                    <Bar data={data} options={options} />
+                                </div>  
                             </div>
                             :
-                            <p>This item is not yet removed</p>
+                            <div className={classes.notremoved}>
+                                <div><Icon color='red' name='x' size='huge' /></div>
+                                <div>Item is not yet removed</div>
+                            </div>
                             }
                 <div className={classes.actions}>
                     <h4>Actions</h4>
-                    <i>What you would like to do with removal?</i>
-                    {props.removal.removed ? 
-                    <div><Icon name='delete' /><button onClick={(event) => markUnSold(event, props.removal)}>Mark not removed</button></div> :
-                    <div><Icon name='money bill alternate outline' /><button onClick={() => props.initModal(props.removal)}>Mark removed</button></div>
-                    }
-                    <Icon name='edit' /><button onClick={() => setForm('editform')}>Edit removal details</button>
-                    <Icon name='image outline' /><button onClick={() => setForm('imageform')}>Edit removal image</button>
-                    <Icon name='trash alternate outline' /><button onClick={(event) => deleteRemoval(event, props.removal.id, props.removal.name)}>Delete removal</button>
-
+                    <div className={classes.actionbuttons}>
+                    {!props.removal.removed ?
+                        <button onClick={() => props.initModal(props.removal)} className={classes.actionbutton}><Icon color='green' name='checkmark' />Mark removed</button> : 
+                        <button onClick={() => setRemoveCancel(props.removal)} className={classes.actionbutton}><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>
+                        }
+                        <Confirm
+                        open={showNotRemoved}
+                        header={'Mark NOT removed'}
+                        confirmButton={'Yes'}
+                        content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} not removed?` : null}
+                        onCancel={() => setShowNotRemoved(false)}
+                        onConfirm={() => markUnSold(removalNotToRemove)}
+                    /> 
+                    <button onClick={() => setForm('editform')} className={classes.actionbutton} ><Icon name='edit' />Edit details</button>
+                    <button onClick={() => setForm('imageform')} className={classes.actionbutton}><Icon name='image outline' />Edit image</button>
+                    <button onClick={(event) => deleteRemoval(event, props.removal.id, props.removal.name)} className={classes.actionbutton}><div className={classes.not}><Icon name='trash alternate outline' />Delete removal</div></button>
+                    </div>
                 </div>
             </div>
             {!form ? null : form === 'editform' ? <EditRemovalForm user={props.logged_user} removal={props.removal} setBack={setForm}/> :
              form === 'imageform' ?
-             <PictureForm label={'Select new picture'} title={'Edit removal picture'} id={props.removal.id} delete={deleteImage} update={updateImage}/> :
+             <PictureForm label={'Select new picture'} title={'Edit removal image'} id={props.removal.id} delete={deleteImage} update={updateImage} setBack={setForm}/> :
              null }
         </div>
     )
@@ -222,14 +260,15 @@ const EditRemoval = (props) => {
 const mapStateToProps = (state) => {
     return {
       logged_user: state.logged_user,
-      removals: state.removals
+      removals: state.removals,
+      notifications: state.notifications
     }
   }
 
 const mapDispatchToProps = {
     updateRemoval,
-    updateImage,
-    deleteImage,
+    updateRemovalImage,
+    deleteRemovalImage,
     deleteRemoval,
     showMessage,
     initModal

@@ -1,21 +1,98 @@
-.maintitle {
-    margin: 120px 180px 0px 180px;
-    background: green;
-}
-
-.mainh2 {
-    padding: 5px;
-    color: white;
+h4, .contenttitle h4 {
+    display: inline-block;
+    margin-top: 0;
+    margin-bottom: 0.4rem;
+    border-bottom: 2px solid #FF8C00;
 }
 
 .infoarea {
     display: flex;
-    justify-content: center;
-    margin-top: 50px;
+    justify-content: flex-start;
+    width: 75%;
+    margin: auto;
+    border: 2px solid black;
+    border-radius: 10px;
+    height: auto;
+    padding: 1rem 0 1rem 0;
+    margin-bottom: 50px;
+    
 }
 
-.content {
-    padding-right: 21px !important;
-    width: 600px !important;
+.image {
+    margin: 0 1rem;
+    max-width: 25%;
+    max-height: 300px;
+    border: 4px solid #FF8C00;
+    border-radius: 35px;
 }
 
+.contentcontainer {
+    border-left: 2px dotted #FF8C00;
+    border-right: 2px dotted #FF8C00;
+    border-radius: 10px;
+    width: 30%;
+    margin-right: 0.5rem;
+}
+
+.contentspacer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+.content, .content2 {
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem;
+}
+
+.content ul, .content2 ul {
+    margin: 0;
+    padding-left: 0;
+    padding-right: 1.5rem;
+    list-style-type: none;
+}
+
+.content ul li, .content2 ul li {
+    padding-bottom: 0.3rem;
+}
+
+.notes {
+    margin: auto;
+    padding-top: 0.3rem;
+    border-top: 2px dotted #FF8C00;
+    width: 25%;
+}
+
+.actions {
+    width: 18%;
+    padding: 0 1.5rem;
+    border-left: 2px dotted #FF8C00;
+    border-right: 2px dotted #FF8C00;
+    border-radius: 10px;
+    margin-right: 1.5rem;
+}
+
+.actionbuttons {
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+}
+
+.actionbutton {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor:pointer;
+    outline:none;
+    text-align: left;
+    padding-left: 0;
+    padding-bottom: 0.5rem;
+}
+
+.actionbutton:hover {
+    color: green;
+    text-decoration: underline;
+}

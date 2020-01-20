@@ -53,12 +53,12 @@ const RemovalForm = (props) => {
     
     // Input
     const name = useField('text', 'name', 'Name', '')
-    const quantity = useField('number', 'quantity', 'Quantity', '')
-    const length = useField('number', 'length', 'Length', '')
-    const width = useField('number', 'width', 'Width', '')
-    const height = useField('number', 'height', 'Heigth', '')
-    const weight = useField('number','weight', 'Weight', '')
-    const value = useField('number', 'value', 'Value', '')
+    const quantity = useField('number', 'quantity', 'Quantity', 0)
+    const length = useField('number', 'length', 'Length', 0)
+    const width = useField('number', 'width', 'Width', 0)
+    const height = useField('number', 'height', 'Heigth', 0)
+    const weight = useField('number','weight', 'Weight', 0)
+    const value = useField('number', 'value', 'Value', 0)
     const note = useField('text', 'note', 'Notes', '')
     const date = useField('date', 'date', 'Date', today)
     const dateRemoved = useField('date', 'dateRemoved', 'Date removed', today)
@@ -168,32 +168,32 @@ const RemovalForm = (props) => {
             <Form.Select fluid label='Removed already?' value={removed} options={removedTypes} onChange={handleRemovedChange} />
                 <Form.Field>
                     <label>Name</label>
-                    <input {...name.attributes} required></input>
+                    <input {...name.attributes} required />
                 </Form.Field>
                 <Form.Field>
                     <label>Quantity</label>
-                    <input {...quantity.attributes} required></input>
+                    <input {...quantity.attributes} required />
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
             <Form.Select fluid label='Category' value={category} options={sortedCategories} onChange={handleCategoryChange}/>
                 <Form.Field>
                     <label>Length (cm)</label>
-                    <input {...length.attributes}></input>
+                    <input {...length.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Width (cm)</label>
-                    <input {...width.attributes}></input>
+                    <input {...width.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Height (cm)</label>
-                    <input {...height.attributes}></input>
+                    <input {...height.attributes} />
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Weight (kg)</label>
-                    <input {...weight.attributes}></input>
+                    <input {...weight.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Value (€)</label>
@@ -205,11 +205,11 @@ const RemovalForm = (props) => {
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Notes</label>
-                    <input {...note.attributes}></input>
+                    <input {...note.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Date created</label>
-                    <input {...date.attributes} required max={today}></input>
+                    <input {...date.attributes} required max={today} />
                 </Form.Field>
                 <Form.Field>
                     <label>Date removed</label>
@@ -217,7 +217,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Image</label>
-                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])}></input>
+                    <input type="file" onChange={(e) => handleFileChange(e.target.files[0])} />
                 </Form.Field>
             </Form.Group>
             <Button.Group>

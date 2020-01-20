@@ -33,7 +33,6 @@ const SaleModal = (props) => {
 
             await props.updateRemoval(removal.id, updateObject)
             props.hideModal()
-            window.scrollTo(0, document.body.scrollHeight)
             
         } catch (error) {
             

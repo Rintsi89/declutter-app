@@ -22,7 +22,7 @@ const errorHandler = (error, request, response, next) => {
   } else if (error.name === 'JsonWebTokenError') {
     return response.status(401).json({ error: 'Invalid or missing token' })
   } else if (error instanceof multer.MulterError) {
-    return response.status(400).json({ error: 'Problem during file upload' })
+    return response.status(400).json({ error: 'Problem during file upload. Check your file size and file type' })
   }
 
   next(error)

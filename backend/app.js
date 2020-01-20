@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const removalRouter = require('./controllers/removals')
 const userRouter = require('./controllers/users')
 const loginRouter = require('./controllers/login')
-const { errorHandler, tokenExtractor } = require('./utils/middleware')
+const { errorHandler, tokenExtractor, requestLogger } = require('./utils/middleware')
 
 app.use(bodyParser.json())
 app.use(express.static('build')) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa

@@ -29,6 +29,7 @@ router.post('/', async (request, response, next) => {
     response.status(200).send({
       token,
       username: user.username,
+      email: user.email,
       name: user.name,
       locations: user.locations,
       image: user.image,

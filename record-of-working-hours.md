@@ -64,5 +64,8 @@
 | 15.1  | 6    | Working on main page CSS challenges and theme |
 |       | 0.5  | Came back to fix modal and place it into separate component. No commit on this one yet |
 | 16.1  | 6.5  | Working on main page functionalities and fix many issues. Also styling the page |
-| 17.1  | 3.5  | Styling individual removal page. Good practice of CSS and flexbox |   
-| tot   | 138  | 
+| 17.1  | 3.5  | Styling individual removal page. Good practice of CSS and flexbox |
+| 20.1  | 3.5  | Editing individual removal page. Now ready to proceed further |
+|       | 3    | Debugging Redux storage issues. Fixed. There was similar action names which create conflict! |
+|       | 1    | Started styling my account page  
+| tot   | 145.5| 

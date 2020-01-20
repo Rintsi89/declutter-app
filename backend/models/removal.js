@@ -16,7 +16,7 @@ const removalSchema = mongoose.Schema({
   soldAt: String,
   location: String,
   note: String,
-  image: String,
+  image: { type: String, default: 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' },
   removed: Boolean,
   date: String,
   dateRemoved: String,

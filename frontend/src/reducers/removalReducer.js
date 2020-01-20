@@ -9,13 +9,12 @@ const removalReducer = (state = [], action) => {
       return state.concat(action.data)
     case 'UPDATE_REMOVAL':
       return state.filter(removal => removal.id !== action.data.id).concat(action.data)
-    case 'UPDATE_IMAGE':
+    case 'UPDATE_REMOVAL_IMAGE':
       return state.filter(removal => removal.id !== action.data.id).concat(action.data)
-    case 'DELETE_IMAGE':
+    case 'DELETE_REMOVAL_IMAGE':
       return state.filter(removal => removal.id !== action.data.id).concat(action.data)
     case 'DELETE_REMOVAL':
-      const removalToDelete = action.data
-      return state.filter(removal => removal.id !== removalToDelete)
+      return state.filter(removal => removal.id !== action.data)
     default:
       return state
     }
@@ -53,23 +52,25 @@ export const updateRemoval = (id, removalObject) => {
   }
 }
 
-export const updateImage = (id, image) => {
+export const updateRemovalImage = (id, image) => {
   return async dispatch => {
     const removal = await removalService.updateImage(id, image)
     dispatch ({
-      type: 'UPDATE_IMAGE',
+      type: 'UPDATE_REMOVAL_IMAGE',
       data: removal
     })
+    dispatch(showMessage('Removal image updated', ` Image for ${removal.name} was updated successfully`, 'positive'))
   }
 }
 
-export const deleteImage = (id) => {
+export const deleteRemovalImage = (id) => {
   return async dispatch => {
     const removal = await removalService.deleteImage(id)
     dispatch ({
-      type: 'DELETE_IMAGE',
+      type: 'DELETE_REMOVAL_IMAGE',
       data: removal
     })
+    dispatch(showMessage('Removal image deleted', ` Image for ${removal.name} was deleted successfully`, 'positive'))
   }
 }
 

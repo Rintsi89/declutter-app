@@ -164,7 +164,7 @@ const RemovalTable = (props) => {
                         <td>
                             {!r.removed ?
                               <button className={classes.removebutton} onClick={() => props.initModal(r)}><Icon color='green' name='checkmark' />Mark removed</button>
-                            : <button className={classes.removebutton} onClick={() => setRemoveCancel(r)}><div className={classes.not}><Icon color='red' name='x' />Mark <span >not</span> removed</div> </button>}
+                            : <button className={classes.removebutton} onClick={() => setRemoveCancel(r)}><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>}
                             <Confirm
                                 open={showNotRemoved}
                                 header={'Mark NOT removed'}

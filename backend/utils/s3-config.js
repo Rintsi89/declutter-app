@@ -31,7 +31,7 @@ const upload = multer({
       callback(null, createRandomName(100, file.originalname))
     }
   }),
-  limits: { fileSize: 3000000 },
+  limits: { fileSize: 4000000 },
   fileFilter: fileFilter
 })
 

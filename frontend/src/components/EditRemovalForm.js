@@ -61,7 +61,10 @@ const EditRemovalForm = (props) => {
     }
 
     // Reset form to initial state
-    const resetForm = () => {
+    const resetForm = (event) => {
+
+        event.preventDefault()
+
         name.initialize()
         quantity.initialize()
         length.initialize()
@@ -75,6 +78,8 @@ const EditRemovalForm = (props) => {
         setCategory(props.removal.category)
         setSaleLocation(props.removal.soldAt)
         setType(props.removal.saleItem)
+
+        props.setBack(null)
     }
     
     const updateRemoval = async (id) => {
@@ -87,7 +92,7 @@ const EditRemovalForm = (props) => {
                 quantity: quantity.attributes.value,
                 category: category,
                 weight: weight.attributes.value,
-                totalweight: weight.attributes.value * quantity.attributes.value,
+                totalWeight: weight.attributes.value * quantity.attributes.value,
                 value: !type ? 0 : value.attributes.value,
                 totalValue: value.attributes.value * quantity.attributes.value,
                 date: date.attributes.value,
@@ -101,13 +106,12 @@ const EditRemovalForm = (props) => {
                 cbm: (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2)
             }
 
-            props.updateRemoval(id, updateObject)
+            await props.updateRemoval(id, updateObject)
+            props.setBack(null)
         
         } catch (exception) {
-        //   title.reset()
-        //   author.reset()
-        //   url.reset()
-        //   props.showMessage('Error', 'No blog was added, something went wrong', 'error', 5000)
+            props.setBack(null)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
       }
 
@@ -115,37 +119,37 @@ const EditRemovalForm = (props) => {
       <div>
         <div className={classes.container}>
         <div className={classes.formarea}>
-        <h3>Edit removal</h3>
+        <h3 className={classes.title}>Edit removal</h3>
         <p>Fill in the details <em><b>per unit</b></em></p>
         <Form onSubmit={() => updateRemoval(props.removal.id)}>
             <Form.Group widths='equal'>
             <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} required />
                 <Form.Field>
                     <label>Name</label>
-                    <input {...name.attributes}></input>
+                    <input {...name.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Quantity</label>
-                    <input {...quantity.attributes}></input>
+                    <input {...quantity.attributes} />
                 </Form.Field>
                 <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange}/>
             </Form.Group>
             <Form.Group widths='equal'>
                 <Form.Field>
                     <label>Length (cm)</label>
-                    <input {...length.attributes}></input>
+                    <input {...length.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Width (cm)</label>
-                    <input {...width.attributes}></input>
+                    <input {...width.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Height (cm)</label>
-                    <input {...height.attributes}></input>
+                    <input {...height.attributes} />
                 </Form.Field>
                 <Form.Field>
                     <label>Weight (kg)</label>
-                    <input {...weight.attributes}></input>
+                    <input {...weight.attributes} />
                 </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
@@ -159,13 +163,13 @@ const EditRemovalForm = (props) => {
                 </Form.Field>
                 <Form.Field>
                     <label>Notes</label>
-                    <input {...note.attributes}></input>
+                    <input {...note.attributes} />
                 </Form.Field> 
             </Form.Group>
             <Form.Group>
                 <Form.Field>
                     <label>Date created</label>
-                    <input {...date.attributes} max={today}></input>
+                    <input {...date.attributes} max={today} />
                 </Form.Field>
                 <Form.Field>
                     <label>Date removed</label>
@@ -173,9 +177,9 @@ const EditRemovalForm = (props) => {
                 </Form.Field>
             </Form.Group>
             <Button.Group>
-                    <Button onClick={resetForm}>Cancel</Button>
+                    <Button onClick={(event) => resetForm(event)}>Cancel</Button>
                     <Button.Or />
-                    <Button positive>Save</Button>
+                    <Button primary>Save</Button>
                 </Button.Group>
         </Form>
         </div>

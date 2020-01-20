@@ -20,7 +20,7 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
 
   try {
 
-    let imagelink = !request.file ? null : request.file.location
+    let imagelink = !request.file ? 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' : request.file.location
     const body = { ...request.body, image: imagelink }
 
     const removal = new Removal(body)
@@ -138,7 +138,7 @@ router.delete('/:id/picture/remove', async (request, response, next) => {
       })
 
     const key = removalToUpdate.image.substring(removalToUpdate.image.lastIndexOf('/') + 1)
-    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: null } }, { new: true })
+    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' } }, { new: true })
 
     S3.deleteImage(key)
 
