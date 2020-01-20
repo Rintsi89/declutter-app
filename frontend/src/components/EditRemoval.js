@@ -186,14 +186,14 @@ const EditRemoval = (props) => {
                                 <h4>Details</h4>
                             </div>
                             <ul>
-                                <li>Name: {props.removal.name}</li>
-                                <li>Quantity: {props.removal.quantity}</li>
-                                <li>Category: {props.removal.category}</li>
-                                <li>Locations: {props.removal.location}</li>
-                                <li>Unit value: {props.removal.value}€</li>
-                                <li>Total value: {props.removal.totalValue}€</li>
-                                <li>Type: {props.removal.saleItem ? <span><Icon name="money bill alternate" /> sell</span> : <span><Icon name="gift" /> donate</span>}</li>
-                                <li>Sold at: {props.removal.soldAt}</li>
+                                <li><span className={classes.subject}>Name:</span> {props.removal.name}</li>
+                                <li><span className={classes.subject}>Quantity:</span> {props.removal.quantity}</li>
+                                <li><span className={classes.subject}>Locations:</span> {props.removal.location}</li>
+                                <li><span className={classes.subject}>Category:</span> {props.removal.category}</li>
+                                <li><span className={classes.subject}>Unit value:</span> {props.removal.value}€</li>
+                                <li><span className={classes.subject}>Total value:</span> {props.removal.totalValue}€</li>
+                                <li><span className={classes.subject}>Type:</span> {props.removal.saleItem ? <span><Icon name="money bill alternate" /> sell</span> : <span><Icon name="gift" /> donate</span>}</li>
+                                <li><span className={classes.subject}>Sold at:</span> {props.removal.soldAt}</li>
                             </ul>
                         </div>
                         <div className={classes.content2}>
@@ -201,12 +201,12 @@ const EditRemoval = (props) => {
                                 <h4>Dimensions</h4>
                             </div>
                             <ul>
-                                <li>Unit length: {props.removal.length} cm</li>
-                                <li>Unit width: {props.removal.width} cm</li>
-                                <li>Unit height: {props.removal.height} cm</li>
-                                <li>Total volume: {props.removal.cbm} m³</li>
-                                <li>Unit weight: {props.removal.weight} kg</li>
-                                <li>Total weight: {props.removal.totalWeight} kg</li>
+                                <li><span className={classes.subject}>Unit length:</span> {props.removal.length} cm</li>
+                                <li><span className={classes.subject}>Unit width:</span> {props.removal.width} cm</li>
+                                <li><span className={classes.subject}>Unit height:</span> {props.removal.height} cm</li>
+                                <li><span className={classes.subject}>Total volume:</span> {props.removal.cbm} m³</li>
+                                <li><span className={classes.subject}>Unit weight:</span> {props.removal.weight} kg</li>
+                                <li><span className={classes.subject}>Total weight:</span> {props.removal.totalWeight} kg</li>
                             </ul>
                         </div>
                     </div>

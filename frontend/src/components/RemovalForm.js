@@ -149,11 +149,11 @@ const RemovalForm = (props) => {
             formData.set('cbm', (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2))
             formData.append('image', image)
             
-            props.createRemoval(formData)
+            await props.createRemoval(formData)
             resetAndHide()
     
         } catch (exception) {
-            window.scrollTo(0, 0)
+            window.scrollTo(0, document.body.scrollHeight)
             props.showMessage('Error', error.response.data.error, 'negative')
         }
       }

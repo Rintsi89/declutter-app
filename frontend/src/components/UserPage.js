@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { Image, Item, Icon } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import { updateImage, deleteImage } from '../reducers/userReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import { withRouter } from "react-router"
+import FlashMessage from './Flash/FlashMessage'
 import Title from './Title'
 import PasswordForm from './PasswordForm'
 import PictureForm from './PictureForm'
@@ -45,7 +47,6 @@ const UserPage = (props) => {
 
         if (!props.logged_user.image || props.logged_user.image.substr(props.logged_user.image.length - 18) === 'No-image-found.jpg') {
             return alert('There is no image to delete')
-
         } 
         
         if (confirm('Are you sure you want to delete this image')) 
@@ -63,23 +64,26 @@ const UserPage = (props) => {
 
     return (
         <div>
-            <Title title={'My account'} />
+            <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
+            <div>
+                <Title title={'My account'} />
+            </div>
             <div className={classes.infoarea}>
                     <img size='small' src={props.logged_user.image} className={classes.image}/>
                     <div className={classes.contentcontainer}>
                         <div className={classes.contentspacer}>
                             <div className={classes.content}>
                                 <div >
-                                    <h4 className={classes.contenttitle}>Details</h4>
+                                    <h4>Details</h4>
                                 </div>
                                 <ul>
-                                    <li>Username: {props.logged_user.username}</li>
-                                    <li>Name: {props.logged_user.name}</li>
-                                    <li>Email: {props.logged_user.email}</li>
+                                    <li><span className={classes.subject}>Username:</span> {props.logged_user.username}</li>
+                                    <li><span className={classes.subject}>Name:</span>  {props.logged_user.name}</li>
+                                    <li><span className={classes.subject}>Email:</span>  {props.logged_user.email}</li>
                                 </ul>
                             </div>
-                            <div className={classes.content2}>
-                                <div className={classes.contenttitle}>
+                            <div className={classes.content}>
+                                <div>
                                     <h4>Description</h4>
                                 </div>
                                 <ul>
@@ -92,19 +96,19 @@ const UserPage = (props) => {
                         <div className={classes.contentspacer}>
                             <div className={classes.content}>
                                 <div >
-                                    <h4 className={classes.contenttitle}>Locations</h4>
+                                    <h4>Locations</h4>
                                 </div>
                                 <ul>
-                                    <li>Own locations: {props.logged_user.locations.join(", ")}</li>
-                                    <li>Sale locations: {props.logged_user.saleLocations.join(", ")}</li>
+                                    <li><span className={classes.subject}>Own locations:</span> {props.logged_user.locations.join(", ")}</li>
+                                    <li><span className={classes.subject}>Sale locations:</span> {props.logged_user.saleLocations.map(l => l.text).join(", ")}</li>
                                 </ul>
                             </div>
-                            <div className={classes.content2}>
-                                <div className={classes.contenttitle}>
-                                    <h4>Description</h4>
+                            <div className={classes.content}>
+                                <div >
+                                    <h4>Categories</h4>
                                 </div>
                                 <ul>
-                                    <li>{props.logged_user.description}</li>
+                                    <li>{props.logged_user.categories.map(c => c.text).join(", ")}</li>
                                 </ul>
                             </div>
                         </div>
@@ -124,11 +128,11 @@ const UserPage = (props) => {
             </div>
             {!form ? null : form === 'passwordform' ? <PasswordForm /> :
              form === 'pictureform' ? <PictureForm id={props.logged_user.id} delete={deleteImage} label={'Select profile picture'} title={'Edit your profile picture'} update={updateImage} setBack={setForm}/> :
-             form === 'locationform' ? <LocationForm /> :
+             form === 'locationform' ? <LocationForm setBack={setForm} /> :
              form === 'salelocationform' ? <SaleLocationForm /> :
              form === 'deleteaccount' ? <DeleteAccountPage /> :
              form === 'categoryform' ?  <CategoryForm /> :
-             <EditForm />}
+             <EditForm setBack={setForm}/>}
         </div>
     )
 }
@@ -136,13 +140,15 @@ const UserPage = (props) => {
 const mapStateToProps = (state) => {
     return {
       logged_user: state.logged_user,
-      removals: state.removals
+      removals: state.removals,
+      notifications: state.notifications
     }
   }
 
 const mapDispatchToProps = {
     updateImage,
-    deleteImage
+    deleteImage,
+    showMessage
 }
 
 const ConnectedUserPage = connect(

@@ -67,5 +67,6 @@
 | 17.1  | 3.5  | Styling individual removal page. Good practice of CSS and flexbox |
 | 20.1  | 3.5  | Editing individual removal page. Now ready to proceed further |
 |       | 3    | Debugging Redux storage issues. Fixed. There was similar action names which create conflict! |
-|       | 1    | Started styling my account page  
-| tot   | 145.5| 
+|       | 1    | Started styling my account page |
+|       | 1.5  | Continued styling my account forms later in the evening | 
+| tot   | 147  | 

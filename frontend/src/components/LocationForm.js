@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Form, Icon } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { addLocation, deleteLocation } from '../reducers/userReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import classes from '../styles/EditForm.module.css'
 import classes2 from '../styles/Table.module.css'
 
@@ -12,25 +13,30 @@ const LocationForm = (props) => {
 
     const resetForm = (event) => {
         event.preventDefault()
+
         location.reset()
+        props.setBack(null)
+        window.scrollTo(0, 0)
     }
 
     const addLocation = async (id) => {
-        event.preventDefault()
 
         if (!location.attributes.value) {
             return alert('You must type location name!')
         }
 
-        const newLocation = {
-            location: location.attributes.value
-        }
-
         try {
+
+            const newLocation = {
+                location: location.attributes.value
+            }
+
+            props.setBack(null)
+            window.scrollTo(0, 0)
             await props.addLocation(id, newLocation)
-            location.reset()
         } catch (error) {
-            // here props.message
+            window.scrollTo(0, 0)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
         
     }
@@ -41,9 +47,12 @@ const LocationForm = (props) => {
         if (confirm(`Are you sure you want to delete ${location}`))
      
         try {
+            props.setBack(null)
+            window.scrollTo(0, 0)
             await props.deleteLocation(id, { location })
         } catch (error) {
-            // here props.message
+            window.scrollTo(0, 0)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
         
     }
@@ -51,29 +60,29 @@ const LocationForm = (props) => {
     return (
         <div className={classes.container}>
             <div className={classes.formarea}>
-            <h2>Edit your locations</h2>
-            <p>Your current locations are:</p>
-            <ul>
-                {props.logged_user.locations.map(l => 
-                <li key={l}>
-                    {l} 
-                    <button className={classes2.button} onClick={() => deleteLocation(event, props.logged_user.id, l)}>
-                    <Icon name="trash alternate outline"></Icon></button>
-                </li>)}
-            </ul>
-            <Form onSubmit={() => addLocation(props.logged_user.id)}>
-                <Form.Group>
-                    <Form.Field width={5}>
-                    <label>Add new location</label>
-                    <input {...location.attributes}></input>
-                    </Form.Field>
-                </Form.Group>
-                <Button.Group>
-                    <Button onClick={(event) => resetForm(event)}>Cancel</Button>
-                    <Button.Or />
-                    <Button positive>Save</Button>
-                </Button.Group>
-            </Form>
+                <h3 className={classes.title}>Edit your locations</h3>
+                <p>Your current locations are:</p>
+                <ul>
+                    {props.logged_user.locations.map(l => 
+                    <li key={l}>
+                        {l} 
+                        <button className={classes2.button} onClick={() => deleteLocation(event, props.logged_user.id, l)}>
+                        <Icon name="trash alternate outline"></Icon></button>
+                    </li>)}
+                </ul>
+                <Form onSubmit={() => addLocation(props.logged_user.id)}>
+                    <Form.Group>
+                        <Form.Field width={5}>
+                        <label>Add new location</label>
+                        <input {...location.attributes} required />
+                        </Form.Field>
+                    </Form.Group>
+                    <Button.Group>
+                        <Button onClick={(event) => resetForm(event)}>Cancel</Button>
+                        <Button.Or />
+                        <Button primary>Save</Button>
+                    </Button.Group>
+                </Form>
             </div>
         </div>
     )
@@ -82,12 +91,14 @@ const LocationForm = (props) => {
 const mapStateToProps = (state) => {
     return {
       logged_user: state.logged_user,
+      notifications: state.notifications
     }
   }
 
 const mapDispatchToProps = {
     addLocation,
-    deleteLocation
+    deleteLocation,
+    showMessage
 }
 
 const ConnectedLocationForm= connect(

@@ -52,6 +52,10 @@ h4, .contenttitle h4 {
     padding-left: 1.5rem;
 }
 
+.subject {
+    font-weight: bold;
+}
+
 .content ul {
     border-right: 2px dotted #FF8C00;
     padding-right: 1.5rem;

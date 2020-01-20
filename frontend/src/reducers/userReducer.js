@@ -12,7 +12,8 @@ const userReducer = (state = null, action) => {
       ...state,
       name: action.data.name,
       username: action.data.username,
-      description: action.data.description
+      description: action.data.description,
+      email: action.data.email
     }
     window.localStorage.setItem('loggedUser', JSON.stringify(updatedUser))
     return updatedUser
@@ -116,6 +117,7 @@ export const updateUser = (id, userObject) => {
       type: 'UPDATE_USER',
       data: user
     })
+    dispatch(showMessage('User updated', `${user.username} was updated successfully`, 'positive'))
   }
 }
 
@@ -135,6 +137,7 @@ export const updateImage = (id, image) => {
       type: 'UPDATE_IMAGE',
       data: user
     })
+    dispatch(showMessage('User image updated', ` Image for ${user.username} was updated successfully`, 'positive'))
   }
 }
 
@@ -145,6 +148,7 @@ export const deleteImage = (id) => {
       type: 'DELETE_IMAGE',
       data: user
     })
+    dispatch(showMessage('User image deleted', ` Image for ${user.username} was deleted successfully`, 'positive'))
   }
 }
 
@@ -155,6 +159,7 @@ export const addLocation = (id, newLocation) => {
       type: 'ADD_LOCATION',
       data: user
     })
+    dispatch(showMessage('Location updated', ` Location ${newLocation.location} added successfully`, 'positive'))
   }
 }
 
@@ -165,6 +170,7 @@ export const deleteLocation = (id, location) => {
       type: 'DELETE_LOCATION',
       data: user
     })
+    dispatch(showMessage('Location deleted', ` Location ${location.location} deleted successfully`, 'positive'))
   }
 }
 

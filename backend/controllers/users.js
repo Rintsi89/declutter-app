@@ -198,7 +198,8 @@ router.patch('/:id', async (request, response, next) => {
     const updateObject = {
       username: request.body.username,
       name: request.body.name,
-      description: request.body.description
+      email: request.body.email,
+      description: request.body.description,
     }
 
     if (!user) {
@@ -229,7 +230,7 @@ router.put('/:id/picture/add', S3.upload.single('image'), async (request, respon
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
-    let imagelink = !request.file ? null : request.file.location
+    let imagelink = !request.file ? 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' : request.file.location
 
     const updateObject = {
       image: imagelink,
@@ -270,7 +271,7 @@ router.delete('/:id/picture/remove', async (request, response, next) => {
       })
     }
 
-    const updatedUser = await User.findByIdAndUpdate(user.id, { $set: { image: null } }, { new: true })
+    const updatedUser = await User.findByIdAndUpdate(user.id, { $set: { image: 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' } }, { new: true })
     S3.deleteImage(key)
 
     response.status(200).json(updatedUser)
