@@ -117,7 +117,10 @@ const RemovalForm = (props) => {
         setRemoved(null)
     }
 
-    const resetAndHide = () => {
+    const resetAndHide = (event) => {
+
+        event.preventDefault()
+
         resetForm()
         props.hide()
         window.scrollTo(0, document.body.scrollHeight)
@@ -221,7 +224,7 @@ const RemovalForm = (props) => {
                 </Form.Field>
             </Form.Group>
             <Button.Group>
-                    <Button onClick={resetAndHide}>Cancel</Button>
+                    <Button onClick={(event) => resetAndHide(event)}>Cancel</Button>
                     <Button.Or />
                     <Button primary>Save</Button>
             </Button.Group>

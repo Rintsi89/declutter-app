@@ -36,6 +36,7 @@ router.post('/', async (request, response, next) => {
       email,
       locations,
       passwordHash,
+      image: 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg'
     })
 
     const savedUser = await user.save()
@@ -483,7 +484,7 @@ router.put('/:id/delete', async (request, response, next) => {
     }
 
     await User.findByIdAndUpdate(user.id, { $set: { active: false } })
-    response.status(204).end()
+    response.status(200).json({ message: 'Your account has been deleted' })
   } catch (error) {
     next(error)
   }

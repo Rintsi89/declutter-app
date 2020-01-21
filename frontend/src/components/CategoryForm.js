@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Button, Form, Icon } from 'semantic-ui-react'
 import { useField } from '../hooks'
 import { addCategory, deleteCategory } from '../reducers/userReducer'
+import { showMessage } from '../reducers/notificationReducer'
 import classes from '../styles/EditForm.module.css'
 import classes2 from '../styles/Table.module.css'
 
@@ -12,7 +13,10 @@ const CategoryForm = (props) => {
 
     const resetForm = (event) => {
         event.preventDefault()
+
         category.reset()
+        props.setBack(null)
+        window.scrollTo(0, 0)
     }
 
     const addCategory = async (id) => {
@@ -22,17 +26,21 @@ const CategoryForm = (props) => {
             return alert('You must type category name!')
         }
 
-        const newCategory = {
-            key: category.attributes.value,
-            text: category.attributes.value,
-            value: category.attributes.value
-        }
-
         try {
+
+            const newCategory = {
+                key: category.attributes.value,
+                text: category.attributes.value,
+                value: category.attributes.value
+            }
+
+            props.setBack(null)
+            window.scrollTo(0, 0)
             await props.addCategory(id, newCategory)
-            category.reset()
+
         } catch (error) {
-            // here props.message
+            window.scrollTo(0, 0)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
         
     }
@@ -43,9 +51,12 @@ const CategoryForm = (props) => {
         if (confirm(`Are you sure you want to delete ${category}`))
      
         try {
+            props.setBack(null)
+            window.scrollTo(0, 0)
             await props.deleteCategory(id, { category: category })
         } catch (error) {
-            // here props.message
+            window.scrollTo(0, 0)
+            props.showMessage('Error', error.response.data.error, 'negative')
         }
         
     }
@@ -53,29 +64,30 @@ const CategoryForm = (props) => {
     return (
         <div className={classes.container}>
             <div className={classes.formarea}>
-            <h2>Edit your categories</h2>
-            <p>Your current categories are:</p>
-            <ul>
-                {props.logged_user.categories.map(c => 
-                <li key={c.value}>
-                    {c.value} 
-                    <button className={classes2.button} onClick={() => deleteCategory(event, props.logged_user.id, c.value)}>
-                    <Icon name="trash alternate outline"></Icon></button>
-                </li>)}
-            </ul>
-            <Form onSubmit={() => addCategory(props.logged_user.id)}>
-                <Form.Group>
-                    <Form.Field width={5}>
-                    <label>Add new category</label>
-                    <input {...category.attributes}></input>
-                    </Form.Field>
-                </Form.Group>
-                <Button.Group>
-                    <Button onClick={(event) => resetForm(event)}>Cancel</Button>
-                    <Button.Or />
-                    <Button positive>Save</Button>
-                </Button.Group>
-            </Form>
+                <h3 className={classes.title}>Edit your categories</h3>
+                <p><em><b>Your current categories are:</b></em></p>
+                <ul className={classes.locations}>
+                    {props.logged_user.categories.map(c => c.value).sort().map(c => 
+                    <li key={c}>
+                        {c} 
+                        <button className={classes2.button} onClick={() => deleteCategory(event, props.logged_user.id, c)}>
+                            <Icon name="trash alternate outline" />
+                        </button>
+                    </li>)}
+                </ul>
+                <Form onSubmit={() => addCategory(props.logged_user.id)}>
+                    <Form.Group>
+                        <Form.Field width={5}>
+                        <label>Add new category</label>
+                        <input {...category.attributes} required />
+                        </Form.Field>
+                    </Form.Group>
+                    <Button.Group>
+                        <Button onClick={(event) => resetForm(event)}>Cancel</Button>
+                        <Button.Or />
+                        <Button primary>Save</Button>
+                    </Button.Group>
+                </Form>
             </div>
         </div>
     )
@@ -84,12 +96,14 @@ const CategoryForm = (props) => {
 const mapStateToProps = (state) => {
     return {
       logged_user: state.logged_user,
+      notifications: state.notifications
     }
   }
 
 const mapDispatchToProps = {
     addCategory,
-    deleteCategory
+    deleteCategory,
+    showMessage
 }
 
 const ConnectedCategoryForm= connect(

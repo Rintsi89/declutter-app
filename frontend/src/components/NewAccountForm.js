@@ -35,7 +35,7 @@ const createUser = async (event) => {
         return props.showMessage('Password mismatch', 'Check that password is typed correctly ', 'negative')
     }
 
-    userService.create(newUser)
+    await userService.create(newUser)
     props.showMessage('Verification email sent', `Verification email has been send to ${email.attributes.value}. Please verify your account and log in`, 'positive')
     username.reset()
     password.reset()

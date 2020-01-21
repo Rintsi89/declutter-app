@@ -61,13 +61,13 @@ const LocationForm = (props) => {
         <div className={classes.container}>
             <div className={classes.formarea}>
                 <h3 className={classes.title}>Edit your locations</h3>
-                <p>Your current locations are:</p>
-                <ul>
-                    {props.logged_user.locations.map(l => 
+                <p><em><b>Your current locations are:</b></em></p>
+                <ul className={classes.locations}> 
+                    {props.logged_user.locations.sort().map(l => 
                     <li key={l}>
                         {l} 
                         <button className={classes2.button} onClick={() => deleteLocation(event, props.logged_user.id, l)}>
-                        <Icon name="trash alternate outline"></Icon></button>
+                        <Icon name="trash alternate outline" /></button>
                     </li>)}
                 </ul>
                 <Form onSubmit={() => addLocation(props.logged_user.id)}>

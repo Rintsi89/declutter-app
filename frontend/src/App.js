@@ -45,7 +45,6 @@ const App = (props) => {
   return (
     <div className={classes.main}>
       <Router>
-        
           <Header />
           {/* This add extra spacer after fixed header so elements underneath it can refer their margins to this */}
           <div className={classes.spacer}>

@@ -74,7 +74,10 @@ const userReducer = (state = null, action) => {
     window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedCategory))
     return updatedUserWithDeletedCategory
   case 'UNSET_USER':
-  return null  
+    window.localStorage.removeItem(
+      'loggedUser', JSON.stringify(state)
+    )
+    return null
   default:
     return state
   }
@@ -181,6 +184,7 @@ export const addSaleLocation = (id, newSaleLocation) => {
       type: 'ADD_SALE_LOCATION',
       data: user
     })
+    dispatch(showMessage('Sale location updated', ` Sale location ${newSaleLocation.value} added successfully`, 'positive'))
   }
 }
 
@@ -191,6 +195,7 @@ export const deleteSaleLocation = (id, saleLocation) => {
       type: 'DELETE_SALE_LOCATION',
       data: user
     })
+    dispatch(showMessage('Sale location deleted', ` Sale location ${saleLocation.saleLocation} deleted successfully`, 'positive'))
   }
 }
 
@@ -201,6 +206,7 @@ export const addCategory = (id, newCategory) => {
       type: 'ADD_CATEGORY',
       data: user
     })
+    dispatch(showMessage('Category updated', `Category ${newCategory.value} added successfully`, 'positive'))
   }
 }
 
@@ -211,6 +217,7 @@ export const deleteCategory = (id, category) => {
       type: 'DELETE_CATEGORY',
       data: user
     })
+    dispatch(showMessage('Category deleted', `Category ${category.category} deleted successfully`, 'positive'))
   }
 }
 

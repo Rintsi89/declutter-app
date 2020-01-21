@@ -26,7 +26,6 @@ const errorHandler = (error, request, response, next) => {
   } else if (error instanceof multer.MulterError) {
     return response.status(400).json({ error: 'Problem during file upload. Check your file size and file type' })
   }
-
   next(error)
 }
 

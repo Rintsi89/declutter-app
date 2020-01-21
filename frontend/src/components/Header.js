@@ -1,6 +1,6 @@
 import React from 'react'
 import { withRouter } from "react-router"
-import { Icon, Button } from 'semantic-ui-react'
+import { Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logOutUser } from '../reducers/userReducer'
@@ -10,11 +10,6 @@ import classes from '../styles/Header.module.css'
 const Header = (props) => {
 
     const handleLogOut = () => {
-
-        const user = props.logged_user
-        window.localStorage.removeItem(
-          'loggedUser', JSON.stringify(user)
-        )
         props.logOutUser()
         props.history.push('/login')
       }

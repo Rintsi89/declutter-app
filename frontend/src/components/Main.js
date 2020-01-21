@@ -9,6 +9,10 @@ import classes from '../styles/Main.module.css'
 
 const Main = (props) => {
 
+    if (!props.removals) {
+        return null
+    }
+
     const categories = [...new Set(props.removals.map(r => r.category))]
     const removedItems = props.removals.filter(r => r.removed)
 

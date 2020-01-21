@@ -69,7 +69,7 @@ const UserPage = (props) => {
                 <Title title={'My account'} />
             </div>
             <div className={classes.infoarea}>
-                    <img size='small' src={props.logged_user.image} className={classes.image}/>
+                    <img src={props.logged_user.image} className={classes.image}/>
                     <div className={classes.contentcontainer}>
                         <div className={classes.contentspacer}>
                             <div className={classes.content}>
@@ -99,8 +99,8 @@ const UserPage = (props) => {
                                     <h4>Locations</h4>
                                 </div>
                                 <ul>
-                                    <li><span className={classes.subject}>Own locations:</span> {props.logged_user.locations.join(", ")}</li>
-                                    <li><span className={classes.subject}>Sale locations:</span> {props.logged_user.saleLocations.map(l => l.text).join(", ")}</li>
+                                    <li><span className={classes.subject}>Own locations:</span> {props.logged_user.locations.sort().join(", ")}</li>
+                                    <li><span className={classes.subject}>Sale locations:</span> {props.logged_user.saleLocations.map(l => l.text).sort().join(", ")}</li>
                                 </ul>
                             </div>
                             <div className={classes.content}>
@@ -108,7 +108,7 @@ const UserPage = (props) => {
                                     <h4>Categories</h4>
                                 </div>
                                 <ul>
-                                    <li>{props.logged_user.categories.map(c => c.text).join(", ")}</li>
+                                    <li>{props.logged_user.categories.map(c => c.text).sort().join(", ")}</li>
                                 </ul>
                             </div>
                         </div>
@@ -126,12 +126,12 @@ const UserPage = (props) => {
                         </div>
                     </div>
             </div>
-            {!form ? null : form === 'passwordform' ? <PasswordForm /> :
+            {!form ? null : form === 'passwordform' ? <PasswordForm setBack={setForm}/> :
              form === 'pictureform' ? <PictureForm id={props.logged_user.id} delete={deleteImage} label={'Select profile picture'} title={'Edit your profile picture'} update={updateImage} setBack={setForm}/> :
              form === 'locationform' ? <LocationForm setBack={setForm} /> :
-             form === 'salelocationform' ? <SaleLocationForm /> :
-             form === 'deleteaccount' ? <DeleteAccountPage /> :
-             form === 'categoryform' ?  <CategoryForm /> :
+             form === 'salelocationform' ? <SaleLocationForm setBack={setForm} /> :
+             form === 'deleteaccount' ? <DeleteAccountPage setBack={setForm}/> :
+             form === 'categoryform' ?  <CategoryForm setBack={setForm}/> :
              <EditForm setBack={setForm}/>}
         </div>
     )
