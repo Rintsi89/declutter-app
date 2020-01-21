@@ -155,7 +155,7 @@ const RemovalForm = (props) => {
             await props.createRemoval(formData)
             resetAndHide()
     
-        } catch (exception) {
+        } catch (error) {
             window.scrollTo(0, document.body.scrollHeight)
             props.showMessage('Error', error.response.data.error, 'negative')
         }

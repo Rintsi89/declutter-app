@@ -9,7 +9,7 @@ import classes from '../styles/Gallery.module.css'
 const Gallery = (props) => {
 
     const [currentPage, setCurrentPage] = useState(1)
-    const [imagesPerPage] = useState(4)
+    const [imagesPerPage] = useState(24)
     const indexOfLastImage = currentPage * imagesPerPage
     const indexOfFirstImage = indexOfLastImage- imagesPerPage
     const removalsWithImage = props.removals.filter(r => !r.image ? false : true )
@@ -18,16 +18,17 @@ const Gallery = (props) => {
     // Change page
     const paginate = (pageNumber) => setCurrentPage(pageNumber)
      
-
     if (!props) {
         return null
     }
 
     const projectCards = () => {
-          return currentImages.map(r => 
-                <Card key={r.name} color='green' header={<Link to={`/removals/${r.id}`}>{r.name}</Link>} image={r.image} />
+          return currentImages.map(r =>
+                <Card key={r.name} color='green' header={r.name} meta={r.date} image={r.image} className={classes.card} />
           )
       }
+
+    //   {<Link to={`/removals/${r.id}`}>{r.name}</Link>}
 
     return (
         <div>
@@ -35,9 +36,9 @@ const Gallery = (props) => {
                 <Title title={'My gallery'} />
             </div>
             <div className={classes.gallery}>
-            <Card.Group itemsPerRow={4} >
-                {projectCards()}
-            </Card.Group>
+                <Card.Group>
+                    {projectCards()}
+                </Card.Group>
             </div>
             <Pagination rowsPerPage={imagesPerPage} totalRows={removalsWithImage.length} paginate={paginate}/>
         </div>

@@ -1,4 +1,23 @@
 .gallery {
     margin: 50px auto;
-    width: 65%;
+    width: 75%;
+
+}
+
+.gallery > div {
+    display: flex !important;
+    justify-content: center !important;
+}
+
+.card {
+    height: 300px !important;
+    width: 17% !important;
+}
+
+.card > div {
+    height: 65% !important;
+}
+
+.card img {
+    height: 100% !important;
 }

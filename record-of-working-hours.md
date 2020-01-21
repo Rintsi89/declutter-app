@@ -68,5 +68,9 @@
 | 20.1  | 3.5  | Editing individual removal page. Now ready to proceed further |
 |       | 3    | Debugging Redux storage issues. Fixed. There was similar action names which create conflict! |
 |       | 1    | Started styling my account page |
-|       | 1.5  | Continued styling my account forms later in the evening | 
-| tot   | 147  | 
+|       | 1.5  | Continued styling my account forms later in the evening |
+| 21.1  | 1.5  | Styling my account page |
+|       | 0.5  | Fixing issues with delete account functionality |
+|       | 3.5  | Solving problem with redirection after deleting user account. Chatting in Telegram. No 100% perfect solution found but a work-around |
+|       | 1    | Styling gallery page |
+| tot   | 153.5| 

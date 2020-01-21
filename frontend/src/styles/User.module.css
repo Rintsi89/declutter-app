@@ -11,14 +11,10 @@
     
 }
 
-.icon {
-    width: 20%;
-}
-
 .image {
     margin: 0 1rem;
     max-width: 20%;
-    max-height: 300px;
+    max-height: 200px;
     border: 6px solid black;
     border-radius: 50%;
 }

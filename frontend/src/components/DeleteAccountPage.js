@@ -4,7 +4,6 @@ import { withRouter } from "react-router"
 import { Button, Form, ButtonGroup } from 'semantic-ui-react'
 import { deleteUser, logOutUser } from '../reducers/userReducer'
 import { showMessage } from '../reducers/notificationReducer'
-import userService from '../services/users'
 import { useField } from '../hooks'
 import classes from '../styles/EditForm.module.css'
 
@@ -21,7 +20,7 @@ const DeleteAccountPage = (props) => {
     }
 
     const logOut = () => {
-        props.logOutUser()
+        // This a controversial solution to redirecting but it does the job
         props.history.push('/login')
         location.reload()
     }
@@ -32,7 +31,7 @@ const DeleteAccountPage = (props) => {
 
         try {
             const passwordToSend = { password: password.attributes.value } 
-            await userService.deleteUser(id, passwordToSend)
+            await props.deleteUser(id, passwordToSend)
             logOut()
         } catch (error) {
             window.scrollTo(0, 0)

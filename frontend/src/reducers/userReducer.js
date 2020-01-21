@@ -74,9 +74,6 @@ const userReducer = (state = null, action) => {
     window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedCategory))
     return updatedUserWithDeletedCategory
   case 'UNSET_USER':
-    window.localStorage.removeItem(
-      'loggedUser', JSON.stringify(state)
-    )
     return null
   default:
     return state
@@ -102,6 +99,7 @@ export const logOutUser = () => {
     dispatch({
       type: 'UNSET_USER'
     })
+  window.localStorage.removeItem('loggedUser')
   dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
   }
 }
@@ -127,9 +125,10 @@ export const updateUser = (id, userObject) => {
 export const deleteUser = (id, password) => {
   return async dispatch => {
     await userService.deleteUser(id, password)
+    window.localStorage.removeItem('loggedUser')
     dispatch ({
       type: 'UNSET_USER',
-    })
+    })   
   }
 }
 
