@@ -8,6 +8,7 @@ const Mailer = require('../utils/mailer')
 // For AWS S3
 const S3 = require('../utils/s3-config')
 
+// This is not used in the application
 router.get('/', async (request, response, next) => {
   try {
     const users = await User.find({})
@@ -17,6 +18,7 @@ router.get('/', async (request, response, next) => {
   }
 })
 
+// Create user
 router.post('/', async (request, response, next) => {
 
   try {
@@ -86,7 +88,6 @@ router.get('/confirmation/:token', async (request, response, next) => {
 })
 
 // Request for link to reset password
-
 router.post('/forgotPassword', async (request, response, next) => {
 
   try {
@@ -132,7 +133,6 @@ router.post('/forgotPassword', async (request, response, next) => {
 })
 
 // Verify token to change password
-
 router.get('/reset/:token', async (request, response, next) => {
   try {
 
@@ -151,6 +151,7 @@ router.get('/reset/:token', async (request, response, next) => {
   }
 })
 
+// Reset password
 router.put('/resetPassword', async (request, response, next) => {
 
   try {
@@ -190,7 +191,7 @@ router.put('/resetPassword', async (request, response, next) => {
 
 })
 
-// Edit personal details (username, name and description)
+// Edit personal details (username, name, email and description)
 router.patch('/:id', async (request, response, next) => {
   try {
 
@@ -438,7 +439,6 @@ router.put('/:id/password', async (request, response, next) => {
   try {
 
     const { password, newPassword, newPassword2 } = request.body
-
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = request.params.id !== decodedToken.id ? null : await User.findById(decodedToken.id)
     const retypedCorrect = newPassword !== newPassword2 ? false : true

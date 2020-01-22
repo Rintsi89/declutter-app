@@ -1,0 +1,30 @@
+.gallery {
+    margin: 1.5rem auto;
+    width: 75%;
+}
+
+.gallery a {
+    font-size: 1.5rem; 
+}
+
+.gallery a:hover {
+    color: green;
+}
+
+.gallery > div {
+    display: flex !important;
+    justify-content: flex-start !important;
+}
+
+.card {
+    height: 300px !important;
+    width: 17% !important;
+}
+
+.card > div {
+    height: 65% !important;
+}
+
+.card img {
+    height: 100% !important;
+}

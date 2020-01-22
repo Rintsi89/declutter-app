@@ -24,7 +24,7 @@ const deleteUser = async (id, password) => {
   const config = {
     headers: { Authorization: token }
   }
-  
+
   const response = await axios.put(`${baseUrl}/${id}/delete`, password, config)
   return response.data
 }
@@ -41,7 +41,7 @@ const deleteImage = async (id) => {
   const config = {
     headers: { Authorization: token },
   }
-  
+
   const response = await axios.delete(`${baseUrl}/${id}/picture/remove`, config)
   return response.data
 }
@@ -83,7 +83,7 @@ const deleteSaleLocation = async (id, saleLocation) => {
 }
 
 const checkToken = async (token) => {
-  
+
   const response = await axios.get(`${baseUrl}/reset/${token}`)
   return response.data
 }
@@ -127,8 +127,8 @@ const deleteCategory = async (id, category) => {
 }
 
 
-export default { 
-  setToken, 
+export default {
+  setToken,
   create,
   update,
   forgotPassword,
@@ -143,5 +143,5 @@ export default {
   changePassword,
   addCategory,
   deleteCategory,
-  resetPassword   
+  resetPassword
 }

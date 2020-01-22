@@ -8,71 +8,53 @@ const userReducer = (state = null, action) => {
   case 'SET_USER':
     return action.data
   case 'UPDATE_USER':
-    const updatedUser = {
+    return {
       ...state,
       name: action.data.name,
       username: action.data.username,
       description: action.data.description,
       email: action.data.email
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUser))
-    return updatedUser
   case 'UPDATE_IMAGE':
-    const updatedUserWithImage = {
+    return {
       ...state,
       image: action.data.image
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithImage))
-    return updatedUserWithImage 
   case 'DELETE_IMAGE':
-    const updatedUserNoImage = {
+    return {
       ...state,
       image: action.data.image
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserNoImage))
-    return updatedUserNoImage
   case 'ADD_LOCATION':
-    const updatedUserWithNewLocation = {
+    return {
       ...state,
       locations: action.data.locations
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithNewLocation))
-    return updatedUserWithNewLocation
   case 'ADD_SALE_LOCATION':
-    const updatedUserWithNewSaleLocation = {
+    return {
       ...state,
       saleLocations: action.data.saleLocations
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithNewSaleLocation))
-    return updatedUserWithNewSaleLocation
   case 'DELETE_LOCATION':
-    const updatedUserWithDeletedLocation = {
+    return {
       ...state,
       locations: action.data.locations
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedLocation))
-    return updatedUserWithDeletedLocation
   case 'DELETE_SALE_LOCATION':
-    const updatedUserWithDeletedSaleLocation = {
+    return {
       ...state,
       saleLocations: action.data.saleLocations
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedSaleLocation))
-    return updatedUserWithDeletedSaleLocation
   case 'ADD_CATEGORY':
-    const updatedUserWithNewCategory = {
+    return {
       ...state,
       categories: action.data.categories
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithNewCategory))
-    return updatedUserWithNewCategory
   case 'DELETE_CATEGORY':
-    const updatedUserWithDeletedCategory = {
+    return {
       ...state,
       categories: action.data.categories
     }
-    window.localStorage.setItem('loggedUser', JSON.stringify(updatedUserWithDeletedCategory))
-    return updatedUserWithDeletedCategory
   case 'UNSET_USER':
     return null
   default:
@@ -95,12 +77,12 @@ export const loginUser = (credentials) => {
 }
 
 export const logOutUser = () => {
-  return async dispatch =>{
+  return async dispatch => {
     dispatch({
       type: 'UNSET_USER'
     })
-  window.localStorage.removeItem('loggedUser')
-  dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
+    window.localStorage.removeItem('loggedUser')
+    dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
   }
 }
 
@@ -114,6 +96,7 @@ export const initializeUser = (user) => {
 export const updateUser = (id, userObject) => {
   return async dispatch => {
     const user = await userService.update(id, userObject)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'UPDATE_USER',
       data: user
@@ -128,13 +111,14 @@ export const deleteUser = (id, password) => {
     window.localStorage.removeItem('loggedUser')
     dispatch ({
       type: 'UNSET_USER',
-    })   
+    })
   }
 }
 
 export const updateImage = (id, image) => {
   return async dispatch => {
     const user = await userService.updateImage(id, image)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'UPDATE_IMAGE',
       data: user
@@ -146,6 +130,7 @@ export const updateImage = (id, image) => {
 export const deleteImage = (id) => {
   return async dispatch => {
     const user = await userService.deleteImage(id)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_IMAGE',
       data: user
@@ -157,6 +142,7 @@ export const deleteImage = (id) => {
 export const addLocation = (id, newLocation) => {
   return async dispatch => {
     const user = await userService.addLocation(id, newLocation)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_LOCATION',
       data: user
@@ -168,6 +154,7 @@ export const addLocation = (id, newLocation) => {
 export const deleteLocation = (id, location) => {
   return async dispatch => {
     const user = await userService.deleteLocation(id, location)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_LOCATION',
       data: user
@@ -179,6 +166,7 @@ export const deleteLocation = (id, location) => {
 export const addSaleLocation = (id, newSaleLocation) => {
   return async dispatch => {
     const user = await userService.addSaleLocation(id, newSaleLocation)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_SALE_LOCATION',
       data: user
@@ -190,6 +178,7 @@ export const addSaleLocation = (id, newSaleLocation) => {
 export const deleteSaleLocation = (id, saleLocation) => {
   return async dispatch => {
     const user = await userService.deleteSaleLocation(id, saleLocation)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_SALE_LOCATION',
       data: user
@@ -201,6 +190,7 @@ export const deleteSaleLocation = (id, saleLocation) => {
 export const addCategory = (id, newCategory) => {
   return async dispatch => {
     const user = await userService.addCategory(id, newCategory)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_CATEGORY',
       data: user
@@ -212,6 +202,7 @@ export const addCategory = (id, newCategory) => {
 export const deleteCategory = (id, category) => {
   return async dispatch => {
     const user = await userService.deleteCategory(id, category)
+    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_CATEGORY',
       data: user

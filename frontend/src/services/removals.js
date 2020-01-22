@@ -9,15 +9,15 @@ const setToken = newToken => {
 
 const getAll = async () => {
   const config = {
-      headers: { Authorization: token },
-    }
-    
+    headers: { Authorization: token },
+  }
+
   const response = await axios.get(baseUrl, config)
   return response.data
 }
 
 const update = async (id, updatedRemoval) => {
-  
+
   const config = {
     headers: { Authorization: token },
   }
@@ -26,12 +26,12 @@ const update = async (id, updatedRemoval) => {
 }
 
 const create = async newRemoval => {
-  
+
   const config = {
-    headers: { 
+    headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: token
-     },
+    },
   }
 
   const response = await axios.post(baseUrl, newRemoval, config)
@@ -57,7 +57,7 @@ const deleteImage = async (id) => {
   const config = {
     headers: { Authorization: token },
   }
-  
+
   const response = await axios.delete(`${baseUrl}/${id}/picture/remove`, config)
   return response.data
 }
@@ -71,4 +71,4 @@ export default {
   create,
   update,
   updateImage
- }
+}

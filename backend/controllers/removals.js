@@ -5,6 +5,7 @@ const User = require('../models/user')
 // For AWS S3
 const S3 = require('../utils/s3-config')
 
+// Get all removals
 router.get('/', async (request, response, next) => {
   try {
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
@@ -16,6 +17,7 @@ router.get('/', async (request, response, next) => {
   }
 })
 
+// Create removal
 router.post('/', S3.upload.single('image'), async (request, response, next) => {
 
   try {
@@ -42,7 +44,7 @@ router.post('/', S3.upload.single('image'), async (request, response, next) => {
   }
 })
 
-// Edit details
+// Edit removal details
 router.patch('/:id', async (request, response, next) => {
 
   try {
@@ -150,6 +152,7 @@ router.delete('/:id/picture/remove', async (request, response, next) => {
 
 })
 
+// Delete removal
 router.delete('/:id', async (request, response, next) => {
   try {
 

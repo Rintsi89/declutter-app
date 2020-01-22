@@ -2,32 +2,32 @@ import removalService from '../services/removals'
 import { showMessage } from './notificationReducer'
 
 const removalReducer = (state = [], action) => {
-    switch (action.type) {
-    case 'INIT_REMOVALS':
-      return action.data
-    case 'NEW_REMOVAL':
-      return state.concat(action.data)
-    case 'UPDATE_REMOVAL':
-      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
-    case 'UPDATE_REMOVAL_IMAGE':
-      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
-    case 'DELETE_REMOVAL_IMAGE':
-      return state.filter(removal => removal.id !== action.data.id).concat(action.data)
-    case 'DELETE_REMOVAL':
-      return state.filter(removal => removal.id !== action.data)
-    default:
-      return state
-    }
+  switch (action.type) {
+  case 'INIT_REMOVALS':
+    return action.data
+  case 'NEW_REMOVAL':
+    return state.concat(action.data)
+  case 'UPDATE_REMOVAL':
+    return state.filter(removal => removal.id !== action.data.id).concat(action.data)
+  case 'UPDATE_REMOVAL_IMAGE':
+    return state.filter(removal => removal.id !== action.data.id).concat(action.data)
+  case 'DELETE_REMOVAL_IMAGE':
+    return state.filter(removal => removal.id !== action.data.id).concat(action.data)
+  case 'DELETE_REMOVAL':
+    return state.filter(removal => removal.id !== action.data)
+  default:
+    return state
   }
+}
 
 export const initializeRemovals = () => {
-    return async dispatch => {
-        const removals = await removalService.getAll()
-        dispatch({
-            type: 'INIT_REMOVALS',
-            data: removals
-        })
-    }
+  return async dispatch => {
+    const removals = await removalService.getAll()
+    dispatch({
+      type: 'INIT_REMOVALS',
+      data: removals
+    })
+  }
 }
 
 export const createRemoval = (data) => {

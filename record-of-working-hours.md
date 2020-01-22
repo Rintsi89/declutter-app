@@ -73,4 +73,6 @@
 |       | 0.5  | Fixing issues with delete account functionality |
 |       | 3.5  | Solving problem with redirection after deleting user account. Chatting in Telegram. No 100% perfect solution found but a work-around |
 |       | 1    | Styling gallery page |
-| tot   | 153.5| 
+| 22.1  | 2    | Styling gallery and studying colors |
+|       | 2.5  | Reading about React app structuring and implementing new, more logical structure |
+| tot   | 158  | 
