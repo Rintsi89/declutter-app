@@ -1,7 +1,9 @@
 import { useState } from 'react'
 
 export const useField = (type, name, placeholder, initialValue) => {
-  const [value, setValue] = useState(initialValue)
+
+  const checkedValue = !initialValue ? '' : initialValue
+  const [value, setValue] = useState(checkedValue)
 
   const onChange = (event) => {
     setValue(event.target.value)

@@ -4,10 +4,10 @@ const path = require('path') // Tämä tarvii olla täällä, jotta routet toimi
 const app = express()
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
-const removalRouter = require('./controllers/removals')
-const userRouter = require('./controllers/users')
-const loginRouter = require('./controllers/login')
-const { errorHandler, tokenExtractor, requestLogger } = require('./utils/middleware')
+const removalRouter = require('./routes/removals')
+const userRouter = require('./routes/users')
+const loginRouter = require('./routes/login')
+const { errorHandler, tokenExtractor } = require('./utils/middleware')
 
 app.use(bodyParser.json())
 app.use(express.static('build')) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa

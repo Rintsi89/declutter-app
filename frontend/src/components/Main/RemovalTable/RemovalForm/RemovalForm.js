@@ -122,8 +122,7 @@ const RemovalForm = (props) => {
     event.preventDefault()
 
     resetForm()
-    props.hide()
-    window.scrollTo(0, document.body.scrollHeight)
+    props.hide(false)
   }
 
   const addRemoval = async (event) => {
@@ -138,7 +137,7 @@ const RemovalForm = (props) => {
       formData.set('quantity', quantity.attributes.value)
       formData.set('category', category)
       formData.set('date', date.attributes.value)
-      formData.set('dateRemoved', !removed ? null : dateRemoved.attributes.value)
+      formData.set('dateRemoved', !removed ? '' : dateRemoved.attributes.value)
       formData.set('location', location)
       formData.set('soldAt', saleLocation)
       formData.set('note', note.attributes.value)
@@ -153,7 +152,7 @@ const RemovalForm = (props) => {
       formData.append('image', image)
 
       await props.createRemoval(formData)
-      resetAndHide()
+      props.hide(false)
 
     } catch (error) {
       window.scrollTo(0, document.body.scrollHeight)
@@ -175,7 +174,7 @@ const RemovalForm = (props) => {
           </Form.Field>
           <Form.Field>
             <label>Quantity</label>
-            <input {...quantity.attributes} required />
+            <input {...quantity.attributes} required min='1'/>
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>

@@ -1,62 +1,45 @@
-const router = require('express').Router()
-const jwt = require('jsonwebtoken')
 const Removal = require('../models/removal')
 const User = require('../models/user')
-// For AWS S3
 const S3 = require('../utils/s3-config')
 
-// Get all removals
-router.get('/', async (request, response, next) => {
+const getAll = async (request, response, next) => {
+
   try {
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const removals = await Removal.find({ user: { $in: [decodedToken.id] } })
+    const removals = await Removal.find({ user: { $in: [request.user.id] } })
     response.status(200).json(removals)
 
   } catch (error) {
     next(error)
   }
-})
+}
 
-// Create removal
-router.post('/', S3.upload.single('image'), async (request, response, next) => {
+const create = async (request, response, next) => {
 
   try {
 
-    let imagelink = !request.file ? 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' : request.file.location
+    const imagelink = !request.file ? null : request.file.location
     const body = { ...request.body, image: imagelink }
-
     const removal = new Removal(body)
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const user = await User.findById(decodedToken.id)
+    const user = await User.findById(request.user.id)
 
-    removal.user = user._id
+    removal.user = user.id
     await removal.save()
 
-    user.removals = user.removals.concat(removal._id)
+    user.removals = user.removals.concat(removal.id)
     await user.save()
 
-    const addedRemovalWithUser = await Removal.findById(removal._id).populate('user')
+    const createdRemoval = await Removal.findById(removal._id).populate('user')
 
-    response.status(201).json(addedRemovalWithUser)
+    response.status(201).json(createdRemoval)
 
   } catch (error) {
     next(error)
   }
-})
+}
 
-// Edit removal details
-router.patch('/:id', async (request, response, next) => {
+const edit = async (request, response, next) => {
 
   try {
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const user = await User.findById(decodedToken.id)
-
-    if (!user) {
-      return response.status(401).json({
-        error: 'Invalid token or id'
-      })
-    }
 
     const removalToUpdate = await Removal.findOne({ _id: request.params.id })
     const updateObject = request.body
@@ -74,30 +57,22 @@ router.patch('/:id', async (request, response, next) => {
     next(error)
   }
 
-})
+}
 
-// Add picture
-router.put('/:id/picture/add', S3.upload.single('image'), async (request, response, next) => {
+const addPicture = async (request, response, next) => {
+
   try {
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const user = await User.findById(decodedToken.id)
-
-    if (!user) {
-      return response.status(401).json({
-        error: 'Invalid token'
-      })
-    }
-
     const imagelink = !request.file ? null : request.file.location
-    const updateObject = {
-      image: imagelink,
-    }
 
     if (!imagelink) {
       return response.status(400).json({
         error: 'Image is required!'
       })
+    }
+
+    const updateObject = {
+      image: imagelink,
     }
 
     const removalToUpdate = await Removal.findOne({ _id: request.params.id })
@@ -115,21 +90,11 @@ router.put('/:id/picture/add', S3.upload.single('image'), async (request, respon
     next(error)
   }
 
-})
+}
 
-// Delete picture
-router.delete('/:id/picture/remove', async (request, response, next) => {
+const deletePicture = async (request, response, next) => {
 
   try {
-
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const user = await User.findById(decodedToken.id)
-
-    if (!user) {
-      return response.status(401).json({
-        error: 'Invalid token'
-      })
-    }
 
     const removalToUpdate = await Removal.findOne({ _id: request.params.id })
     const imageExists = !removalToUpdate || !removalToUpdate.image ? false : true
@@ -140,7 +105,7 @@ router.delete('/:id/picture/remove', async (request, response, next) => {
       })
 
     const key = removalToUpdate.image.substring(removalToUpdate.image.lastIndexOf('/') + 1)
-    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: 'https://declutter-images.s3.eu-north-1.amazonaws.com/No-image-found.jpg' } }, { new: true })
+    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: null } }, { new: true })
 
     S3.deleteImage(key)
 
@@ -150,23 +115,22 @@ router.delete('/:id/picture/remove', async (request, response, next) => {
     next(error)
   }
 
-})
+}
 
-// Delete removal
-router.delete('/:id', async (request, response, next) => {
+const deleteRemoval = async (request, response, next) => {
+
   try {
 
-    const decodedToken = jwt.verify(request.token, process.env.SECRET)
-    const toDelete = await User.find({ _id: decodedToken.id, removals: { $in: [request.params.id] } })
+    const toDelete = await User.find({ _id: request.user.id, removals: { $in: [request.params.id] } })
 
     if (toDelete.length < 1) {
       return response.status(401).json({
-        error: 'Invalid removal id or user not authenticated'
+        error: 'Invalid removal id or user not authenticated to delete'
       })
     }
 
     const deletedRemoval = await Removal.findByIdAndRemove(request.params.id)
-    await User.findByIdAndUpdate(decodedToken.id, { $pull: { removals: deletedRemoval.id } })
+    await User.findByIdAndUpdate(request.user.id, { $pull: { removals: deletedRemoval.id } })
 
     if (deletedRemoval.image) {
       const key = deletedRemoval.image.substring(deletedRemoval.image.lastIndexOf('/') + 1)
@@ -177,6 +141,13 @@ router.delete('/:id', async (request, response, next) => {
   } catch (error) {
     next(error)
   }
-})
+}
 
-module.exports = router
+module.exports = {
+  getAll,
+  create,
+  edit,
+  addPicture,
+  deletePicture,
+  deleteRemoval
+}

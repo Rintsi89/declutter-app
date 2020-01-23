@@ -13,7 +13,7 @@ import PictureForm from '../PictureForm/PictureForm'
 import EditRemovalForm from './EditRemovalForm/EditRemovalForm'
 import classes from './/RemovalPage.module.css'
 
-const EditRemoval = (props) => {
+const RemovalPage = (props) => {
 
   if (!props.removal) {
     return null
@@ -274,10 +274,10 @@ const mapDispatchToProps = {
   initModal
 }
 
-const ConnectedEditRemoval = connect(
+const ConnectedRemovalPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(EditRemoval)
+)(RemovalPage)
 
 
-export default withRouter(ConnectedEditRemoval)
+export default withRouter(ConnectedRemovalPage)

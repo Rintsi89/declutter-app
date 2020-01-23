@@ -105,10 +105,10 @@ const RemovalTable = (props) => {
         <SaleModal />
         <div className={classes.formarea}>
           {!showForm ?
-            <button className={classes.addbutton} onClick={() => setShowForm(!showForm)}>
+            <button className={classes.addbutton} onClick={() => setShowForm(true)}>
               <Icon name="add circle" size='large'/> Add new
             </button> :
-            <RemovalForm user={props.logged_user} hide={() => setShowForm(!showForm)}/>
+            <RemovalForm user={props.logged_user} hide={setShowForm}/>
           }
         </div>
         {currentRows.length < 1 ? null :

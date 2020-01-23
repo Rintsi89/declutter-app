@@ -1,4 +1,6 @@
 const multer = require('multer')
+const jwt = require('jsonwebtoken')
+const User = require('../models/user')
 
 const getTokenFrom = request => {
   const authorization = request.get('authorization')
@@ -10,6 +12,19 @@ const getTokenFrom = request => {
 
 const tokenExtractor = (request, response, next) => {
   request.token = getTokenFrom(request)
+  next()
+}
+
+const checkAuth = async (request, response, next) => {
+  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const user = await User.findById(decodedToken.id)
+
+  if (!(decodedToken || user)) {
+    return response.status(400).json({ error: 'Authentication failed' })
+  }
+
+  // eslint-disable-next-line require-atomic-updates
+  request.user = user
   next()
 }
 
@@ -31,5 +46,6 @@ const errorHandler = (error, request, response, next) => {
 
 module.exports = {
   errorHandler,
-  tokenExtractor
+  tokenExtractor,
+  checkAuth
 }

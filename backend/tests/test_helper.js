@@ -1,7 +1,7 @@
 const initialUser = {
-  'username': 'Rintsu',
+  'username': 'Rintsi',
+  'email': 'testi@testi.com',
   'password': 'salasana',
-  'name': 'Ville Rintala'
 }
 
 const dataBaseUser = [{

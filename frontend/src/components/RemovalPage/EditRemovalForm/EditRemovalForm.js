@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Button, Form } from 'semantic-ui-react'
 import { updateRemoval } from '../../../reducers/removalReducer'
+import { showMessage } from '../../../reducers/notificationReducer'
 import { useField } from '../../../hooks'
 import classes from './EditRemovalForm.module.css'
 
@@ -189,7 +190,8 @@ const EditRemovalForm = (props) => {
 }
 
 const mapDispatchToProps = {
-  updateRemoval
+  updateRemoval,
+  showMessage
 }
 
 const ConnectedEditRemovalForm = connect(
