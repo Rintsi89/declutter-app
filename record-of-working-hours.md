@@ -76,5 +76,6 @@
 | 22.1  | 2    | Styling gallery and studying colors |
 |       | 2.5  | Reading about React app structuring and implementing new, more logical structure |
 | 23.1  | 3.5  | Restructuring backend files - routes and controllers done |
-|       | 1.5  | Discussing testing in Telegram and studying on YouTube. Conclusion: should have started with TDD | 
-| tot   | 163  | 
+|       | 1.5  | Discussing testing in Telegram and studying on YouTube. Conclusion: should have started with TDD |
+| 24.1  | 5.5  | Rearranging, studying and re-writing Jest / Supertest backend tests | 
+| tot   | 168.5| 

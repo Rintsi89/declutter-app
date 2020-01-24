@@ -16,16 +16,23 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const checkAuth = async (request, response, next) => {
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
-  const user = await User.findById(decodedToken.id)
 
-  if (!(decodedToken || user)) {
-    return response.status(400).json({ error: 'Authentication failed' })
+  try {
+
+    if (!request.token) {
+      return response.status(401).json({ error: 'Missing token' })
+    }
+
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    const user = await User.findById(decodedToken.id)
+    // eslint-disable-next-line require-atomic-updates
+    request.user = user
+    next()
+
+  } catch (error) {
+    next(error)
   }
 
-  // eslint-disable-next-line require-atomic-updates
-  request.user = user
-  next()
 }
 
 const errorHandler = (error, request, response, next) => {

@@ -20,14 +20,21 @@ const sendEmail = async (mailerOptions) => {
     html: mailerOptions.html
   }
 
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error)
-    } else {
-      console.log('Email sent: ' + info.response)
-    }
-  })
+  // This fixes the issues in testing: cannot log after tests are done
 
+  // eslint-disable-next-line no-undef
+  return new Promise((resolve, reject) => {
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error)
+        reject(true)
+      } else {
+        console.log('Email sent: ' + info.response)
+        resolve(true)
+      }
+    })
+  })
 }
 
 module.exports = { sendEmail }

@@ -7,6 +7,8 @@
         "start": "cross-env NODE_ENV=production node index.js",
         "watch": "cross-env NODE_ENV=development nodemon index.js",
         "test": "cross-env NODE_ENV=test jest --verbose --runInBand --detectOpenHandles --colors",
+        "test:users": "cross-env NODE_ENV=test jest node node_modules/jest/bin/jest.js src/index.js usersAuthenticated.test.js --verbose --runInBand --detectOpenHandles --colors",
+        "test:usersAuth": "cross-env NODE_ENV=test jest node node_modules/jest/bin/jest.js src/index.js usersAuthenticated.test.js --verbose --runInBand --detectOpenHandles --colors",
         "lint": "eslint ."
     },
     "author": "Ville R",

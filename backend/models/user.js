@@ -25,9 +25,9 @@ const userSchema = mongoose.Schema({
     minlength: 5,
     present: true
   },
-  email: { type: String, unique: true },
+  email: { type: String, unique: true, minlength: 5 },
   confirmed: { type: Boolean, default: false },
-  name: String,
+  name: { type: String, unique: true, minlength: 2 },
   passwordHash: String,
   resetPasswordToken: String,
   resetPasswordExpires: String,

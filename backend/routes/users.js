@@ -3,22 +3,24 @@ const S3 = require('../utils/s3-config')
 const UserController = require('../controllers/users')
 const { checkAuth } = require('../utils/middleware')
 
-// Create user
+// Create user -- tested
 router.post('/', UserController.create)
 
-// Confirm user account via link in email
+// Confirm user account via link in email -- tested
 router.get('/confirmation/:token', UserController.confirm)
 
-// Request for link to reset password
+// Request for link to reset password -- tested
 router.post('/forgotPassword', UserController.forgotPassword)
 
-// Verify token to change password
+// Verify token to change password -- tested
 router.get('/reset/:token', UserController.verifyPasswordToken )
 
-// Reset password
+// Reset password -- tested
 router.put('/resetPassword', UserController.resetPassword)
 
-// Edit personal details (username, name, email and description)
+// These routes require authentication:
+
+// Edit personal details (username, name, email and description) -- tested
 router.patch('/:id', checkAuth, UserController.edit)
 
 // Edit profile picture

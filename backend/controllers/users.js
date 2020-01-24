@@ -44,6 +44,12 @@ const create = async (request, response, next) => {
 
     await Mailer.sendEmail(mailerOptions)
 
+    // This is controversial approach for test!
+    if (process.env.NODE_ENV === 'test') {
+      return response.status(200).json({
+        emailToken
+      })
+    }
     response.status(200).send()
 
   } catch (error) {
@@ -64,7 +70,7 @@ const confirm = async (request, response, next) => {
     }
 
     await User.findByIdAndUpdate(user.id, { $set: { confirmed: true } }, { new: true })
-    response.status(200).redirect('/')
+    response.redirect('/')
 
   } catch (error) {
     next(error)
@@ -106,7 +112,14 @@ const forgotPassword = async (request, response, next) => {
       + 'If you did not request this, please ignore this email and your password will remain unchanged.\n',
     }
 
-    Mailer.sendEmail(mailerOptions)
+    await Mailer.sendEmail(mailerOptions)
+
+    // This is controversial approach for test!
+    if (process.env.NODE_ENV === 'test') {
+      return response.status(200).json({
+        token
+      })
+    }
     response.status(200).json({ message: `Link to reset your password has been send to ${user.email}` })
 
   } catch (error) {
@@ -215,6 +228,12 @@ const edit = async (request, response, next) => {
     if (!user) {
       return response.status(401).json({
         error: 'Request id and user do not match'
+      })
+    }
+
+    if (!(request.body.username || request.body.name || request.body.email)) {
+      return response.status(400).json({
+        error: 'Cannot send empty data!'
       })
     }
 

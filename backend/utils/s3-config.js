@@ -28,7 +28,7 @@ const upload = multer({
     s3: s3,
     bucket: process.env.BUCKET_NAME,
     key: function(req, file, callback) {
-      callback(null, createRandomName(100, file.originalname))
+      callback(null, createRandomName(99, file.originalname))
     }
   }),
   limits: { fileSize: 4000000 },
