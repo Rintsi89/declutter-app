@@ -78,4 +78,5 @@
 | 23.1  | 3.5  | Restructuring backend files - routes and controllers done |
 |       | 1.5  | Discussing testing in Telegram and studying on YouTube. Conclusion: should have started with TDD |
 | 24.1  | 5.5  | Rearranging, studying and re-writing Jest / Supertest backend tests | 
-| tot   | 168.5| 
+| 27.1  | 2    | Debugging ECONNRESET problem in tests. No solution found and no need to commit |
+| tot   | 170.5| 

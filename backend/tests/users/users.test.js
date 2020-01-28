@@ -164,6 +164,6 @@ describe('User & login tests - not authenticated routes', () => {
     })
 })
 
-  afterAll(async() => {
+  afterAll(() => {
     mongoose.connection.close()
   })

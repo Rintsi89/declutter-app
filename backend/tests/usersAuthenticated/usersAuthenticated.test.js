@@ -9,19 +9,32 @@ const helper = require('./test_helper')
 let token;
 let authenticatedUser;
 
+
+
 describe('User & login tests - authenticated routes', () => {
 
-    beforeAll(async (done) => {
-        await User.deleteMany({})
+
+    beforeEach((done) => {
+      mongoose.connection.once('open', () => {
+      console.log('We are connected to test database!')
+      done()
+      })
+    })
+
+    beforeEach(async () => {
+        await User.deleteMany({ })
         await User.create(helper.initialUser)
         const response = await api
           .post('/api/login')
           .send({ username: helper.initialUser.username, password: helper.initialUser.password })
           .expect(200)
-    
+        
         token = response.body.token
         authenticatedUser = response.body
-        done()
+      })
+    
+      afterAll(() => {
+        mongoose.connection.close()
       })
 
     describe('Edit user details', () => {
@@ -89,6 +102,53 @@ describe('User & login tests - authenticated routes', () => {
     })
 
     describe('Upload image', () => {
+        test('user cannot upload image without token', async (done) => {
+          
+          mongoose.connection.on('error', () => console.log('errroorr'))
+          await api
+          .put(`/api/users/${authenticatedUser.id}/picture/add`)
+          .attach('image', path.join(__dirname, 'test-image.jpg'))
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+
+          const user = await User.findOne({_id: authenticatedUser.id})
+          expect(user.image).toBeFalsy()
+      
+          done()
+      })
+
+        test('user cannot upload image with invalid token', async (done) => {
+            
+          await api
+          .put(`/api/users/${authenticatedUser.id}/picture/add`)
+          .attach('image', path.join(__dirname, 'test-image.jpg'))
+          .set('Authorization', `bearer ${helper.invalidToken}`)
+          .expect(401)
+          .expect('Content-Type', /application\/json/)
+          
+          const user = await User.findOne({_id: authenticatedUser.id})
+          console.log("User from test which is not working", user.username);
+          
+          expect(user.image).toBeFalsy()
+      
+          done()
+      })
+
+        test('user cannot upload empty image', async (done) => {
+            
+          await api
+          .put(`/api/users/${authenticatedUser.id}/picture/add`)
+          .set('Authorization', `bearer ${token}`)
+          .expect(400)
+          .expect('Content-Type', /application\/json/)
+          
+          const user = await User.findOne({_id: authenticatedUser.id})
+
+          expect(user.image).toBeFalsy()
+      
+          done()
+      })
+
         test('user can upload image', async (done) => {
             await api
             .put(`/api/users/${authenticatedUser.id}/picture/add`)
@@ -98,13 +158,11 @@ describe('User & login tests - authenticated routes', () => {
             .expect('Content-Type', /application\/json/)
             
             const user = await User.findOne({_id: authenticatedUser.id})
-            expect(user.image.substring(user.image.lastIndexOf('/') + 3)).toBe('test-image.jpg')
+            expect(user.image.substring(user.image.length - 14)).toBe('test-image.jpg')
         
             done()
         })
     })
 })
 
-afterAll(() => {
-    mongoose.connection.close()
-  })
+

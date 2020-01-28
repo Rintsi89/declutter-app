@@ -25,6 +25,7 @@ const checkAuth = async (request, response, next) => {
 
     const decodedToken = jwt.verify(request.token, process.env.SECRET)
     const user = await User.findById(decodedToken.id)
+
     // eslint-disable-next-line require-atomic-updates
     request.user = user
     next()
