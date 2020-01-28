@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const multer = require('multer')
 const multerS3 = require('multer-s3')
 const aws = require('aws-sdk')
@@ -35,7 +36,7 @@ const upload = multer({
   fileFilter: fileFilter
 })
 
-const deleteImage = (key) => {
+const deleteImage = async (key) => {
 
   const params = {
     Bucket: process.env.BUCKET_NAME,
@@ -49,9 +50,17 @@ const deleteImage = (key) => {
     }
   }
 
-  s3.deleteObjects(params, function(err, data) {
-    if (err) console.log(err, err.stack) // an error occurred
-    else     console.log(data)           // successful response
+  return new Promise((resolve, reject) => {
+    s3.deleteObjects(params, function(err, data) {
+      if (err) {
+        reject(true)
+        console.log(err, err.stack)
+      }
+      else {
+        resolve(true)
+        console.log(data)
+      }
+    })
   })
 }
 

@@ -79,4 +79,5 @@
 |       | 1.5  | Discussing testing in Telegram and studying on YouTube. Conclusion: should have started with TDD |
 | 24.1  | 5.5  | Rearranging, studying and re-writing Jest / Supertest backend tests | 
 | 27.1  | 2    | Debugging ECONNRESET problem in tests. No solution found and no need to commit |
-| tot   | 170.5| 
+| 28.1  | 4    | Write more (working) tests and debug previous ECONNRESET problem. Decided to open topic on StackOverflow |
+| tot   | 174.5| 

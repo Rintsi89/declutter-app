@@ -23,9 +23,31 @@ const editedDetailsEmpty = {
     description: 'New description here'
 }
 
+const defaultLocation = {
+    location: 'Home'
+}
+
+const location = {
+    location: 'Summer house'
+}
+
+const defaultSaleLocation = {
+    saleLocation: 'Tori.fi'
+}
+
+const saleLocation = {
+    key: 'Second hand store',
+    text: 'Second hand store',
+    value: 'Second hand store'
+}
+
 module.exports = {
     invalidToken,
     initialUser,
     editedDetails,
-    editedDetailsEmpty
+    editedDetailsEmpty,
+    location,
+    defaultLocation,
+    saleLocation,
+    defaultSaleLocation 
 }

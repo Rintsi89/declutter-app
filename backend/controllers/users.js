@@ -305,7 +305,7 @@ const deletePicture = async (request, response, next) => {
 
     const key = user.image.substring(user.image.lastIndexOf('/') + 1)
     const updatedUser = await User.findByIdAndUpdate(user.id, { $set: { image: null } }, { new: true })
-    S3.deleteImage(key)
+    await S3.deleteImage(key)
 
     response.status(200).json(updatedUser)
 
@@ -325,6 +325,12 @@ const addLocation = async (request, response, next) => {
     if (!user) {
       return response.status(401).json({
         error: 'Request id and user do not match'
+      })
+    }
+
+    if (!location) {
+      return response.status(400).json({
+        error: 'Location cannot be empty'
       })
     }
 
@@ -371,6 +377,12 @@ const addSaleLocation = async (request, response, next) => {
     if (!user) {
       return response.status(401).json({
         error: 'Request id and user do not match'
+      })
+    }
+
+    if (!saleLocation.value) {
+      return response.status(400).json({
+        error: 'Sale location cannot be empty'
       })
     }
 

@@ -152,7 +152,7 @@ describe('User & login tests - not authenticated routes', () => {
           const userFirst = await User.findOne({ username: userName })
         
         await api
-          .put('/api/users/resetPassword')
+          .patch('/api/users/resetPassword')
           .send({ username: userName, password: helper.newPassword.password , password2: helper.newPassword.password2 })
           .expect(200)
 

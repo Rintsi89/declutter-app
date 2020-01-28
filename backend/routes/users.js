@@ -16,29 +16,29 @@ router.post('/forgotPassword', UserController.forgotPassword)
 router.get('/reset/:token', UserController.verifyPasswordToken )
 
 // Reset password -- tested
-router.put('/resetPassword', UserController.resetPassword)
+router.patch('/resetPassword', UserController.resetPassword)
 
 // These routes require authentication:
 
 // Edit personal details (username, name, email and description) -- tested
 router.patch('/:id', checkAuth, UserController.edit)
 
-// Edit profile picture
-router.put('/:id/picture/add', checkAuth, S3.upload.single('image'), UserController.addPicture)
+// Edit profile picture -- tested SOME ISSUES REMAIN!!
+router.patch('/:id/picture/add', checkAuth, S3.upload.single('image'), UserController.addPicture)
 
-// Delete profile picture
-router.delete('/:id/picture/remove', checkAuth, UserController.deletePicture)
+// Delete profile picture -- tested
+router.patch('/:id/picture/remove', checkAuth, UserController.deletePicture)
 
-// Add location
+// Add location -- tested
 router.patch('/:id/locations/add', checkAuth, UserController.addLocation)
 
-// Delete location
+// Delete location -- tested
 router.patch('/:id/locations/remove', checkAuth, UserController.deleteLocation)
 
-// Add sale location
+// Add sale location -- tested
 router.patch('/:id/salelocations/add', checkAuth, UserController.addSaleLocation)
 
-// Delete sale location
+// Delete sale location -- tested
 router.patch('/:id/salelocations/remove', checkAuth, UserController.deleteSaleLocation)
 
 // Add category
@@ -48,9 +48,9 @@ router.patch('/:id/categories/add', checkAuth, UserController.addCategory)
 router.patch('/:id/categories/remove', checkAuth, UserController.deleteCategory)
 
 // Change password
-router.put('/:id/password', checkAuth, UserController.changePassword)
+router.patch('/:id/password', checkAuth, UserController.changePassword)
 
 // Set user as inactive = delete
-router.put('/:id/delete', checkAuth, UserController.deleteAccount)
+router.patch('/:id/delete', checkAuth, UserController.deleteAccount)
 
 module.exports = router
