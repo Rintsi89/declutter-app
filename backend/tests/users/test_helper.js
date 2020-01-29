@@ -5,6 +5,14 @@ const initialUser = {
   'username': 'Rintsi',
   'email': 'testi@testi.com',
   'password': 'salasana',
+  'password2': 'salasana'
+}
+
+const initialUserRetypeInvalid = {
+  'username': 'Rintsi',
+  'email': 'testi@testi.com',
+  'password': 'salasana',
+  'password2': 'salasan'
 }
 
 const notExistingUser = {
@@ -36,6 +44,7 @@ const removal = {
 
 module.exports = {
   initialUser,
+  initialUserRetypeInvalid,
   wrongUser,
   removal,
   newPassword,

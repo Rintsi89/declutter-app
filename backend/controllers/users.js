@@ -8,7 +8,15 @@ const S3 = require('../utils/s3-config')
 const create = async (request, response, next) => {
 
   try {
-    const { username, password, email } = request.body
+    const { username, password, password2, email } = request.body
+
+    const retypedCorrect = password !== password2 ? false : true
+
+    if(!retypedCorrect) {
+      return response.status(400).send({
+        error: 'Password was retyped incorrectly'
+      })
+    }
 
     if (!password || password.length < 5) {
       return response.status(400).send({
@@ -193,7 +201,7 @@ const changePassword = async (request, response, next) => {
     const { password, newPassword, newPassword2 } = request.body
     const user = request.params.id !== request.user.id ? null : await User.findById(request.user.id)
     const retypedCorrect = newPassword !== newPassword2 ? false : true
-    const passwordCorrect = (!user || !retypedCorrect) ? false : await bcrypt.compare(password, user.passwordHash)
+    const passwordCorrect = !user ? false : await bcrypt.compare(password, user.passwordHash)
 
     if (!(user && passwordCorrect)) {
       return response.status(401).json({
@@ -204,6 +212,12 @@ const changePassword = async (request, response, next) => {
     if (!newPassword || newPassword.length < 5) {
       return response.status(400).send({
         error: 'Password minimum length is 5'
+      })
+    }
+
+    if(!retypedCorrect) {
+      return response.status(400).send({
+        error: 'New password was retyped incorrectly'
       })
     }
 
@@ -428,6 +442,12 @@ const addCategory = async (request, response, next) => {
     if (!user) {
       return response.status(401).json({
         error: 'Request id and user do not match'
+      })
+    }
+
+    if (!category.value) {
+      return response.status(400).json({
+        error: 'Category cannot be empty'
       })
     }
 

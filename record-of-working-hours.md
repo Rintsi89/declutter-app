@@ -80,4 +80,5 @@
 | 24.1  | 5.5  | Rearranging, studying and re-writing Jest / Supertest backend tests | 
 | 27.1  | 2    | Debugging ECONNRESET problem in tests. No solution found and no need to commit |
 | 28.1  | 4    | Write more (working) tests and debug previous ECONNRESET problem. Decided to open topic on StackOverflow |
-| tot   | 174.5| 
+| 29.1  | 1.5  | Writem ore backend tests and finish user route tests |
+| tot   | 176  | 

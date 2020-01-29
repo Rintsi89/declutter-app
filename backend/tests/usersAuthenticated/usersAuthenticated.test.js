@@ -413,6 +413,247 @@ describe('User & login tests - authenticated routes', () => {
 
       })
   })
+
+  // CATEGORY TESTS
+
+  describe('Add category', () => {
+
+    test('user cannot add category without token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/add`)
+      .send(helper.category)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(8)
+
+      done()
+  })
+
+    test('user cannot add category with invalid token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/add`)
+      .set('Authorization', `bearer ${helper.invalidToken}`)
+      .send(helper.category)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(8)
+
+      done()
+  })
+
+    test('user cannot add empty category', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/add`)
+      .set('Authorization', `bearer ${token}`)
+      .send('')
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(8)
+
+      done()
+
+   }) 
+
+    test('user can add category', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/add`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.category)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(9)
+
+      done()
+
+   })   
+  })
+
+  describe('Delete category', () => {
+
+    test('user cannot delete category without token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/remove`)
+      .send(helper.defaultCategory)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(8)
+
+      done()
+    })
+
+    test('user cannot delete category with invalid token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/remove`)
+      .set('Authorization', `bearer ${helper.invalidToken}`)
+      .send(helper.defaultCategory)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(8)
+
+      done()
+    })
+
+    test('user can delete category', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/categories/remove`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.defaultCategory)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.categories.length).toBe(7)
+
+      done()
+    })
+
+  })
+
+  // CHANGE PASSWORD TESTS
+
+  describe('Change password', () => {
+
+    test('user cannot change password without token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/password`)
+      .send(helper.passwordForChange)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.passwordHash).toBe(helper.initialUser.passwordHash)
+
+      done()
+    })
+
+    test('user cannot change password with invalid token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/password`)
+      .set('Authorization', `bearer ${helper.invalidToken}`)
+      .send(helper.passwordForChange)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.passwordHash).toBe(helper.initialUser.passwordHash)
+
+      done()
+    })
+
+    test('user cannot change password to short (< 5) password', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/password`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.shortPasswordForChange)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.passwordHash).toBe(helper.initialUser.passwordHash)
+
+      done()
+    })
+
+    test('user cannot change password if retyped password is wrong', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/password`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.passwordForChangeRetypeInvalid)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.passwordHash).toBe(helper.initialUser.passwordHash)
+
+      done()
+    })
+
+    test('user can change password', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/password`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.passwordForChange)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.passwordHash).not.toBe(helper.initialUser.passwordHash)
+
+      done()
+    })
+  })
+
+  // DELETE ACCOUNT TESTS
+
+  describe('Delete user account', () => {
+    
+    test('user cannot delete account without token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/delete`)
+      .send(helper.initialUser.password)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.active).toBeTruthy()
+
+      done()
+    })
+
+    test('user cannot delete account with invalid token', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/delete`)
+      .set('Authorization', `bearer ${helper.invalidToken}`)
+      .send(helper.initialUser.password)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({_id: authenticatedUser.id})
+      expect(user.active).toBeTruthy()
+
+      done()
+    })
+
+    test('user cannot delete account with wrong password', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/delete`)
+      .set('Authorization', `bearer ${token}`)
+      .send(helper.wrongPassword)
+      .expect(401)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({ _id: authenticatedUser.id })
+      expect(user.active).toBeTruthy()
+
+      done()
+    })
+
+    test('user can delete account', async (done) => {
+      await api
+      .patch(`/api/users/${authenticatedUser.id}/delete`)
+      .set('Authorization', `bearer ${token}`)
+      .send({ password: helper.initialUser.password })
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+      const user = await User.findOne({ _id: authenticatedUser.id })
+      expect(user.active).toBeFalsy()
+
+      done()
+    })
+  })
 })
 
 afterAll(() => {

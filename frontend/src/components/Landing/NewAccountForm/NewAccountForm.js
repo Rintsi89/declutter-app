@@ -24,7 +24,8 @@ const NewAccountForm = (props) => {
     const newUser = {
       username: username.attributes.value,
       email: email.attributes.value,
-      password: password.attributes.value
+      password: password.attributes.value,
+      password2: retypedpassword.attributes.value
     }
 
     try {

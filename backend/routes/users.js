@@ -41,16 +41,16 @@ router.patch('/:id/salelocations/add', checkAuth, UserController.addSaleLocation
 // Delete sale location -- tested
 router.patch('/:id/salelocations/remove', checkAuth, UserController.deleteSaleLocation)
 
-// Add category
+// Add category -- tested
 router.patch('/:id/categories/add', checkAuth, UserController.addCategory)
 
-// Delete category
+// Delete category -- tested
 router.patch('/:id/categories/remove', checkAuth, UserController.deleteCategory)
 
-// Change password
+// Change password -- tested
 router.patch('/:id/password', checkAuth, UserController.changePassword)
 
-// Set user as inactive = delete
+// Set user as inactive = delete -- tested
 router.patch('/:id/delete', checkAuth, UserController.deleteAccount)
 
 module.exports = router

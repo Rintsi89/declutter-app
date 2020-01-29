@@ -9,7 +9,7 @@ const { checkAuth } = require('../utils/middleware')
 // Get all removals
 router.get('/', checkAuth, RemovalController.getAll)
 
-//Create removal
+// Create removal
 router.post('/', checkAuth, S3.upload.single('image'), RemovalController.create)
 
 // Edit removal details

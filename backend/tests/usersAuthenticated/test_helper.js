@@ -41,6 +41,44 @@ const saleLocation = {
     value: 'Second hand store'
 }
 
+const defaultCategory = {
+    category: 'Clothes'
+}
+
+const category = {
+    key: 'Paintings',
+    text: 'Paintings',
+    value: 'Paintings'
+}
+
+const passwordForChange = {
+    password: 'salasana',
+    newPassword:'uusisalasana',
+    newPassword2: 'uusisalasana'
+}
+
+const invalidPasswordForChange = {
+    password: '!salasana',
+    newPassword:'uusisalasana',
+    newPassword2: 'uusisalasana'
+}
+
+const shortPasswordForChange = {
+    password: 'salasana',
+    newPassword:'uusi',
+    newPassword2: 'uusi'
+}
+
+const passwordForChangeRetypeInvalid = {
+    password: 'salasana',
+    newPassword:'uusisalasan',
+    newPassword2: 'uusisalasana'
+}
+
+const wrongPassword = {
+    password: 'salasana123'
+}
+
 module.exports = {
     invalidToken,
     initialUser,
@@ -49,5 +87,12 @@ module.exports = {
     location,
     defaultLocation,
     saleLocation,
-    defaultSaleLocation 
+    defaultSaleLocation,
+    category,
+    defaultCategory,
+    passwordForChange,
+    invalidPasswordForChange,
+    shortPasswordForChange,
+    passwordForChangeRetypeInvalid,
+    wrongPassword 
 }

@@ -28,6 +28,16 @@ describe('User & login tests - not authenticated routes', () => {
             done()
         })
 
+    test('user cannot be created if password is retyped incorrectly', async (done) => {
+        await api
+            .post('/api/users')
+            .send(helper.initialUserRetypeInvalid)
+            .expect(400)
+            .expect('Content-Type', /application\/json/)
+
+            done()
+        })
+
       test('user can be created', async (done) => {
         const response = await api
             .post('/api/users')
