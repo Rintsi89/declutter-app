@@ -22,6 +22,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode=development",
     "build": "webpack --mode=production",
+    "cypress:open": "cypress open",
     "lint": "eslint ."
   },
   "devDependencies": {
@@ -31,6 +32,7 @@
     "@babel/preset-react": "^7.6.3",
     "babel-loader": "^8.0.6",
     "css-loader": "^3.3.2",
+    "cypress": "^3.8.3",
     "eslint": "^6.6.0",
     "eslint-plugin-jest": "^23.6.0",
     "style-loader": "^1.0.1",

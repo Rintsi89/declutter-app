@@ -49,7 +49,8 @@ const edit = async (request, response, next) => {
         error: 'Removal does not exists'
       })
 
-    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, updateObject, { new: true })
+    // runValidators uses mongoose model validators (minlength etc). This option is off by default
+    const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, updateObject, { new: true, runValidators: true })
 
     response.status(200).json(updatedRemoval)
 
@@ -107,7 +108,7 @@ const deletePicture = async (request, response, next) => {
     const key = removalToUpdate.image.substring(removalToUpdate.image.lastIndexOf('/') + 1)
     const updatedRemoval = await Removal.findByIdAndUpdate(removalToUpdate.id, { $set: { image: null } }, { new: true })
 
-    S3.deleteImage(key)
+    await S3.deleteImage(key)
 
     response.status(200).json(updatedRemoval)
 
@@ -134,7 +135,7 @@ const deleteRemoval = async (request, response, next) => {
 
     if (deletedRemoval.image) {
       const key = deletedRemoval.image.substring(deletedRemoval.image.lastIndexOf('/') + 1)
-      S3.deleteImage(key)
+      await S3.deleteImage(key)
     }
 
     response.status(204).end()

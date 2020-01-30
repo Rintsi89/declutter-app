@@ -6,22 +6,24 @@ const { checkAuth } = require('../utils/middleware')
 
 // --- ROUTES ---
 
-// Get all removals
+// These routes require authentication:
+
+// Get all removals -- tested
 router.get('/', checkAuth, RemovalController.getAll)
 
-// Create removal
+// Create removal -- tested
 router.post('/', checkAuth, S3.upload.single('image'), RemovalController.create)
 
-// Edit removal details
+// Edit removal details -- tested
 router.patch('/:id', checkAuth, RemovalController.edit)
 
-// Add picture
-router.put('/:id/picture/add', checkAuth, S3.upload.single('image'), RemovalController.addPicture)
+// Add picture -- tested
+router.patch('/:id/picture/add', checkAuth, S3.upload.single('image'), RemovalController.addPicture)
 
-// Delete picture
-router.delete('/:id/picture/remove', checkAuth, RemovalController.deletePicture)
+// Delete picture -- tested
+router.patch('/:id/picture/remove', checkAuth, RemovalController.deletePicture)
 
-// Delete removal
+// Delete removal -- tested
 router.delete('/:id', checkAuth, RemovalController.deleteRemoval)
 
 module.exports = router

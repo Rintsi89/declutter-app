@@ -28,7 +28,7 @@ const upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: process.env.BUCKET_NAME,
-    key: function(req, file, callback) {
+    key: (req, file, callback) => {
       callback(null, createRandomName(99, file.originalname))
     }
   }),
@@ -51,14 +51,14 @@ const deleteImage = async (key) => {
   }
 
   return new Promise((resolve, reject) => {
-    s3.deleteObjects(params, function(err, data) {
+    s3.deleteObjects(params, (err, data) => {
       if (err) {
-        reject(true)
         console.log(err, err.stack)
+        reject(true)
       }
       else {
-        resolve(true)
         console.log(data)
+        resolve(true)
       }
     })
   })

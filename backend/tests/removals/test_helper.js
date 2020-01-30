@@ -1,3 +1,5 @@
+const invalidToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IkpvaG4gRG9lIiwiaWQiOiIxMjMzNDU2NiJ9.xkICFCQbfON4gXh_e02k1Nt2d91pN1Uwuqb_IVS7ozU'
+
 const initialUser = {
     confirmed: true,
     active: true,
@@ -17,7 +19,7 @@ const initialRemoval = {
     value: 12,
     totalValue: 144,
     saleItem: true,
-    name: "1212",
+    name: "Dictionary",
     removed: true,
     quantity: 12,
     category: "Books",
@@ -28,7 +30,48 @@ const initialRemoval = {
     note: "This was expensive"
 }
 
+const newRemoval = {
+    length: 100,
+    width: 20,
+    height: 50,
+    cbm: 0.1,
+    weight: 12,
+    totalWeight: 12,
+    value: 150,
+    totalValue: 150,
+    saleItem: true,
+    name: "Bicycle",
+    removed: true,
+    quantity: 1,
+    category: "Sport equipment",
+    date: "2020-01-23",
+    dateRemoved: "2020-01-29",
+    location: "Home",
+    soldAt: "Tori.fi",
+    note: "Sold to neighbor"
+}
+
+const updateRemoval = {
+    name: "Sport bicycle",
+    category: "Bicycles",
+    value: 200,
+    saleItem: false,
+    removed: false
+}
+
+const updateEmptyRemoval = {
+    name: "",
+    category: "",
+    value: "",
+    saleItem: "",
+    removed: ""
+}
+
 module.exports = {
+    invalidToken,
     initialUser,
-    initialRemoval
+    initialRemoval,
+    newRemoval,
+    updateRemoval,
+    updateEmptyRemoval
 }

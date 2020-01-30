@@ -23,7 +23,7 @@ router.patch('/resetPassword', UserController.resetPassword)
 // Edit personal details (username, name, email and description) -- tested
 router.patch('/:id', checkAuth, UserController.edit)
 
-// Edit profile picture -- tested SOME ISSUES REMAIN!!
+// Edit profile picture -- tested
 router.patch('/:id/picture/add', checkAuth, S3.upload.single('image'), UserController.addPicture)
 
 // Delete profile picture -- tested

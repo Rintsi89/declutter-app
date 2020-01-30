@@ -1,23 +1,23 @@
 const mongoose = require('mongoose')
 
 const removalSchema = mongoose.Schema({
-  name: { type: String, required: true },
-  quantity: { type: Number, required: true },
-  category: String,
-  saleItem: Boolean,
+  name: { type: String, required: true, minlength: 3 },
+  quantity: { type: Number, required: true, default: 1 },
+  removed: { type: Boolean, required: true },
+  saleItem: { type: Boolean, required: true, default: true },
   length: { type: Number, default: 0 },
   width: { type: Number, default: 0 },
   height: { type: Number, default: 0 },
   cbm: { type: Number, default: 0 },
   weight: { type: Number, default: 0 },
   totalWeight: { type: Number, default: 0 },
-  value: { type: Number, default: 0 },
+  value: { type: Number, required: true, default: 0 },
   totalValue: { type: Number, default: 0 },
+  category: String,
   soldAt: String,
   location: String,
   note: String,
   image: String,
-  removed: Boolean,
   date: String,
   dateRemoved: String,
   user: {
@@ -26,6 +26,7 @@ const removalSchema = mongoose.Schema({
   },
 })
 
+mongoose.Schema.Types.Boolean.convertToFalse.add('')
 removalSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
