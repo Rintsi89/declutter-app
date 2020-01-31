@@ -20,6 +20,14 @@ const LoginForm = (props) => {
   const handleLogin = async (event) => {
     event.preventDefault()
 
+    if (!username.attributes.value) {
+      return props.showMessage('Error', 'Username can\'t be blank','negative')
+    }
+
+    if (!password.attributes.value) {
+      return props.showMessage('Error', 'Password can\'t be blank','negative')
+    }
+
     const credentials = {
       username: username.attributes.value,
       password: password.attributes.value
@@ -42,14 +50,14 @@ const LoginForm = (props) => {
         </div>
         <Form.Field className={classes.formfield}>
           <label>Username</label>
-          <input {...username.attributes} />
+          <input {...username.attributes} data-cy="username"/>
         </Form.Field>
         <Form.Field className={classes.formfield}>
           <label>Password</label>
-          <input {...password.attributes} />
+          <input {...password.attributes} data-cy="password"/>
         </Form.Field>
         <div className={classes.submitfield}>
-          <Button positive>Log In</Button>
+          <Button positive data-cy="login">Log In</Button>
           <p><span className={classes.text}>No account yet?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'newaccount')}>Create account</button></p>
           <p><span className={classes.text}>Forgot your password?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p>
         </div>

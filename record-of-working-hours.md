@@ -82,5 +82,6 @@
 | 28.1  | 4    | Write more (working) tests and debug previous ECONNRESET problem. Decided to open topic on StackOverflow |
 | 29.1  | 1.5  | Write more backend tests and finish user route tests |
 | 30.1  | 3.5  | Finish backend tests |
-|       | 0.5  | Install and setup Cypress for e2e tests |       
-| tot   | 180  | 
+|       | 0.5  | Install and setup Cypress for e2e tests |
+| 31.1  | 3    | Write Cypress e2e tests     
+| tot   | 183  | 

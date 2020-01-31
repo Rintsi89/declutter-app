@@ -9,13 +9,13 @@ const FlashMessage = ({ header, message, status }) => {
   return(
     <div className={style}>
       {status === 'positive' ?
-        <Message positive>
+        <Message positive data-cy="positive">
           <Message.Header>{header}</Message.Header>
           <p>
             {message}
           </p>
         </Message> :
-        <Message negative>
+        <Message negative data-cy="negative">
           <Message.Header>{header}</Message.Header>
           <p>
             {message}

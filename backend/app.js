@@ -28,6 +28,11 @@ app.use('/api/removals', removalRouter)
 app.use('/api/users', userRouter)
 app.use('/api/login', loginRouter)
 
+if (process.env.NODE_ENV === 'test') {
+  const testingRouter =  require('./routes/testing')
+  app.use('/api/testing', testingRouter)
+}
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'build', 'index.html'))
 }) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa
