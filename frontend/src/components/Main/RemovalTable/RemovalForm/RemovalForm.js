@@ -70,8 +70,6 @@ const RemovalForm = (props) => {
   const [category, setCategory] = useState(sortedCategories[0].value)
   const [saleLocation, setSaleLocation] = useState(sortedSaleLocations[0].value)
 
-  // Image
-
   const [image, setImage] = useState(null)
 
   // Event handlers
@@ -128,6 +126,18 @@ const RemovalForm = (props) => {
   const addRemoval = async (event) => {
     event.preventDefault()
 
+    if (!name.attributes.value) {
+      return props.showMessage('Error', 'Name can\'t be blank', 'negative')
+    }
+
+    if (!quantity.attributes.value) {
+      return props.showMessage('Error', 'Quantity can\'t be blank', 'negative')
+    }
+
+    if (!value.attributes.value && type) {
+      return props.showMessage('Error', 'Value can\'t be blank', 'negative')
+    }
+
     try {
 
       let formData = new FormData()
@@ -143,8 +153,8 @@ const RemovalForm = (props) => {
       formData.set('note', note.attributes.value)
       formData.set('weight', weight.attributes.value)
       formData.set('totalWeight', weight.attributes.value * quantity.attributes.value)
-      formData.set('value', !removed ? 0 : value.attributes.value)
-      formData.set('totalValue', (value.attributes.value *quantity.attributes.value))
+      formData.set('value', !type ? 0 : value.attributes.value)
+      formData.set('totalValue', (value.attributes.value * quantity.attributes.value) )
       formData.set('length', length.attributes.value),
       formData.set('width', width.attributes.value),
       formData.set('height', height.attributes.value)
@@ -166,66 +176,66 @@ const RemovalForm = (props) => {
       <p>Fill in the details <em><b>per unit</b></em></p>
       <Form onSubmit={addRemoval} encType="multipart/form-data">
         <Form.Group widths='equal'>
-          <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} />
-          <Form.Select fluid label='Removed already?' value={removed} options={removedTypes} onChange={handleRemovedChange} />
+          <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} data-cy='type' />
+          <Form.Select fluid label='Removed already?' value={removed} options={removedTypes} onChange={handleRemovedChange} data-cy='removed' />
           <Form.Field>
             <label>Name</label>
-            <input {...name.attributes} required />
+            <input {...name.attributes} data-cy='name' />
           </Form.Field>
           <Form.Field>
             <label>Quantity</label>
-            <input {...quantity.attributes} required min='1'/>
+            <input {...quantity.attributes} min='1' data-cy='quantity'/>
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Select fluid label='Category' value={category} options={sortedCategories} onChange={handleCategoryChange}/>
+          <Form.Select fluid label='Category' value={category} options={sortedCategories} onChange={handleCategoryChange} data-cy='category'/>
           <Form.Field>
             <label>Length (cm)</label>
-            <input {...length.attributes} />
+            <input {...length.attributes} data-cy='length'/>
           </Form.Field>
           <Form.Field>
             <label>Width (cm)</label>
-            <input {...width.attributes} />
+            <input {...width.attributes} data-cy='width' />
           </Form.Field>
           <Form.Field>
             <label>Height (cm)</label>
-            <input {...height.attributes} />
+            <input {...height.attributes} data-cy='height' />
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field>
             <label>Weight (kg)</label>
-            <input {...weight.attributes} />
+            <input {...weight.attributes} data-cy='weight' />
           </Form.Field>
           <Form.Field>
             <label>Value (€)</label>
-            {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} required min='1'/> }
+            {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} min='1' data-cy='value'/> }
           </Form.Field>
-          <Form.Select fluid label='Location' value={location} options={sortedLocations} onChange={handleLocationChange}/>
-          <Form.Select fluid label='Sold at' value={saleLocation} options={sortedSaleLocations} onChange={handleSaleLocationChange} />
+          <Form.Select fluid label='Location' value={location} options={sortedLocations} onChange={handleLocationChange} data-cy='location' />
+          <Form.Select fluid label='Sold at' value={saleLocation} options={sortedSaleLocations} onChange={handleSaleLocationChange} data-cy='sold' />
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field>
             <label>Notes</label>
-            <input {...note.attributes} />
+            <input {...note.attributes} data-cy='note' />
           </Form.Field>
           <Form.Field>
             <label>Date created</label>
-            <input {...date.attributes} required max={today} />
+            <input {...date.attributes} max={today} data-cy='date' />
           </Form.Field>
           <Form.Field>
             <label>Date removed</label>
-            {!removed ? <input {...dateRemoved.attributes} disabled /> : <input {...dateRemoved.attributes} required min={date.attributes.value} max={today} /> }
+            {!removed ? <input {...dateRemoved.attributes} disabled /> : <input {...dateRemoved.attributes} min={date.attributes.value} max={today} data-cy='date-removed' /> }
           </Form.Field>
           <Form.Field>
-            <label>Image</label>
-            <input type="file" onChange={(e) => handleFileChange(e.target.files[0])} />
+            <label>Image (max. 4 mb)</label>
+            <input type="file" onChange={(e) => handleFileChange(e.target.files[0])} data-cy='image' />
           </Form.Field>
         </Form.Group>
         <Button.Group>
           <Button onClick={(event) => resetAndHide(event)}>Cancel</Button>
           <Button.Or />
-          <Button primary>Save</Button>
+          <Button primary data-cy='save'>Save</Button>
         </Button.Group>
       </Form>
     </div>

@@ -1,8 +1,8 @@
 describe('Login', () => {
 
     before(() => {
-        cy.request('POST', '/api/testing/reset')
-        cy.request('POST', '/api/testing/initUser')
+        cy.resetDataBase()
+        cy.initUser()
     })
 
     beforeEach(() => {
@@ -13,11 +13,11 @@ describe('Login', () => {
         cy.contains('h3', 'Log In')
     })
 
-    it('it has create account button', () => {
+    it('has create account button', () => {
         cy.contains('button', 'Create account')
     })
 
-    it('it has reset password button', () => {
+    it('has reset password button', () => {
         cy.contains('button', 'Reset password')
     })
 

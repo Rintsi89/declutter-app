@@ -125,7 +125,8 @@ const forgotPassword = async (request, response, next) => {
     // This is controversial approach for test!
     if (process.env.NODE_ENV === 'test') {
       return response.status(200).json({
-        token
+        token,
+        message: `Link to reset your password has been send to ${user.email}`
       })
     }
     response.status(200).json({ message: `Link to reset your password has been send to ${user.email}` })

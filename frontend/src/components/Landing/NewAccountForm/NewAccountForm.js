@@ -30,6 +30,14 @@ const NewAccountForm = (props) => {
 
     try {
 
+      if (!username.attributes.value) {
+        return props.showMessage('Error', 'Username can\'t be blank','negative')
+      }
+
+      if (!email.attributes.value) {
+        return props.showMessage('Error', 'Email can\'t be blank','negative')
+      }
+
       if (password.attributes.value !== retypedpassword.attributes.value) {
         password.reset()
         retypedpassword.reset()
@@ -61,22 +69,22 @@ const NewAccountForm = (props) => {
         </div>
         <Form.Field className={classes.formfield}>
           <label>Username</label>
-          <input {...username.attributes} required />
+          <input {...username.attributes} data-cy="username" />
         </Form.Field>
         <Form.Field className={classes.formfield}>
           <label>Email</label>
-          <input {...email.attributes} required />
+          <input {...email.attributes} data-cy="email" />
         </Form.Field>
         <Form.Field className={classes.formfield}>
           <label>Password</label>
-          <input {...password.attributes} />
+          <input {...password.attributes} data-cy="password" />
         </Form.Field>
         <Form.Field className={classes.formfield}>
           <label>Retype password</label>
-          <input {...retypedpassword.attributes} />
+          <input {...retypedpassword.attributes} data-cy="password2" />
         </Form.Field>
         <div className={classes.submitfield}>
-          <Button positive>Create</Button>
+          <Button positive data-cy="register">Create</Button>
           <p><span className={classes.text}>Already have an account?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'login')}>Log in</button></p>
           <p><span className={classes.text}>Forgot your password?</span><button className={classes.buttonlink} onClick={(event) => changeForm(event, 'reset')}>Reset password</button></p>
         </div>

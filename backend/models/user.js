@@ -22,12 +22,11 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    minlength: 5,
-    present: true
+    minlength: 5
   },
   email: { type: String, unique: true, minlength: 5 },
   confirmed: { type: Boolean, default: false },
-  name: { type: String, unique: true, minlength: 2 },
+  name: { type: String, minlength: 2 },
   passwordHash: String,
   resetPasswordToken: String,
   resetPasswordExpires: String,
@@ -45,7 +44,7 @@ const userSchema = mongoose.Schema({
   ],
 })
 
-userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator, { message: 'already taken' })
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {

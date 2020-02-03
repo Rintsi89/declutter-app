@@ -21,6 +21,10 @@ const ResetPasswordForm = (props) => {
 
     try {
 
+      if (!email.attributes.value) {
+        return props.showMessage('Error', 'Email can\'t be blank','negative')
+      }
+
       const response = await userService.forgotPassword({ email: email.attributes.value })
       props.showMessage('Email sent', `${response.message}`, 'positive')
       email.reset()
@@ -41,7 +45,7 @@ const ResetPasswordForm = (props) => {
         </div>
         <Form.Field className={classes.formfield}>
           <label>Email</label>
-          <input {...email.attributes} required />
+          <input {...email.attributes} data-cy='email' />
         </Form.Field>
         <div className={classes.submitfield}>
           <Button positive>Send email</Button>

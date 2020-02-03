@@ -33,6 +33,7 @@
     "babel-loader": "^8.0.6",
     "css-loader": "^3.3.2",
     "cypress": "^3.8.3",
+    "cypress-file-upload": "^3.5.3",
     "eslint": "^6.6.0",
     "eslint-plugin-jest": "^23.6.0",
     "style-loader": "^1.0.1",
