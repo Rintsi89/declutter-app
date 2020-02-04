@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const removalSchema = mongoose.Schema({
-  name: { type: String, required: true, minlength: 3 },
+  name: { type: String, required: true },
   quantity: { type: Number, required: true, default: 1 },
   removed: { type: Boolean, required: true },
   saleItem: { type: Boolean, required: true, default: true },

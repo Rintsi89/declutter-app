@@ -85,6 +85,21 @@ const EditRemovalForm = (props) => {
 
   const updateRemoval = async (id) => {
 
+    if (!name.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Name can\'t be blank', 'negative')
+    }
+
+    if (!quantity.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Quantity can\'t be blank', 'negative')
+    }
+
+    if (!value.attributes.value && type) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Value can\'t be blank', 'negative')
+    }
+
     try {
 
       const updateObject = {
@@ -124,63 +139,63 @@ const EditRemovalForm = (props) => {
           <p>Fill in the details <em><b>per unit</b></em></p>
           <Form onSubmit={() => updateRemoval(props.removal.id)}>
             <Form.Group widths='equal'>
-              <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} required />
+              <Form.Select fluid label='Type' value={type} options={types} onChange={handleTypeChange} required data-cy='type' />
               <Form.Field>
                 <label>Name</label>
-                <input {...name.attributes} />
+                <input {...name.attributes} data-cy='name' />
               </Form.Field>
               <Form.Field>
                 <label>Quantity</label>
-                <input {...quantity.attributes} />
+                <input {...quantity.attributes} data-cy='quantity' />
               </Form.Field>
-              <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange}/>
+              <Form.Select fluid label='Category' value={category} options={props.user.categories} onChange={handleCategoryChange} data-cy='category' />
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Length (cm)</label>
-                <input {...length.attributes} />
+                <input {...length.attributes} data-cy='length' />
               </Form.Field>
               <Form.Field>
                 <label>Width (cm)</label>
-                <input {...width.attributes} />
+                <input {...width.attributes} data-cy='width' />
               </Form.Field>
               <Form.Field>
                 <label>Height (cm)</label>
-                <input {...height.attributes} />
+                <input {...height.attributes} data-cy='height' />
               </Form.Field>
               <Form.Field>
                 <label>Weight (kg)</label>
-                <input {...weight.attributes} />
+                <input {...weight.attributes} data-cy='weight' />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field>
                 <label>Value (€)</label>
-                {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} /> }
+                {!type ? <input {...value.attributes} disabled data-cy='valuedisabled'/> : <input {...value.attributes} data-cy='value' /> }
               </Form.Field>
-              <Form.Select fluid label='Location' value={location} options={createLocations(props.user.locations)} onChange={handleLocationChange}/>
+              <Form.Select fluid label='Location' value={location} options={createLocations(props.user.locations)} onChange={handleLocationChange} data-cy='location' />
               <Form.Field>
-                <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange}/>
+                <Form.Select fluid label='Sold at' value={saleLocation} options={props.user.saleLocations} onChange={handleSaleLocationChange} data-cy='sold' />
               </Form.Field>
               <Form.Field>
                 <label>Notes</label>
-                <input {...note.attributes} />
+                <input {...note.attributes} data-cy='note' />
               </Form.Field>
             </Form.Group>
             <Form.Group>
               <Form.Field>
                 <label>Date created</label>
-                <input {...date.attributes} max={today} />
+                <input {...date.attributes} max={today} data-cy='date' />
               </Form.Field>
               <Form.Field>
                 <label>Date removed</label>
-                {!props.removal.removed ? <input {...dateRemoved.attributes} disabled /> : <input {...dateRemoved.attributes} required min={date.attributes.value} max={today} /> }
+                {!props.removal.removed ? <input {...dateRemoved.attributes} disabled /> : <input {...dateRemoved.attributes} required min={date.attributes.value} max={today} data-cy='dateremoved'/> }
               </Form.Field>
             </Form.Group>
             <Button.Group>
               <Button onClick={(event) => resetForm(event)}>Cancel</Button>
               <Button.Or />
-              <Button primary>Save</Button>
+              <Button primary data-cy='save'>Save</Button>
             </Button.Group>
           </Form>
         </div>

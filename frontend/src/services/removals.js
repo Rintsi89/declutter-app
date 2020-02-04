@@ -49,7 +49,7 @@ const updateImage = async (id, updatedRemoval) => {
   const config = {
     headers: { Authorization: token },
   }
-  const response = await axios.put(`${baseUrl}/${id}/picture/add`, updatedRemoval, config)
+  const response = await axios.patch(`${baseUrl}/${id}/picture/add`, updatedRemoval, config)
   return response.data
 }
 
@@ -58,7 +58,7 @@ const deleteImage = async (id) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.delete(`${baseUrl}/${id}/picture/remove`, config)
+  const response = await axios.patch(`${baseUrl}/${id}/picture/remove`, null, config)
   return response.data
 }
 

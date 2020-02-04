@@ -43,7 +43,7 @@ const SaleModal = (props) => {
   }
 
   return (
-    <Modal as={Form} onSubmit={(event) => markSold(event, props.modal.removal)} open={props.modal.visible} size="tiny">
+    <Modal as={Form} onSubmit={(event) => markSold(event, props.modal.removal)} open={props.modal.visible} size="tiny" data-cy='salemodal'>
       <Header content="When this item was removed?" as="h2" />
       <Modal.Content>
         <label>Date removed</label>

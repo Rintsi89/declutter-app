@@ -25,33 +25,53 @@ Cypress.Commands.add('initRemoval', () => {
     const user = JSON.parse(window.localStorage.getItem('loggedUser'))
     const token = user.token
     
-    cy.request({
-        method: 'POST',
-        url: '/api/removals',
-        headers: {
-            Authorization: `bearer ${token}`
-        },
-        body: {
-            length: 12,
-            width: 12,
-            height: 12,
-            cbm: 0.02,
-            weight: 12,
-            totalWeight: 144,
-            value: 12,
-            totalValue: 144,
-            saleItem: true,
-            name: "Dictionary",
-            removed: true,
-            quantity: 12,
-            category: "Books",
-            date: "2020-01-23",
-            dateRemoved: "2020-01-23",
-            location: "Home",
-            soldAt: "Huuto.net",
-            note: "This was expensive"
-        }
+    cy.fixture('removal').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/removals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
     })
+
+})
+
+Cypress.Commands.add('initRemovalNotRemoved', () => {
+
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+    const token = user.token
+
+    cy.fixture('removalNotRemoved').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/removals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
+    })
+
+})
+
+Cypress.Commands.add('initRemovalWithImage', () => {
+
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+    const token = user.token
+
+    cy.fixture('removalWithImage').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/removals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
+    })
+
 })
 
 Cypress.Commands.add('addImage', () => {

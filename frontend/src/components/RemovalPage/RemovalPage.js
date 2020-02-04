@@ -128,10 +128,12 @@ const RemovalPage = (props) => {
       let formData = new FormData()
       formData.append('image', image)
       setForm(null)
+      window.scrollTo(0, 0)
       await props.updateRemovalImage(id, formData)
 
     } catch (error) {
       setForm(null)
+      window.scrollTo(0, 0)
       props.showMessage('Error', error.response.data.error, 'negative')
     }
 
@@ -140,7 +142,7 @@ const RemovalPage = (props) => {
   const deleteImage = async (event, id) => {
     event.preventDefault()
 
-    if (!props.removal.image || props.removal.image.substr(props.removal.image.length - 18) === 'No-image-found.jpg') {
+    if (!props.removal.image) {
       window.scrollTo(0, 0)
       return props.showMessage('Error', 'There is no image to delete!', 'negative')
     }
@@ -149,9 +151,11 @@ const RemovalPage = (props) => {
 
       try {
         setForm(null)
+        window.scrollTo(0, 0)
         await props.deleteRemovalImage(id)
       } catch (error) {
         setForm(null)
+        window.scrollTo(0, 0)
         props.showMessage('Error', error.response.data.error, 'negative')
       }
 
@@ -178,7 +182,7 @@ const RemovalPage = (props) => {
       </div>
       <SaleModal />
       <div className={classes.infoarea}>
-        <img src={props.removal.image} className={classes.image}/>
+        <img src={props.removal.image} className={classes.image} data-cy='mainimage' />
         <div className={classes.contentcontainer}>
           <div className={classes.contentspacer}>
             <div className={classes.content}>
@@ -218,12 +222,12 @@ const RemovalPage = (props) => {
         {props.removal.removed ?
           <div className={classes.chart}>
             <h4>{props.removal.saleItem ? 'Days used to sell' : 'Days used to donate'}</h4>
-            <div className={classes.bar}>
-              <Bar data={data} options={options} />
+            <div className={classes.bar} data-cy='bar'>
+              <Bar data={data} options={options}  />
             </div>
           </div>
           :
-          <div className={classes.notremoved}>
+          <div className={classes.notremoved} data-cy='note'>
             <div><Icon color='red' name='x' size='huge' /></div>
             <div>Item is not yet removed</div>
           </div>
@@ -232,8 +236,8 @@ const RemovalPage = (props) => {
           <h4>Actions</h4>
           <div className={classes.actionbuttons}>
             {!props.removal.removed ?
-              <button onClick={() => props.initModal(props.removal)} className={classes.actionbutton}><Icon color='green' name='checkmark' />Mark removed</button> :
-              <button onClick={() => setRemoveCancel(props.removal)} className={classes.actionbutton}><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>
+              <button onClick={() => props.initModal(props.removal)} className={classes.actionbutton} data-cy='removed'><Icon color='green' name='checkmark' />Mark removed</button> :
+              <button onClick={() => setRemoveCancel(props.removal)} className={classes.actionbutton} data-cy='notremoved'><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>
             }
             <Confirm
               open={showNotRemoved}
@@ -242,6 +246,7 @@ const RemovalPage = (props) => {
               content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} not removed?` : null}
               onCancel={() => setShowNotRemoved(false)}
               onConfirm={() => markUnSold(removalNotToRemove)}
+              data-cy='modal'
             />
             <button onClick={() => setForm('editform')} className={classes.actionbutton} ><Icon name='edit' />Edit details</button>
             <button onClick={() => setForm('imageform')} className={classes.actionbutton}><Icon name='image outline' />Edit image</button>

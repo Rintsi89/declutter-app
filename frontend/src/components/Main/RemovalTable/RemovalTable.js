@@ -133,7 +133,7 @@ const RemovalTable = (props) => {
                     {moment(r.date).format('DD.MM.YYYY')}
                   </td>
                   <td data-cy='name'>
-                    {r.name} <Link to={`/removals/${r.id}`}><Icon name='edit' /></Link>
+                    {r.name} <Link to={`/removals/${r.id}`} data-cy='edit'><Icon name='edit' /></Link>
                   </td>
                   <td>
                     {r.category}
@@ -147,7 +147,7 @@ const RemovalTable = (props) => {
                   <td>
                     {r.totalValue}€
                   </td>
-                  <td>
+                  <td data-cy='checkmark'>
                     {r.removed ?
                       <div><Icon color='green' name='checkmark' /> Yes</div> :
                       <div><Icon color='red' name='x' /> No</div>}
@@ -163,8 +163,8 @@ const RemovalTable = (props) => {
                   </td>
                   <td>
                     {!r.removed ?
-                      <button className={classes.removebutton} onClick={() => props.initModal(r)}><Icon color='green' name='checkmark' />Mark removed</button>
-                      : <button className={classes.removebutton} onClick={() => setRemoveCancel(r)}><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>}
+                      <button className={classes.removebutton} onClick={() => props.initModal(r)} data-cy='removed'><Icon color='green' name='checkmark' />Mark removed</button>
+                      : <button className={classes.removebutton} onClick={() => setRemoveCancel(r)} data-cy='notremoved'><div className={classes.not}><Icon color='red' name='x' />Mark not removed</div></button>}
                     <Confirm
                       open={showNotRemoved}
                       header={'Mark NOT removed'}
@@ -172,10 +172,11 @@ const RemovalTable = (props) => {
                       content={removalNotToRemove ? `Are you sure you want to mark ${removalNotToRemove.name} not removed?` : null}
                       onCancel={() => setShowNotRemoved(false)}
                       onConfirm={() => markUnSold(removalNotToRemove)}
+                      data-cy='modal'
                     />
                   </td>
                   <td>
-                    <button className={classes.button} onClick={() => setDelete(r)}><Icon name="trash alternate outline" /></button>
+                    <button className={classes.button} onClick={() => setDelete(r)} data-cy='delete'><Icon name="trash alternate outline" /></button>
                     <Confirm
                       open={showDelete}
                       header={'Delete removal'}
@@ -183,6 +184,7 @@ const RemovalTable = (props) => {
                       content={removalToDelete ? `Are you sure you want to delete ${removalToDelete.name}` : null}
                       onCancel={() => setShowDelete(false)}
                       onConfirm={() => deleteRemoval(removalToDelete.id, removalToDelete.name)}
+                      data-cy='deletemodal'
                     />
                   </td>
                 </tr>)}

@@ -1,4 +1,4 @@
-describe('Register', () => {
+describe('Reset password', () => {
 
     before(() => {
         cy.resetDataBase()

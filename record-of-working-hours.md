@@ -84,5 +84,6 @@
 | 30.1  | 3.5  | Finish backend tests |
 |       | 0.5  | Install and setup Cypress for e2e tests |
 | 31.1  | 3    | Write Cypress e2e tests |
-| 3.2   | 4.5  | Write Cypress e2e tests, finish landing page test, start main page page tests |   
-| tot   | 187.5| 
+| 3.2   | 4.5  | Write Cypress e2e tests, finish landing page test, start main page page tests | 
+| 4.2   | 5    | Write Cypress e2e tests, edit removal page test, next should be user account tests | 
+| tot   | 192.5| 

@@ -28,15 +28,15 @@ const PictureForm = (props) => {
           <Form.Group>
             <Form.Field width={5}>
               <label>{props.alert}</label>
-              <input key={forRender} type="file" onChange={(e) => handleFileChange(e.target.files[0])} />
+              <input key={forRender} type="file" onChange={(e) => handleFileChange(e.target.files[0])} data-cy='image' />
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={resetFile}>Cancel</Button>
             <Button.Or />
-            <Button primary>Upload new</Button>
+            <Button primary data-cy='upload'>Upload new</Button>
             <Button.Or />
-            <Button negative onClick={(event) => props.delete(event, props.id)}>Delete old</Button>
+            <Button negative onClick={(event) => props.delete(event, props.id)} data-cy='delete'>Delete old</Button>
           </Button.Group>
         </Form>
       </div>

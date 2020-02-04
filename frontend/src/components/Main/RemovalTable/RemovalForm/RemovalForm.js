@@ -228,7 +228,7 @@ const RemovalForm = (props) => {
             {!removed ? <input {...dateRemoved.attributes} disabled /> : <input {...dateRemoved.attributes} min={date.attributes.value} max={today} data-cy='date-removed' /> }
           </Form.Field>
           <Form.Field>
-            <label>Image (max. 4 mb)</label>
+            <label>.jpg or .png image (max. 4 mb)</label>
             <input type="file" onChange={(e) => handleFileChange(e.target.files[0])} data-cy='image' />
           </Form.Field>
         </Form.Group>
