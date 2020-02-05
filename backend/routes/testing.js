@@ -5,4 +5,6 @@ router.post('/reset', TestingController.reset)
 
 router.post('/initUser', TestingController.initUser)
 
+router.post('/initSecondUser', TestingController.initSecondUser)
+
 module.exports = router

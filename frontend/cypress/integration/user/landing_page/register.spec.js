@@ -46,6 +46,14 @@ describe('Register', () => {
         cy.get('[data-cy=negative]').should('contain', 'Password mismatch')
     })
 
+    it('requires password to be at least 5 characters', () => {
+        cy.get('[data-cy=username]').type('User-1')
+        cy.get('[data-cy=email]').type('test@test.com')
+        cy.get('[data-cy=password]').type('pass')
+        cy.get('[data-cy=password2]').type('pass{enter}')
+        cy.get('[data-cy=negative]').should('contain', 'Password minimum length is 5')
+    })
+
     it('requires unique username', () => {
         cy.get('[data-cy=username]').type('testUser')
         cy.get('[data-cy=email]').type('test@test.com')

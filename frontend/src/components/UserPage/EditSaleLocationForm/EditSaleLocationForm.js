@@ -22,7 +22,8 @@ const SaleLocationForm = (props) => {
     event.preventDefault()
 
     if (!saleLocation.attributes.value) {
-      return alert('You must type sale location name!')
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Sale location can\'t be blank','negative')
     }
 
     try {
@@ -66,11 +67,11 @@ const SaleLocationForm = (props) => {
         <p><em><b>Your current sale locations are:</b></em></p>
         {props.logged_user.saleLocations.length < 1 ?
           <p>You do not have any sale locations.</p> :
-          <ul className={classes.salelocations}>
+          <ul className={classes.salelocations} data-cy='salelocationlist'>
             {props.logged_user.saleLocations.map(l => l.value).sort().map(l =>
               <li key={l}>
                 {l}
-                <button className={classes.button} onClick={() => deleteSaleLocation(event, props.logged_user.id, l)}>
+                <button className={classes.button} onClick={() => deleteSaleLocation(event, props.logged_user.id, l)} data-cy='delete'>
                   <Icon name="trash alternate outline" />
                 </button>
               </li>)}
@@ -80,13 +81,13 @@ const SaleLocationForm = (props) => {
           <Form.Group>
             <Form.Field width={5}>
               <label>Add new sale location</label>
-              <input {...saleLocation.attributes} required/>
+              <input {...saleLocation.attributes} data-cy='salelocation' />
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button primary>Save</Button>
+            <Button primary data-cy='save'>Save</Button>
           </Button.Group>
         </Form>
       </div>

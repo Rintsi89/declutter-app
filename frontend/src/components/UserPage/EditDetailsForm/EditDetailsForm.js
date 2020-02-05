@@ -27,6 +27,16 @@ const EditForm = (props) => {
 
   const updateUser = async (id) => {
 
+    if (!username.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Username can\'t be blank','negative')
+    }
+
+    if (!email.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Email can\'t be blank','negative')
+    }
+
     try {
 
       const updateArguments = {
@@ -54,26 +64,26 @@ const EditForm = (props) => {
           <Form.Group>
             <Form.Field width={4}>
               <label>Username</label>
-              <input {...username.attributes} required/>
+              <input {...username.attributes} data-cy='username' />
             </Form.Field>
             <Form.Field width={4}>
               <label>Name</label>
-              <input {...name.attributes} required/>
+              <input {...name.attributes} data-cy='name' />
             </Form.Field>
             <Form.Field width={4}>
               <label>Email</label>
-              <input {...email.attributes} required/>
+              <input {...email.attributes} data-cy='email' />
             </Form.Field>
             <Form.Field width={5}>
               <label>Description</label>
-              <TextArea {...description.attributes}>
+              <TextArea {...description.attributes} data-cy='description'>
               </TextArea>
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button primary>Save</Button>
+            <Button primary data-cy='save'>Save</Button>
           </Button.Group>
         </Form>
       </div>

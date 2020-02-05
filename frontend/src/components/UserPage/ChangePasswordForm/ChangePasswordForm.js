@@ -24,8 +24,24 @@ const PasswordForm = (props) => {
 
   const changePassword = async (id) => {
 
+    if (!oldPassword.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Password can\'t be blank','negative')
+    }
+
+    if (!newPassword.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'New password can\'t be blank','negative')
+    }
+
+    if (!newPasswordRe.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'New password must be typed again','negative')
+    }
+
     if(newPassword.attributes.value !== newPasswordRe.attributes.value) {
-      return alert('New password does not match! Please type again')
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'New password does not match! Please type again','negative')
     }
 
     try {
@@ -54,21 +70,21 @@ const PasswordForm = (props) => {
           <Form.Group>
             <Form.Field width={5}>
               <label>Old password</label>
-              <input {...oldPassword.attributes} required/>
+              <input {...oldPassword.attributes} data-cy='password' />
             </Form.Field>
             <Form.Field width={5}>
               <label>New password</label>
-              <input {...newPassword.attributes} required/>
+              <input {...newPassword.attributes} data-cy='newpassword' />
             </Form.Field>
             <Form.Field width={5}>
               <label>Retype new password</label>
-              <input {...newPasswordRe.attributes} required/>
+              <input {...newPasswordRe.attributes} data-cy='newpasswordre'/>
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button primary>Change</Button>
+            <Button primary data-cy='save'>Save</Button>
           </Button.Group>
         </Form>
       </div>

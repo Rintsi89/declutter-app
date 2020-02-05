@@ -21,7 +21,8 @@ const LocationForm = (props) => {
   const addLocation = async (id) => {
 
     if (!location.attributes.value) {
-      return alert('You must type location name!')
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Location can\'t be blank','negative')
     }
 
     try {
@@ -61,11 +62,11 @@ const LocationForm = (props) => {
       <div className={classes.formarea}>
         <h3 className={classes.title}>Edit your locations</h3>
         <p><em><b>Your current locations are:</b></em></p>
-        <ul className={classes.locations}>
+        <ul className={classes.locations} data-cy='locationlist' >
           {props.logged_user.locations.sort().map(l =>
             <li key={l}>
               {l}
-              <button className={classes.button} onClick={() => deleteLocation(event, props.logged_user.id, l)}>
+              <button className={classes.button} onClick={() => deleteLocation(event, props.logged_user.id, l)} data-cy='delete'>
                 <Icon name="trash alternate outline" /></button>
             </li>)}
         </ul>
@@ -73,13 +74,13 @@ const LocationForm = (props) => {
           <Form.Group>
             <Form.Field width={5}>
               <label>Add new location</label>
-              <input {...location.attributes} required />
+              <input {...location.attributes} data-cy='location' />
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button primary>Save</Button>
+            <Button primary data-cy='save'>Save</Button>
           </Button.Group>
         </Form>
       </div>

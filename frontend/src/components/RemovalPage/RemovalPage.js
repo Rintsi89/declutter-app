@@ -190,14 +190,14 @@ const RemovalPage = (props) => {
                 <h4>Details</h4>
               </div>
               <ul>
-                <li><span className={classes.subject}>Name:</span> {props.removal.name}</li>
-                <li><span className={classes.subject}>Quantity:</span> {props.removal.quantity}</li>
-                <li><span className={classes.subject}>Locations:</span> {props.removal.location}</li>
-                <li><span className={classes.subject}>Category:</span> {props.removal.category}</li>
-                <li><span className={classes.subject}>Unit value:</span> {props.removal.value}€</li>
-                <li><span className={classes.subject}>Total value:</span> {props.removal.totalValue}€</li>
-                <li><span className={classes.subject}>Type:</span> {props.removal.saleItem ? <span><Icon name="money bill alternate" /> sell</span> : <span><Icon name="gift" /> donate</span>}</li>
-                <li><span className={classes.subject}>Sold at:</span> {props.removal.soldAt}</li>
+                <li><span className={classes.subject}>Name:</span> <span data-cy='namedetail'>{props.removal.name}</span></li>
+                <li><span className={classes.subject}>Quantity:</span> <span data-cy='quantitydetail'>{props.removal.quantity}</span></li>
+                <li><span className={classes.subject}>Location:</span> <span data-cy='locationdetail'>{props.removal.location}</span></li>
+                <li><span className={classes.subject}>Category:</span> <span data-cy='categorydetail'>{props.removal.category}</span></li>
+                <li><span className={classes.subject}>Unit value:</span> <span data-cy='valuedetail'>{props.removal.value}</span>€</li>
+                <li><span className={classes.subject}>Total value:</span> <span data-cy='totalvaluedetail'>{props.removal.totalValue}</span>€</li>
+                <li><span className={classes.subject}>Type:</span> <span data-cy='typedetail'>{props.removal.saleItem ? <span><Icon name="money bill alternate" /> sell</span> : <span><Icon name="gift" /> donate</span>}</span></li>
+                <li><span className={classes.subject}>Sold at:</span> <span data-cy='solddetail'>{props.removal.soldAt}</span></li>
               </ul>
             </div>
             <div className={classes.content2}>
@@ -205,18 +205,18 @@ const RemovalPage = (props) => {
                 <h4>Dimensions</h4>
               </div>
               <ul>
-                <li><span className={classes.subject}>Unit length:</span> {props.removal.length} cm</li>
-                <li><span className={classes.subject}>Unit width:</span> {props.removal.width} cm</li>
-                <li><span className={classes.subject}>Unit height:</span> {props.removal.height} cm</li>
-                <li><span className={classes.subject}>Total volume:</span> {props.removal.cbm} m³</li>
-                <li><span className={classes.subject}>Unit weight:</span> {props.removal.weight} kg</li>
-                <li><span className={classes.subject}>Total weight:</span> {props.removal.totalWeight} kg</li>
+                <li><span className={classes.subject}>Unit length:</span> <span data-cy='lengthdetail'>{props.removal.length}</span> cm</li>
+                <li><span className={classes.subject}>Unit width:</span> <span data-cy='widthdetail'>{props.removal.width}</span> cm</li>
+                <li><span className={classes.subject}>Unit height:</span> <span data-cy='heightdetail'>{props.removal.height}</span> cm</li>
+                <li><span className={classes.subject}>Total volume:</span> <span data-cy='volumedetail'>{props.removal.cbm}</span> m³</li>
+                <li><span className={classes.subject}>Unit weight:</span> <span data-cy='weightdetail'>{props.removal.weight}</span> kg</li>
+                <li><span className={classes.subject}>Total weight:</span> <span data-cy='totalweightdetail'>{props.removal.totalWeight}</span> kg</li>
               </ul>
             </div>
           </div>
           <div className={classes.notes}>
             <h4>Notes</h4>
-            <p>{props.removal.note}</p>
+            <p><span data-cy='notedetail'>{props.removal.note}</span></p>
           </div>
         </div>
         {props.removal.removed ?

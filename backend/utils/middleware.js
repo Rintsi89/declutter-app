@@ -42,6 +42,9 @@ const errorHandler = (error, request, response, next) => {
     return response.status(400).json({ error: error.message })
   } else if (error.name === 'CastError' && error.kind === 'ObjectId') {
     return response.status(400).json({ error: 'ID is not valid' })
+  } else if (error.name === 'MongoError' && error.code === 11000) {
+    const key = Object.keys(error.keyValue)[0]
+    return response.status(400).json({ error: `${key.charAt(0).toUpperCase() + key.slice(1)} ${error.keyValue[key]} is already taken` })
   } else if (error.name === 'MongoError') {
     return response.status(400).json({ error: error.message })
   } else if (error.name === 'JsonWebTokenError') {

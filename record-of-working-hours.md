@@ -86,4 +86,5 @@
 | 31.1  | 3    | Write Cypress e2e tests |
 | 3.2   | 4.5  | Write Cypress e2e tests, finish landing page test, start main page page tests | 
 | 4.2   | 5    | Write Cypress e2e tests, edit removal page test, next should be user account tests | 
-| tot   | 192.5| 
+| 5.2   | 5.5  | Write Cypress e2e tests on user account page and fix previously done tests | 
+| tot   | 198  | 

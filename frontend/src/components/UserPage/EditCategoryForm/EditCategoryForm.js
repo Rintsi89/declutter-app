@@ -22,7 +22,8 @@ const EditCategoryForm = (props) => {
     event.preventDefault()
 
     if (!category.attributes.value) {
-      return alert('You must type category name!')
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Category can\'t be blank','negative')
     }
 
     try {
@@ -65,11 +66,11 @@ const EditCategoryForm = (props) => {
       <div className={classes.formarea}>
         <h3 className={classes.title}>Edit your categories</h3>
         <p><em><b>Your current categories are:</b></em></p>
-        <ul className={classes.categories}>
+        <ul className={classes.categories} data-cy='categorylist'>
           {props.logged_user.categories.map(c => c.value).sort().map(c =>
             <li key={c}>
               {c}
-              <button className={classes.button} onClick={() => deleteCategory(event, props.logged_user.id, c)}>
+              <button className={classes.button} onClick={() => deleteCategory(event, props.logged_user.id, c)} data-cy='delete'>
                 <Icon name="trash alternate outline" />
               </button>
             </li>)}
@@ -78,13 +79,13 @@ const EditCategoryForm = (props) => {
           <Form.Group>
             <Form.Field width={5}>
               <label>Add new category</label>
-              <input {...category.attributes} required />
+              <input {...category.attributes} data-cy='category' />
             </Form.Field>
           </Form.Group>
           <Button.Group>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button primary>Save</Button>
+            <Button primary data-cy='save'>Save</Button>
           </Button.Group>
         </Form>
       </div>

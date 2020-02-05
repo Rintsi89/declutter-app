@@ -246,9 +246,9 @@ const edit = async (request, response, next) => {
       })
     }
 
-    if (!(request.body.username || request.body.name || request.body.email)) {
+    if (!(request.body.username && request.body.email)) {
       return response.status(400).json({
-        error: 'Cannot send empty data!'
+        error: 'Username and email is required'
       })
     }
 
@@ -265,7 +265,7 @@ const edit = async (request, response, next) => {
       })
     }
 
-    const updatedUser = await User.findByIdAndUpdate(user.id, updateObject, { new: true })
+    const updatedUser = await User.findByIdAndUpdate(user.id, updateObject, { new: true } )
 
     response.status(200).json(updatedUser)
 

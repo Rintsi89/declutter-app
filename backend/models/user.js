@@ -22,11 +22,11 @@ const userSchema = mongoose.Schema({
   username: {
     type: String,
     unique: true,
-    minlength: 5
+    minlength: 2
   },
   email: { type: String, unique: true, minlength: 5 },
   confirmed: { type: Boolean, default: false },
-  name: { type: String, minlength: 2 },
+  name: { type: String },
   passwordHash: String,
   resetPasswordToken: String,
   resetPasswordExpires: String,

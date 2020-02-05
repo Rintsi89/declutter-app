@@ -26,7 +26,8 @@ const UserPage = (props) => {
   const updateImage = async (id, image) => {
 
     if (!image) {
-      return alert('Select image first!')
+      window.scrollTo(0, 0)
+      return props.showMessage('Error', 'Select image first!', 'negative')
     }
 
     try {
@@ -45,8 +46,9 @@ const UserPage = (props) => {
   const deleteImage = async (event, id) => {
     event.preventDefault()
 
-    if (!props.logged_user.image || props.logged_user.image.substr(props.logged_user.image.length - 18) === 'No-image-found.jpg') {
-      return alert('There is no image to delete')
+    if (!props.logged_user.image) {
+      window.scrollTo(0, 0)
+      return props.showMessage('Error', 'There is no image to delete!', 'negative')
     }
 
     if (confirm('Are you sure you want to delete this image'))
@@ -69,7 +71,7 @@ const UserPage = (props) => {
         <Title title={'My account'} />
       </div>
       <div className={classes.infoarea}>
-        <img src={props.logged_user.image} className={classes.image}/>
+        <img src={props.logged_user.image} className={classes.image} data-cy='mainimage'/>
         <div className={classes.contentcontainer}>
           <div className={classes.contentspacer}>
             <div className={classes.content}>
@@ -77,9 +79,9 @@ const UserPage = (props) => {
                 <h4>Details</h4>
               </div>
               <ul>
-                <li><span className={classes.subject}>Username:</span> {props.logged_user.username}</li>
-                <li><span className={classes.subject}>Name:</span>  {props.logged_user.name}</li>
-                <li><span className={classes.subject}>Email:</span>  {props.logged_user.email}</li>
+                <li><span className={classes.subject}>Username:</span> <span data-cy='usernamedetail'>{props.logged_user.username}</span></li>
+                <li><span className={classes.subject}>Name:</span>  <span data-cy='namedetail'>{props.logged_user.name}</span></li>
+                <li><span className={classes.subject}>Email:</span>  <span data-cy='emaildetail'>{props.logged_user.email}</span></li>
               </ul>
             </div>
             <div className={classes.content}>
@@ -87,7 +89,7 @@ const UserPage = (props) => {
                 <h4>Description</h4>
               </div>
               <ul>
-                <li>{props.logged_user.description}</li>
+                <li data-cy='descriptiondetail'>{props.logged_user.description}</li>
               </ul>
             </div>
           </div>
@@ -99,8 +101,8 @@ const UserPage = (props) => {
                 <h4>Locations</h4>
               </div>
               <ul>
-                <li><span className={classes.subject}>Own locations:</span> {props.logged_user.locations.sort().join(', ')}</li>
-                <li><span className={classes.subject}>Sale locations:</span> {props.logged_user.saleLocations.map(l => l.text).sort().join(', ')}</li>
+                <li><span className={classes.subject}>Own locations:</span> <span data-cy='locationdetail'>{props.logged_user.locations.sort().join(', ')}</span></li>
+                <li><span className={classes.subject}>Sale locations:</span> <span data-cy='salelocationdetail'>{props.logged_user.saleLocations.map(l => l.text).sort().join(', ')}</span></li>
               </ul>
             </div>
             <div className={classes.content}>
@@ -108,7 +110,7 @@ const UserPage = (props) => {
                 <h4>Categories</h4>
               </div>
               <ul>
-                <li>{props.logged_user.categories.map(c => c.text).sort().join(', ')}</li>
+                <li><span data-cy='categorydetail'>{props.logged_user.categories.map(c => c.text).sort().join(', ')}</span></li>
               </ul>
             </div>
           </div>

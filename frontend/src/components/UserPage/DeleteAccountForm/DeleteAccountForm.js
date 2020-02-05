@@ -27,6 +27,11 @@ const DeleteAccountForm = (props) => {
 
   const deleteUser = async (id) => {
 
+    if (!password.attributes.value) {
+      window.scrollTo(0,0)
+      return props.showMessage('Error', 'Password can\'t be blank','negative')
+    }
+
     if(confirm('Are you sure you want to delete your account? This action is permanent'))
 
       try {
@@ -49,13 +54,13 @@ const DeleteAccountForm = (props) => {
           <Form.Group>
             <Form.Field>
               <label>Password</label>
-              <input {...password.attributes} />
+              <input {...password.attributes} data-cy='password' />
             </Form.Field>
           </Form.Group>
           <ButtonGroup>
             <Button onClick={(event) => resetForm(event)}>Cancel</Button>
             <Button.Or />
-            <Button negative>Delete account</Button>
+            <Button negative data-cy='delete'>Delete account</Button>
           </ButtonGroup>
         </Form>
       </div>

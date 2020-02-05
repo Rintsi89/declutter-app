@@ -20,6 +20,10 @@ Cypress.Commands.add('initUser', () => {
     cy.request('POST', '/api/testing/initUser')
 })
 
+Cypress.Commands.add('initSecondUser', () => {
+    cy.request('POST', '/api/testing/initSecondUser')
+})
+
 Cypress.Commands.add('initRemoval', () => {
 
     const user = JSON.parse(window.localStorage.getItem('loggedUser'))
@@ -44,6 +48,24 @@ Cypress.Commands.add('initRemovalNotRemoved', () => {
     const token = user.token
 
     cy.fixture('removalNotRemoved').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/removals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
+    })
+
+})
+
+Cypress.Commands.add('initRemovalDonated', () => {
+
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+    const token = user.token
+
+    cy.fixture('removalDonated').then((removal) => {
         cy.request({
             method: 'POST',
             url: '/api/removals',

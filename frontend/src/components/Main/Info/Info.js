@@ -43,7 +43,7 @@ const Info = (props) => {
 
   const examples = [
     {
-      name: 'of the volume plastig bag',
+      name: 'of the volume plastic bag',
       volume: 0.02
     },
     {
@@ -90,17 +90,17 @@ const Info = (props) => {
 
   return (
     <div className={classes.container}>
-      <h3 className={classes.title}>{props.logged_user.username}</h3>
+      <h3 className={classes.title}><span data-cy='username'>{props.logged_user.username}</span></h3>
       <p className={classes.subtitle}>By decluttering unnecessary items you have:</p>
       <ul className={classes.list}>
-        <li className={classes.listitem}>Gained <span className={classes.highlight}>{totalMoney.toFixed(2)} €</span></li>
-        <li className={classes.listitem}>Freed up <span className={classes.highlight}>{totalCbm.toFixed(2)} m³</span> of space</li>
-        <li className={classes.listitem}>Have <span className={classes.highlight}>{totalQuantity.toFixed(0)}</span> items less on your way...</li>
-        <li className={classes.listitem}>...from which <span className={classes.highlight}>{totalSaleQuantity.toFixed(0)}</span> are sold and <span className={classes.highlight}>{totalDonatedQuantity}</span> donated</li>
-        <li className={classes.listitem}>Have <span className={classes.highlight}>{totalWeight}kg</span> less to carry when you move!</li>
+        <li className={classes.listitem}>Gained <span className={classes.highlight} data-cy='money'>{totalMoney.toFixed(2)} €</span></li>
+        <li className={classes.listitem}>Freed up <span className={classes.highlight} data-cy='cbm'>{totalCbm.toFixed(2)} m³</span> of space</li>
+        <li className={classes.listitem}>Have <span className={classes.highlight} data-cy='quantitydetail'>{totalQuantity.toFixed(0)}</span> items less on your way...</li>
+        <li className={classes.listitem}>...from which <span className={classes.highlight} data-cy='totalsalequantity'>{totalSaleQuantity.toFixed(0)}</span> are sold and <span className={classes.highlight} data-cy='totaldonatedquantity'>{totalDonatedQuantity}</span> donated</li>
+        <li className={classes.listitem}>Have <span className={classes.highlight} data-cy='weightdetail'>{totalWeight} kg</span> less to carry when you move!</li>
       </ul>
       <p>Did you know?</p>
-      <p><em>{createExample()}</em></p>
+      <p><em data-cy='example'>{createExample()}</em></p>
       {props.removals.length < 1 ? null :
         <ExportCSV csvData={getExcelData(props.removals)} fileName={'My removals'}/>
       }

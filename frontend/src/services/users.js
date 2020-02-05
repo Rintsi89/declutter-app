@@ -25,7 +25,7 @@ const deleteUser = async (id, password) => {
     headers: { Authorization: token }
   }
 
-  const response = await axios.put(`${baseUrl}/${id}/delete`, password, config)
+  const response = await axios.patch(`${baseUrl}/${id}/delete`, password, config)
   return response.data
 }
 
@@ -33,7 +33,7 @@ const updateImage = async (id, updatedUser) => {
   const config = {
     headers: { Authorization: token },
   }
-  const response = await axios.put(`${baseUrl}/${id}/picture/add`, updatedUser, config)
+  const response = await axios.patch(`${baseUrl}/${id}/picture/add`, updatedUser, config)
   return response.data
 }
 
@@ -42,7 +42,7 @@ const deleteImage = async (id) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.delete(`${baseUrl}/${id}/picture/remove`, config)
+  const response = await axios.patch(`${baseUrl}/${id}/picture/remove`, null, config)
   return response.data
 }
 
@@ -95,7 +95,7 @@ const forgotPassword = async (email) => {
 
 const resetPassword = async (userForReset) => {
 
-  const response = await axios.put(`${baseUrl}/resetPassword`, userForReset)
+  const response = await axios.patch(`${baseUrl}/resetPassword`, userForReset)
   return response.data
 }
 
@@ -104,7 +104,7 @@ const changePassword = async (id, newPassword) => {
     headers: { Authorization: token },
   }
 
-  const response = await axios.put(`${baseUrl}/${id}/password`, newPassword, config)
+  const response = await axios.patch(`${baseUrl}/${id}/password`, newPassword, config)
   return response.data
 }
 

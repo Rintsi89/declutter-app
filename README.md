@@ -19,3 +19,14 @@ As decluttering and organizing seems to be a trend of the future this app is mad
 
 * MongoDB
 
+## Testing
+
+### Backend
+
+* Jest
+* Supertest
+
+### e2e
+
+* Cypress.io
+
