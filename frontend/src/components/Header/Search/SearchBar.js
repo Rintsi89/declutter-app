@@ -49,9 +49,10 @@ const SearchBar = (props) => {
   }
 
   return (
-    <Grid>
+    <Grid data-cy='searchbar'>
       <Grid.Column width={6}>
         <Search
+          data-cy='result'
           loading={isLoading}
           onResultSelect={handleResultSelect}
           onSearchChange={_.debounce(handleSearchChange, 500, {

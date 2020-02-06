@@ -25,9 +25,9 @@ const Gallery = (props) => {
 
   const projectCards = () => {
     return currentImages.map(r =>
-      <Card key={r.name} color='orange' header={<Link to={`/removals/${r.id}`}>{r.name}</Link>}
-        meta={`Created ${moment(r.date).format('DD.MM.YYYY')}`} image={r.image} className={classes.card}
-        extra={r.removed ? <div><Icon color='green' name='checkmark' /> Removed</div> : <div><Icon color='red' name='x' /> Not removed</div>}
+      <Card  key={r.name} color='orange' header={<Link to={`/removals/${r.id}`} data-cy='link'>{r.name}</Link>}
+        meta={<span data-cy='meta'>{`Created ${moment(r.date).format('DD.MM.YYYY')}`}</span>} image={<img src={r.image} data-cy='image'/>} className={classes.card}
+        extra={r.removed ? <div><Icon color='green' name='checkmark' /> <span data-cy='removed'>Removed</span></div> : <div><Icon color='red' name='x' /> <span data-cy='notremoved'>Not removed</span></div>}
       />
     )
   }

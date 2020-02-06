@@ -24,6 +24,40 @@ Cypress.Commands.add('initSecondUser', () => {
     cy.request('POST', '/api/testing/initSecondUser')
 })
 
+Cypress.Commands.add('initRemovalWithImage', () => {
+
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+    const token = user.token
+
+    cy.fixture('/removal_with_image/removal').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/testing/initRemovals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
+    })
+})
+
+Cypress.Commands.add('initRemovalWithImageNotRemoved', () => {
+
+    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+    const token = user.token
+
+    cy.fixture('/removal_with_image/removalNotRemoved').then((removal) => {
+        cy.request({
+            method: 'POST',
+            url: '/api/testing/initRemovals',
+            headers: {
+                Authorization: `bearer ${token}`
+            },
+            body: removal
+        })
+    })
+})
+
 Cypress.Commands.add('initRemoval', () => {
 
     const user = JSON.parse(window.localStorage.getItem('loggedUser'))
@@ -66,24 +100,6 @@ Cypress.Commands.add('initRemovalDonated', () => {
     const token = user.token
 
     cy.fixture('removalDonated').then((removal) => {
-        cy.request({
-            method: 'POST',
-            url: '/api/removals',
-            headers: {
-                Authorization: `bearer ${token}`
-            },
-            body: removal
-        })
-    })
-
-})
-
-Cypress.Commands.add('initRemovalWithImage', () => {
-
-    const user = JSON.parse(window.localStorage.getItem('loggedUser'))
-    const token = user.token
-
-    cy.fixture('removalWithImage').then((removal) => {
         cy.request({
             method: 'POST',
             url: '/api/removals',

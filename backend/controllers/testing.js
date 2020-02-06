@@ -53,8 +53,24 @@ const initSecondUser = async (request, response, next) => {
 
 }
 
+const initRemovals = async (request, response, next) => {
+
+  const removalToCreate = { ...request.body, user: request.user.id }
+
+  try {
+    const removal = await Removal.create(removalToCreate)
+    const user = await User.findById(request.user.id)
+    user.removals = user.removals.concat(removal.id)
+    await user.save()
+    response.status(201).json(removal)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   reset,
   initUser,
-  initSecondUser
+  initSecondUser,
+  initRemovals
 }

@@ -11,8 +11,7 @@ const config = {
       compress: true,
       port: 3000,
       proxy: {
-        '/api': { target: 'http://localhost:3001/' },
-        '/api': { target: 'http://localhost:3003/' }
+        '/api': { target: 'http://localhost:3001/' }
       }, // Tämä ohjaa pyynnöt serverin puolelle, jos frontissa ei ole sellaista osoitetta
       historyApiFallback: true // Tämän avulla URL:t toimivat normaalisti myös frontissa
     },

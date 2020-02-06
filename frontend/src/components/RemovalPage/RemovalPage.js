@@ -11,12 +11,13 @@ import FlashMessage from '../Flash/FlashMessage'
 import Title from '../Title/Title'
 import PictureForm from '../PictureForm/PictureForm'
 import EditRemovalForm from './EditRemovalForm/EditRemovalForm'
-import classes from './/RemovalPage.module.css'
+import classes from './RemovalPage.module.css'
+import PageNotFound from '../PageNotFound/PageNotFound'
 
 const RemovalPage = (props) => {
 
   if (!props.removal) {
-    return null
+    return <PageNotFound />
   }
 
   const [form, setForm] = useState(null)
