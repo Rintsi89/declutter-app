@@ -28,7 +28,7 @@ const create = async (request, response, next) => {
     user.removals = user.removals.concat(removal.id)
     await user.save()
 
-    const createdRemoval = await Removal.findById(removal._id).populate('user')
+    const createdRemoval = await Removal.findById(removal._id)
 
     response.status(201).json(createdRemoval)
 

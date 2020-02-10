@@ -107,7 +107,7 @@ const EditRemovalForm = (props) => {
         name: name.attributes.value,
         quantity: quantity.attributes.value,
         category: category,
-        weight: weight.attributes.value,
+        weight: !weight.attributes.value ? 0 : weight.attributes.value,
         totalWeight: weight.attributes.value * quantity.attributes.value,
         value: !type ? 0 : value.attributes.value,
         totalValue: value.attributes.value * quantity.attributes.value,
@@ -116,9 +116,9 @@ const EditRemovalForm = (props) => {
         location: location,
         soldAt: saleLocation,
         note: note.attributes.value,
-        length: length.attributes.value,
-        width: width.attributes.value,
-        height: height.attributes.value,
+        length: !length.attributes.value ? 0 : length.attributes.value ,
+        width: !width.attributes.value ? 0 : width.attributes.value,
+        height: !height.attributes.value ? 0 : height.attributes.value,
         cbm: (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2)
       }
 

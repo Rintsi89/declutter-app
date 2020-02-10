@@ -13,6 +13,11 @@
     color: white;
 }
 
+.spacer {
+  width: 100%;
+  height: 140px;
+}
+
 .navitems {
   display: flex;
   align-items: center;

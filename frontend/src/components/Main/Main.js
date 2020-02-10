@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
+import Header from '../Header/Header'
 import Title from '../Title/Title'
 import Info from './Info/Info'
 import RemovalTable from './RemovalTable/RemovalTable'
@@ -73,6 +74,7 @@ const Main = (props) => {
 
   return (
     <div>
+      <Header />
       <Title title={'My removals'} />
       <div className={classes.infoarea}>
         <div className={classes.chart}>

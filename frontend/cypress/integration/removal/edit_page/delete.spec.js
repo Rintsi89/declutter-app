@@ -1,4 +1,4 @@
-describe('Edit removal delete removal', () => { 
+describe('Edit removal page delete removal', () => { 
     beforeEach(() => {
         cy.resetDataBase()
         cy.initUser()

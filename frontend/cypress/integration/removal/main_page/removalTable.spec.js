@@ -1,4 +1,4 @@
-describe('Removal table functionalities', () => {
+describe('Main page removal table', () => {
     beforeEach(() => {
         cy.resetDataBase()
         cy.initUser()

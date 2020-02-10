@@ -49,7 +49,7 @@ describe('Header', () => {
         cy.get('[data-cy=logout]').click().should(() => {
             expect(localStorage.getItem('loggedUser')).not.to.exist
         })
-        cy.url().should('eq', 'http://localhost:3000/')
+        cy.url().should('eq', 'http://localhost:3000/login')
         cy.contains('h3', 'Log In').should('exist')
     })
 })

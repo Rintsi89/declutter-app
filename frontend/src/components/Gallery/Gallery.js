@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import moment from 'moment'
 import { Card, Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
+import Header from '../Header/Header'
 import Title from '../Title/Title'
 import Pagination from '../Pagination/Pagination'
 import classes from './Gallery.module.css'
@@ -34,9 +35,8 @@ const Gallery = (props) => {
 
   return (
     <div>
-      <div>
-        <Title title={'My gallery'} />
-      </div>
+      <Header />
+      <Title title={'My gallery'} />
       <div className={classes.gallery}>
         <Card.Group>
           {projectCards()}

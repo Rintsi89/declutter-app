@@ -28,11 +28,16 @@ const Header = (props) => {
           <SearchBar />
         </div>
         <div className={classes.navitems}>
-          <Link to="/" data-cy='removals'> | removals</Link>
+          <Link to="/removals" data-cy='removals'> | removals</Link>
           <Link to="/myaccount" data-cy='account'>| account</Link>
           <Link to="/gallery" data-cy='gallery'> | gallery</Link>
-          <Link to="/"><button onClick={() => handleLogOut()} className={classes.buttonlink} data-cy='logout'><Icon name='sign-out' size='small' /> log out</button></Link>
+          <Link to="#"><button onClick={() => handleLogOut()} className={classes.buttonlink} data-cy='logout'><Icon name='sign-out' size='small' /> log out</button></Link>
         </div>
+      </div>
+
+      {/* This add extra spacer after fixed header so elements underneath it can refer their margins to this */}
+      <div className={classes.spacer}>
+              &nbsp;
       </div>
     </div>
   )

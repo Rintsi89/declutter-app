@@ -5,7 +5,7 @@ import { useField } from '../../hooks'
 import { showMessage } from '../../reducers/notificationReducer'
 import { Button, Form } from 'semantic-ui-react'
 import userService from '../../services/users'
-import NoAccessPage from './NoAccessPage/NoAccessPage'
+import NoAccessPage from '../NoAccessPage/NoAccessPage'
 import FlashMessage from '../Flash/FlashMessage'
 import classes from './ResetPasswordPage.module.css'
 

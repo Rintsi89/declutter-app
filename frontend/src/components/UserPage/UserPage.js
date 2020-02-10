@@ -4,6 +4,7 @@ import { Icon } from 'semantic-ui-react'
 import { updateImage, deleteImage } from '../../reducers/userReducer'
 import { showMessage } from '../../reducers/notificationReducer'
 import { withRouter } from 'react-router'
+import Header from '../Header/Header'
 import FlashMessage from '../Flash/FlashMessage'
 import Title from '../Title/Title'
 import ChangePasswordForm from './ChangePasswordForm/ChangePasswordForm'
@@ -66,6 +67,7 @@ const UserPage = (props) => {
 
   return (
     <div>
+      <Header />
       <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
       <div>
         <Title title={'My account'} />

@@ -88,4 +88,7 @@
 | 4.2   | 5    | Write Cypress e2e tests, edit removal page test, next should be user account tests | 
 | 5.2   | 5.5  | Write Cypress e2e tests on user account page and fix previously done tests |
 | 6.2   | 3    | Write Cypress e2e tests on gallery and header |
-| tot   | 201  | 
+| 10.2  | 1.5  | Restructuring App.js and put some route inside ProtectedRoute component |
+|       | 1.5  | Write Cypress e2e tests on PageNotFound, NoAccessPage & ProtectedRoute components. Tests done now |
+|       | 1    | Fixing bugs on frontend and Reducer |
+| tot   | 205  | 

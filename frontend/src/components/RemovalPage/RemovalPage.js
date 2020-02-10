@@ -6,6 +6,7 @@ import { withRouter } from 'react-router'
 import { updateRemovalImage, deleteRemovalImage, deleteRemoval, updateRemoval } from '../../reducers/removalReducer'
 import { showMessage } from '../../reducers/notificationReducer'
 import { initModal } from '../../reducers/removalModalReducer'
+import Header from '../Header/Header'
 import SaleModal from '../SaleModal/SaleModal'
 import FlashMessage from '../Flash/FlashMessage'
 import Title from '../Title/Title'
@@ -177,13 +178,14 @@ const RemovalPage = (props) => {
 
   return(
     <div>
+      <Header />
       <FlashMessage header={props.notifications.header} message={props.notifications.message} status={props.notifications.status}/>
-      <div>
-        <Title title={props.removal.name} />
-      </div>
+      <Title title={props.removal.name} />
       <SaleModal />
       <div className={classes.infoarea}>
-        <img src={props.removal.image} className={classes.image} data-cy='mainimage' />
+        {props.removal.image ? <img src={props.removal.image} className={classes.image} data-cy='mainimage' />
+          : <div className={classes.alternative}><Icon name="image" size='massive'/></div>
+        }
         <div className={classes.contentcontainer}>
           <div className={classes.contentspacer}>
             <div className={classes.content}>

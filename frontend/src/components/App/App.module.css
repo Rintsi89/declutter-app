@@ -4,7 +4,13 @@
     margin-bottom: 0;
 }
 
-.spacer {
-    width: 100%;
-    height: 140px;
+.loadercontainer {
+    height: 500px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-items: center !important;
+}
+
+.loader {
+    display: inline !important;
 }

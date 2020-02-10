@@ -1,6 +1,6 @@
 // This tests uses support/command.js file for log in.
 
-describe('Create removal', () => {
+describe('Main page create removal', () => {
 
     beforeEach(() => {
         cy.resetDataBase()
