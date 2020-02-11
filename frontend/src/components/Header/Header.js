@@ -10,6 +10,7 @@ import classes from './Header.module.css'
 const Header = (props) => {
 
   const handleLogOut = () => {
+    window.localStorage.removeItem('loggedUser')
     props.logOutUser()
     props.history.push('/login')
   }

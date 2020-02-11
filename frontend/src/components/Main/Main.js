@@ -17,7 +17,7 @@ const Main = (props) => {
     let total = []
 
     categories.forEach(c => {
-      const totalPerCategory = removedItems.filter(({ category }) => category === c).reduce((a, { cbm }) => a + cbm, 0)
+      const totalPerCategory = removedItems.filter(({ category }) => category === c).reduce((a, { cbm }) => a + cbm, 0).toFixed(2)
       total.push(totalPerCategory)
     })
 

@@ -3,14 +3,3 @@
     min-height: 100vh;
     margin-bottom: 0;
 }
-
-.loadercontainer {
-    height: 500px !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-items: center !important;
-}
-
-.loader {
-    display: inline !important;
-}

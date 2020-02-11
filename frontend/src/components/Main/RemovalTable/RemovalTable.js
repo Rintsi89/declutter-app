@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import { Icon, Confirm } from 'semantic-ui-react'
@@ -18,13 +18,6 @@ const RemovalTable = (props) => {
   const [removalToDelete, setRemovalToDelete] = useState(null)
   const [showNotRemoved, setShowNotRemoved] = useState(false)
   const [removalNotToRemove, setRemovalNotToRemove] = useState(null)
-
-  const [currentPage, setCurrentPage] = useState(1)
-  const [rowsPerPage] = useState(10)
-
-  useEffect(() => {
-    props.initializeRemovals()
-  }, [])
 
   const sortBy = [{
     prop:'date',
@@ -46,7 +39,8 @@ const RemovalTable = (props) => {
     return result
   })
 
-
+  const [currentPage, setCurrentPage] = useState(1)
+  const [rowsPerPage] = useState(10)
   const indexOfLastRow = currentPage * rowsPerPage
   const indexOfFirstRow = indexOfLastRow - rowsPerPage
   const currentRows = sort().slice(indexOfFirstRow, indexOfLastRow)

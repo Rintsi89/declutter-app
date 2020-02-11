@@ -122,8 +122,9 @@ const EditRemovalForm = (props) => {
         cbm: (((length.attributes.value * width.attributes.value * height.attributes.value) * quantity.attributes.value) / 1000000).toFixed(2)
       }
 
-      await props.updateRemoval(id, updateObject)
       props.setBack(null)
+      await props.updateRemoval(id, updateObject)
+
 
     } catch (error) {
       props.setBack(null)

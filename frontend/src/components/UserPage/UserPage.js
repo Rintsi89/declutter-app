@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Icon } from 'semantic-ui-react'
 import { updateImage, deleteImage } from '../../reducers/userReducer'
@@ -19,10 +19,6 @@ import classes from './UserPage.module.css'
 const UserPage = (props) => {
 
   const [form, setForm] = useState(null)
-
-  useEffect(() => {
-    setForm(null)
-  }, [])
 
   const updateImage = async (id, image) => {
 
@@ -73,7 +69,11 @@ const UserPage = (props) => {
         <Title title={'My account'} />
       </div>
       <div className={classes.infoarea}>
-        <img src={props.logged_user.image} className={classes.image} data-cy='mainimage'/>
+        {props.logged_user.image ?
+          <img src={props.logged_user.image} className={classes.image} data-cy='mainimage'/>
+          :
+          <div className={classes.alternative}><Icon name="user" size='massive'/></div>
+        }
         <div className={classes.contentcontainer}>
           <div className={classes.contentspacer}>
             <div className={classes.content}>

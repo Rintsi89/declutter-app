@@ -65,7 +65,6 @@ const userReducer = (state = null, action) => {
 export const loginUser = (credentials) => {
   return async dispatch => {
     const user = await loginService.login(credentials)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     removalService.setToken(user.token)
     userService.setToken(user.token)
     dispatch({
@@ -81,7 +80,6 @@ export const logOutUser = () => {
     dispatch({
       type: 'UNSET_USER'
     })
-    window.localStorage.removeItem('loggedUser')
     dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
   }
 }
@@ -96,7 +94,6 @@ export const initializeUser = (user) => {
 export const updateUser = (id, userObject) => {
   return async dispatch => {
     const user = await userService.update(id, userObject)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'UPDATE_USER',
       data: user
@@ -108,7 +105,6 @@ export const updateUser = (id, userObject) => {
 export const deleteUser = (id, password) => {
   return async dispatch => {
     await userService.deleteUser(id, password)
-    window.localStorage.removeItem('loggedUser')
     dispatch ({
       type: 'UNSET_USER',
     })
@@ -118,7 +114,6 @@ export const deleteUser = (id, password) => {
 export const updateImage = (id, image) => {
   return async dispatch => {
     const user = await userService.updateImage(id, image)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'UPDATE_IMAGE',
       data: user
@@ -130,7 +125,6 @@ export const updateImage = (id, image) => {
 export const deleteImage = (id) => {
   return async dispatch => {
     const user = await userService.deleteImage(id)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_IMAGE',
       data: user
@@ -142,7 +136,6 @@ export const deleteImage = (id) => {
 export const addLocation = (id, newLocation) => {
   return async dispatch => {
     const user = await userService.addLocation(id, newLocation)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_LOCATION',
       data: user
@@ -154,7 +147,6 @@ export const addLocation = (id, newLocation) => {
 export const deleteLocation = (id, location) => {
   return async dispatch => {
     const user = await userService.deleteLocation(id, location)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_LOCATION',
       data: user
@@ -166,7 +158,6 @@ export const deleteLocation = (id, location) => {
 export const addSaleLocation = (id, newSaleLocation) => {
   return async dispatch => {
     const user = await userService.addSaleLocation(id, newSaleLocation)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_SALE_LOCATION',
       data: user
@@ -178,7 +169,6 @@ export const addSaleLocation = (id, newSaleLocation) => {
 export const deleteSaleLocation = (id, saleLocation) => {
   return async dispatch => {
     const user = await userService.deleteSaleLocation(id, saleLocation)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_SALE_LOCATION',
       data: user
@@ -190,7 +180,6 @@ export const deleteSaleLocation = (id, saleLocation) => {
 export const addCategory = (id, newCategory) => {
   return async dispatch => {
     const user = await userService.addCategory(id, newCategory)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'ADD_CATEGORY',
       data: user
@@ -202,7 +191,6 @@ export const addCategory = (id, newCategory) => {
 export const deleteCategory = (id, category) => {
   return async dispatch => {
     const user = await userService.deleteCategory(id, category)
-    window.localStorage.setItem('loggedUser', JSON.stringify(user))
     dispatch ({
       type: 'DELETE_CATEGORY',
       data: user
