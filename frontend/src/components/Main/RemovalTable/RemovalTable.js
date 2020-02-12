@@ -100,7 +100,7 @@ const RemovalTable = (props) => {
         <div className={classes.formarea}>
           {!showForm ?
             <button className={classes.addbutton} onClick={() => setShowForm(true)}>
-              <Icon name="add circle" size='large' /> Add new
+              <Icon name="add circle" size='large' className={classes.icon}/> Add new
             </button> :
             <RemovalForm user={props.logged_user} hide={setShowForm}/>
           }
@@ -126,7 +126,7 @@ const RemovalTable = (props) => {
                   <td>
                     {moment(r.date).format('DD.MM.YYYY')}
                   </td>
-                  <td data-cy='name'>
+                  <td data-cy='name' className={classes.name}>
                     {r.name} <Link to={`/removals/${r.id}`} data-cy='edit'><Icon name='edit' /></Link>
                   </td>
                   <td>

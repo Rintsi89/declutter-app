@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
+import { initializeRemovals } from '../../reducers/removalReducer'
 import Header from '../Header/Header'
 import Title from '../Title/Title'
 import Info from './Info/Info'
@@ -97,9 +98,13 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = {
+  initializeRemovals
+}
+
 const ConnectedMainPage = connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Main)
 
 

@@ -122,9 +122,9 @@ const deleteRemoval = async (request, response, next) => {
 
   try {
 
-    const toDelete = await User.find({ _id: request.user.id, removals: { $in: [request.params.id] } })
+    const toDelete = await User.findOne({ _id: request.user.id, removals: { $in: [request.params.id] } })
 
-    if (toDelete.length < 1) {
+    if (!toDelete) {
       return response.status(401).json({
         error: 'Invalid removal id or user not authenticated to delete'
       })

@@ -1,5 +1,12 @@
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .main {
-    background: linear-gradient(270deg, rgba(244,246,246,0.1856092778908438) 76%, rgba(149,160,163,1) 100%);
+    background: url("https://declutter-images.s3.eu-north-1.amazonaws.com/plant.jpg") no-repeat center center fixed; ;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
     min-height: 100vh;
-    margin-bottom: 0;
 }

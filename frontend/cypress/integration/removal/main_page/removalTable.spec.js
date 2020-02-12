@@ -3,16 +3,17 @@ describe('Main page removal table', () => {
         cy.resetDataBase()
         cy.initUser()
         cy.login()
-        cy.visit('/')
     })
 
     it('finds one removal', () => {
         cy.initRemoval()
+        cy.visit('/')
         cy.get('[data-cy=name]').should('contain', 'Dictionary')
     })
 
     it('opens the edit page', () => {
         cy.initRemoval().as('removal')
+        cy.visit('/')
         cy.get('[data-cy=edit]').click()
         cy.get('@removal').then((response) => {
             cy.url().should('eq', `http://localhost:3000/removals/${response.body.id}`)
@@ -22,6 +23,7 @@ describe('Main page removal table', () => {
 
     it('closes not removed modal', () => {
         cy.initRemoval()
+        cy.visit('/')
         cy.get('[data-cy=checkmark]').should('contain', 'Yes')
         cy.get('[data-cy=notremoved]').click()
         cy.get('[data-cy=modal]').should('exist')
@@ -32,6 +34,7 @@ describe('Main page removal table', () => {
 
     it('marks item not removed', () => {
         cy.initRemoval()
+        cy.visit('/')
         cy.get('[data-cy=checkmark]').should('contain', 'Yes')
         cy.get('[data-cy=removed]').should('not.exist')
         cy.get('[data-cy=notremoved]').should('contain', 'Mark not removed')
@@ -47,6 +50,7 @@ describe('Main page removal table', () => {
 
     it('closes removed modal', () => {
         cy.initRemovalNotRemoved()
+        cy.visit('/')
         cy.get('[data-cy=checkmark]').should('contain', 'No')
         cy.get('[data-cy=removed]').click()
         cy.get('[data-cy=salemodal]').should('exist')
@@ -57,6 +61,7 @@ describe('Main page removal table', () => {
 
     it('marks item removed', () => {
         cy.initRemovalNotRemoved()
+        cy.visit('/')
         cy.get('[data-cy=checkmark]').should('contain', 'No')
         cy.get('[data-cy=notremoved]').should('not.exist')
         cy.get('[data-cy=removed]').should('contain', 'Mark removed')
@@ -72,6 +77,7 @@ describe('Main page removal table', () => {
     
     it('closes delete modal', () => {
         cy.initRemoval()
+        cy.visit('/')
         cy.get('[data-cy=delete]').click()
         cy.get('[data-cy=deletemodal]').should('exist')
         cy.contains('button', 'Cancel').click()
@@ -81,6 +87,7 @@ describe('Main page removal table', () => {
 
     it('deletes removal', () => {
         cy.initRemoval()
+        cy.visit('/')
         cy.get('[data-cy=delete]').click()
         cy.get('[data-cy=deletemodal]').should('exist')
         cy.contains('button', 'Yes').click()

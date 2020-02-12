@@ -2,7 +2,7 @@ h4, .contenttitle h4 {
     display: inline-block;
     margin-top: 0;
     margin-bottom: 0.4rem;
-    border-bottom: 2px solid #FF8C00;
+    border-bottom: 2px solid green;
 }
 
 .infoarea {
@@ -10,7 +10,8 @@ h4, .contenttitle h4 {
     justify-content: flex-start;
     width: 75%;
     margin: auto;
-    border: 2px solid black;
+    background: #f2f2f2;
+    border: 10px solid white;
     border-radius: 10px;
     height: auto;
     padding: 1rem 0 1rem 0;
@@ -21,8 +22,8 @@ h4, .contenttitle h4 {
     margin: 0 1rem;
     max-width: 25%;
     height: 270px;
-    border: 4px solid #FF8C00;
-    border-radius: 35px;
+    border: 1px solid green;
+    border-radius: 2px;
 }
 
 .alternative {
@@ -35,25 +36,24 @@ h4, .contenttitle h4 {
 
 .contentcontainer {
     height: auto;
-    border-left: 2px dotted #FF8C00;
-    border-right: 2px dotted #FF8C00;
+    border-left: 2px dotted green;
+    border-right: 2px dotted green;
     border-radius: 10px;
     width: 35%;
 }
 
 .contentspacer {
     display: flex;
-    height: 75%;
+    height: auto;
     margin-bottom: 0.5rem;
 }
 
 .content {
-    width: 60%;
-    height: auto;
+    width: 50%;
 }
 
 .content2 {
-    width: 40%;
+    width: 50%;
 }
 
 .content, .content2 {
@@ -67,7 +67,7 @@ h4, .contenttitle h4 {
 }
 
 .content ul {
-    border-right: 2px dotted #FF8C00;
+    border-right: 2px dotted green;
     padding-right: 1.5rem;
 }
 
@@ -83,7 +83,7 @@ h4, .contenttitle h4 {
 
 .notes {
     margin: auto;
-    border-top: 2px dotted #FF8C00;
+    border-top: 2px dotted green;
     padding-top: 0.3rem;
     width: 90%;
 }
@@ -120,8 +120,8 @@ canvas{
 .actions {
     width: 18%;
     padding: 0 1.5rem;
-    border-left: 2px dotted #FF8C00;
-    border-right: 2px dotted #FF8C00;
+    border-left: 2px dotted green;
+    border-right: 2px dotted green;
     border-radius: 10px;
     margin-right: 1.5rem;
 }
@@ -129,7 +129,6 @@ canvas{
 .actionbuttons {
     display: flex;
     flex-direction: column;
-    height: 50%;
 }
 
 .actionbutton {

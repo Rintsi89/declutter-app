@@ -19,11 +19,13 @@ const Header = (props) => {
     <div>
       <div className={classes.header}>
         <div>
-          <h2 className={classes.h2} data-cy='maintitle'>Declutter App</h2>
-          <Icon name='trash' size='big' />
-          <Icon name='dolly' size='big' />
-          <Icon name='money bill alternate outline' size='big' />
-          <div className={classes.signature} data-cy='signature' >By Ville Rintala</div>
+          <Link to='/removals' className={classes.link} data-cy='title'>
+            <h2 className={classes.h2} data-cy='maintitle'>Declutter App</h2>
+            <Icon name='trash' size='big' />
+            <Icon name='dolly' size='big' />
+            <Icon name='money bill alternate outline' size='big' />
+            <div className={classes.signature} data-cy='signature' >By Ville Rintala</div>
+          </Link>
         </div>
         <div>
           <SearchBar />

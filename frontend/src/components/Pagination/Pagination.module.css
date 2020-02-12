@@ -14,10 +14,11 @@
 
 .pagination a:hover {
   cursor: pointer;
+  color: white;
 }
 
 .active {
-    background-color: #FF8C00;
+    background-color: green;
     color: white;
   }
   

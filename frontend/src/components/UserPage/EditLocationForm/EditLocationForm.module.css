@@ -6,17 +6,17 @@
 
 .title {
     display: inline-block;
-    color: black;
-    border-bottom: 2px solid #FF8C00;
-    font-family: 'Britannic Bold';
+    border-bottom: 2px solid green;
+    font-family: sans-serif;
     font-weight: bold;
 }
+
 
 .formarea {
     width: 75%;
     margin-bottom: 10px;
-    border-left: 2px dotted #FF8C00;
-    border-right: 2px dotted #FF8C00;
+    border-left: 2px dotted green;
+    border-right: 2px dotted green;
     border-radius: 10px;
     padding-left: 1.5rem;
     padding-right: 1.5rem;

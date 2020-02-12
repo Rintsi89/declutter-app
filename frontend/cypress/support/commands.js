@@ -12,6 +12,10 @@ Cypress.Commands.add('login', () => {
     })
 })
 
+Cypress.Commands.add('clearStorage', () => {
+    window.localStorage.removeItem('loggedUser')
+})
+
 Cypress.Commands.add('resetDataBase', () => {
     cy.request('POST', '/api/testing/reset')
 })

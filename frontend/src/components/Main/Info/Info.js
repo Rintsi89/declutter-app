@@ -1,4 +1,5 @@
 import React from 'react'
+import { Icon } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import ExportCSV from './ExportCSV/ExportCSV'
 import classes from './Info.module.css'
@@ -99,8 +100,7 @@ const Info = (props) => {
         <li className={classes.listitem}>...from which <span className={classes.highlight} data-cy='totalsalequantity'>{totalSaleQuantity.toFixed(0)}</span> are sold and <span className={classes.highlight} data-cy='totaldonatedquantity'>{totalDonatedQuantity}</span> donated</li>
         <li className={classes.listitem}>Have <span className={classes.highlight} data-cy='weightdetail'>{totalWeight} kg</span> less to carry when you move!</li>
       </ul>
-      <p>Did you know?</p>
-      <p><em data-cy='example'>{createExample()}</em></p>
+      <p><Icon name="info circle" color='red'/><span data-cy='example' className={classes.example}>{createExample()}</span></p>
       {props.removals.length < 1 ? null :
         <ExportCSV csvData={getExcelData(props.removals)} fileName={'My removals'}/>
       }

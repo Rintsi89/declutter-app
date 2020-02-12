@@ -19,7 +19,7 @@ describe('Gallery page', () => {
         })
     
         it('has right link', () => {
-            cy.get('[data-cy=link]').should('have.text', 'Dictionary')
+            cy.get('[data-cy=link]').should('contain', 'Dictionary')
         })
     
         it('has right meta', () => {
@@ -32,7 +32,7 @@ describe('Gallery page', () => {
         })
     
         it('opens the link', () => {
-            cy.get('[data-cy=link]').click()
+            cy.get('[data-cy=container]').click()
             cy.get('@removal').then((response) => {
                 cy.url().should('eq', `http://localhost:3000/removals/${response.body.id}`)
             })

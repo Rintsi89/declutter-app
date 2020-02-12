@@ -6,8 +6,10 @@
 .mainh2 {
     padding: 5px;
     font-size: 3.5rem;
-    font-family: 'Britannic Bold';
+    font-family: sans-serif;
     display: inline-block;
-    color: black;
-    font-weight: bold;
+}
+
+.icon {
+    color:green;
 }

@@ -16,6 +16,13 @@ describe('Header', () => {
         cy.get('[data-cy=signature]').should('have.text', 'By Ville Rintala')
     })
 
+    it('has working link in title', () => {
+        cy.get('[data-cy=account]').click()
+        cy.url().should('eq', 'http://localhost:3000/myaccount')
+        cy.get('[data-cy=title]').click()
+        cy.url().should('eq', 'http://localhost:3000/removals')
+    })
+
     it('has working search bar', () => {
         cy.initRemoval().as('removal')
         cy.visit('/')

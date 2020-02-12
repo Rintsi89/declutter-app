@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { initializeUser } from '../../reducers/userReducer'
 import { initializeRemovals } from '../../reducers/removalReducer'
@@ -20,12 +20,12 @@ import classes from './App.module.css'
 
 const App = (props) => {
 
-  const [loading, setLoading] = useState(true)
   const removalById = (id) => props.removals.find(r => r.id === id)
 
   useEffect(() => {
 
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
+
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       props.initializeUser(user)
@@ -33,27 +33,22 @@ const App = (props) => {
       userService.setToken(user.token)
       props.initializeRemovals()
     }
-    setLoading(false)
   }, [])
 
   return (
     <div className={classes.main}>
-      { loading ?
-        null
-        :
-        <Router>
-          <Switch>
-            <Route exact path="/"><Redirect to='/removals' /></Route>
-            <Route exact path="/login" render={() => <Landing />}  />
-            <Route exact path="/reset/:token" render={({ match }) => <ResetPasswordPage token={match.params.token} />} />
-            <ProtectedRoute exact path="/myaccount" user={props.logged_user} component={UserPage} />
-            <ProtectedRoute exact path="/gallery" user={props.logged_user} component={Gallery}  />
-            <ProtectedRoute exact path="/removals" user={props.logged_user} component={Main} />
-            <ProtectedRoute exact path="/removals/:id" user={props.logged_user} component={({ match }) => <RemovalPage removal={removalById(match.params.id)} />} />
-            <Route exact path='*' component={PageNotFound} />
-          </Switch>
-        </Router>
-      }
+      <Router>
+        <Switch>
+          <Route exact path="/"><Redirect to='/removals' /></Route>
+          <Route exact path="/login" render={() => <Landing />}  />
+          <Route exact path="/reset/:token" render={({ match }) => <ResetPasswordPage token={match.params.token} />} />
+          <ProtectedRoute exact path="/myaccount" user={props.logged_user} component={UserPage} />
+          <ProtectedRoute exact path="/gallery" user={props.logged_user} component={Gallery}  />
+          <ProtectedRoute exact path="/removals" user={props.logged_user} component={Main} />
+          <ProtectedRoute exact path="/removals/:id" user={props.logged_user} component={({ match }) => <RemovalPage removal={removalById(match.params.id)} />} />
+          <Route exact path='*' component={PageNotFound} />
+        </Switch>
+      </Router>
     </div>
 
   )

@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Icon } from 'semantic-ui-react'
 import * as FileSaver from 'file-saver'
 import * as XLSX from 'xlsx'
+import classes from './ExportCSV.module.css'
 
 export const ExportCSV = ( { csvData, fileName }) => {
 
@@ -17,7 +18,7 @@ export const ExportCSV = ( { csvData, fileName }) => {
   }
 
   return (
-    <Button color='black' size='tiny' onClick={() => exportToCSV(csvData,fileName)}><Icon name='file excel outline' color='green' />Export xlsx</Button>
+    <Button className={classes.excelbutton} size='tiny' onClick={() => exportToCSV(csvData,fileName)}><Icon name='file excel outline'  />Export xlsx</Button>
   )
 }
 

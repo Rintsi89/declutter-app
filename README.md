@@ -6,14 +6,30 @@ This app is a project work of Helsinki Open University course [Full Stack Web De
 
 As decluttering and organizing seems to be a trend of the future this app is made for easy monitoring of the benefits of these actions. You can instantly see how much money you have gained by selling unwanted items and concrete examples how much space is freed up in your house.
 
+Server status:
+
+* Offline
+
 ## Frontend
 
-* React.js with Redux and hooks
+* React.js with hooks
+* Redux
+* Webpack
+
+### Styling
+
+* CSS modules
+* Semantic UI React 
 
 ## Backend
 
 * Node.js
 * Express.js
+* Mongoose
+
+## Cloud services
+
+* AWS S3
 
 ## Database
 
@@ -28,5 +44,5 @@ As decluttering and organizing seems to be a trend of the future this app is mad
 
 ### e2e
 
-* Cypress.io
+* Cypress 
 

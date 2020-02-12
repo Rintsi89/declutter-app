@@ -91,4 +91,8 @@
 | 10.2  | 1.5  | Restructuring App.js and put some route inside ProtectedRoute component |
 |       | 1.5  | Write Cypress e2e tests on PageNotFound, NoAccessPage & ProtectedRoute components. Tests done now |
 |       | 1    | Fixing bugs on frontend and Reducer |
-| tot   | 205  | 
+| 11.2  | 2    | Restructuring reducer and combine localStorage logic to store.subscribe |
+|       | 2    | Changed style of Gallery page cards, removed Semantic UI template and made pure CSS. |
+| 12.2  | 3    | Implement final styling and fix bugs related to state |
+|       | 2    | Fixing broken Cypress tests |
+| tot   | 214  | 

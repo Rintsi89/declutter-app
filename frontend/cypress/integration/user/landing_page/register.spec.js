@@ -3,6 +3,7 @@ describe('Register', () => {
     before(() => {
         cy.resetDataBase()
         cy.initUser()
+        cy.clearStorage()
     })
 
     beforeEach(() => {
