@@ -10,7 +10,7 @@ const loginRouter = require('./routes/login')
 const { errorHandler, tokenExtractor } = require('./utils/middleware')
 
 app.use(bodyParser.json())
-app.use(express.static('build')) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa
+app.use(express.static('client/build')) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa
 
 console.log('connecting to', config.MONGODB_URI)
 
@@ -34,7 +34,7 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'))
 }) // Tämä tarvii olla täällä, jotta routet toimisi oikein myös production-versiossa
 
 app.use(errorHandler)
