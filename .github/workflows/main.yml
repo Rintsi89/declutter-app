@@ -1,0 +1,75 @@
+name: CI / CD
+
+on: [push]
+
+env:
+    TEST_MONGODB_URI: ${{ secrets.TEST_MONGODB_URI }}
+    SECRET: ${{ secrets.SECRET }}
+    EMAILSECRET: ${{ secrets.EMAILSECRET }}
+    BUCKET_KEYID: ${{ secrets.BUCKET_KEYID }}
+    BUCKET_ACCESSKEY: ${{ secrets.BUCKET_ACCESSKEY }}
+    BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+    EMAIL: ${{ secrets.EMAIL }}
+    EMAILPASSWORD: ${{ secrets.EMAILPASSWORD }}
+    TEST_PORT: ${{ secrets.TEST_PORT }}
+    EMAILCLIENTID: ${{ secrets.EMAILCLIENTID }}
+    EMAILCLIENTSECRET: ${{ secrets.EMAILCLIENTSECRET }}
+    EMAILURL: ${{ secrets.EMAILURL }}
+    EMAILREFRESHTOKEN: ${{ secrets.EMAILREFRESHTOKEN }}
+
+jobs:
+  test_backend:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install dependencies
+      run: | 
+        npm install
+    - name: Run backend tests
+
+      run: | 
+        npm run test:backend
+        
+  test_e2e:
+    needs: test_backend
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Install backend dependencies
+      run: | 
+        npm install
+    - name: Start backend test server
+      run: | 
+        npm run start:test &
+    - name: Install frontend dependecies
+      working-directory: ./client
+      run: npm install
+    - name: Create build
+      working-directory: ./client
+      run: npm run build
+    - name: Start localhost
+      working-directory: ./client
+      run: npm run start &
+    - name: Start Cypress tests
+      working-directory: ./client
+      run: | 
+        npx cypress run

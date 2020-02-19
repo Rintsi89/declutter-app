@@ -1,0 +1,44 @@
+{
+  "name": "declutter-app-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.19.0",
+    "chart.js": "^2.9.3",
+    "file-saver": "^2.0.2",
+    "lodash": "^4.17.15",
+    "moment": "^2.24.0",
+    "react": "^16.11.0",
+    "react-chartjs-2": "^2.8.0",
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.1",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.3.0",
+    "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
+    "semantic-ui-react": "^0.88.2",
+    "xlsx": "^0.15.4",
+    "@babel/core": "^7.6.4",
+    "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^3.3.2",
+    "style-loader": "^1.0.1",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.9"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode=development",
+    "build": "webpack --mode=production",
+    "cypress:open": "cypress open",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "cypress": "^3.8.3",
+    "cypress-file-upload": "^3.5.3",
+    "eslint": "^6.6.0",
+    "eslint-plugin-jest": "^23.6.0",
+    "webpack-dev-server": "^3.8.2"
+  }
+}

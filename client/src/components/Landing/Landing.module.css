@@ -1,0 +1,30 @@
+.landing {
+    background: url(https://declutter-images.s3.eu-north-1.amazonaws.com/hangers.jpeg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.maintitle {
+    text-align: center;
+    color: white;
+    font-size: 2rem;
+    text-shadow: -2px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+@media (min-width: 40rem) {
+    .landing {
+        display: block;
+    }
+    .maintitle {
+        font-size: 3rem;
+        margin-left: 140px;
+        padding-top: 10px;
+        text-align: unset;
+    }
+}

@@ -1,0 +1,12 @@
+.message {
+    display: block;
+    margin: 20px auto 20px;
+    background-color: green;
+    width: 75%;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}

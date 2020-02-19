@@ -1,0 +1,15 @@
+.container {
+    border-left: 2px dotted green;
+    border-right: 2px dotted green;
+    border-radius: 10px;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.title {
+    display: inline-block;
+    color: black;
+    border-bottom: 2px solid green;
+    font-family: sans-serif;
+    font-weight: bold;
+}

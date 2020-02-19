@@ -8,7 +8,7 @@ As decluttering and organizing seems to be a trend of the future this app is mad
 
 Server status:
 
-* Offline
+* Online: [Declutter App](https://declutterapp.herokuapp.com/)
 
 ## Frontend
 
@@ -30,6 +30,7 @@ Server status:
 ## Cloud services
 
 * AWS S3
+* Heroku 
 
 ## Database
 
@@ -45,4 +46,9 @@ Server status:
 ### e2e
 
 * Cypress 
+
+## CI / CD
+
+* Github Actions
+* Heroku
 

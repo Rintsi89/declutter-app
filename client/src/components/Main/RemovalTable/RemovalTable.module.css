@@ -1,0 +1,75 @@
+.maintable {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.formarea {
+    width: 75%;
+    margin-bottom: 10px;
+}
+
+.removals {
+    border-collapse: collapse;
+    width: 75%;
+  }
+  
+.removals td, .removals th {
+    border: 1px solid green;
+    padding: 8px;
+}
+  
+.removals tr:nth-child(even){background-color: #f2f2f2;}
+
+.removals tr:hover {
+    background-color:#e4fae4;
+}
+
+.removals th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    border: 1px solid green;
+    background-color: #3b3a30;
+    color: white;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.button, .addbutton, .removebutton {
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor:pointer;
+    outline:none;
+}
+
+.addbutton:hover {
+    color: green;
+}
+
+.icon {
+    color: green;
+}
+
+.removebutton {
+    font-weight: bold;
+}
+
+.button:hover, .not:hover {
+    color: red;
+    text-decoration: underline;
+}
+
+.removebutton:hover {
+    color: green;
+    text-decoration: underline;
+}
+
+.pagination {
+    margin-left: 170px !important;
+}

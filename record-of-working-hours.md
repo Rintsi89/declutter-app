@@ -95,4 +95,6 @@
 |       | 2    | Changed style of Gallery page cards, removed Semantic UI template and made pure CSS. |
 | 12.2  | 3    | Implement final styling and fix bugs related to state |
 |       | 2    | Fixing broken Cypress tests |
-| tot   | 214  | 
+| 17.2  | 3    | Work on CI and Github actions using test repository. No need to commit |
+| 18.2  | 3    | Work on CI and Github actions using test repository. No need to commit |
+| tot   | 220  | 
