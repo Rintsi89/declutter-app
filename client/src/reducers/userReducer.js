@@ -73,7 +73,6 @@ export const loginUser = (credentials) => {
       data: user
     })
     dispatch(initializeRemovals())
-    dispatch(showMessage('Logged in', `${user.username} has logged in successfully`, 'positive'))
   }
 }
 
@@ -82,7 +81,6 @@ export const logOutUser = () => {
     dispatch({
       type: 'UNSET_USER'
     })
-    dispatch(showMessage('Logged out', 'Log out successfull', 'positive'))
   }
 }
 

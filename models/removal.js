@@ -35,7 +35,7 @@ removalSchema.set('toJSON', {
   }
 })
 
-removalSchema.pre('save', function(next) {
+removalSchema.pre('save', (next) => {
   if (!this.weight)
     this.weight = 0
   if (!this.length)

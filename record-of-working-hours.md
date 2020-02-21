@@ -97,4 +97,9 @@
 |       | 2    | Fixing broken Cypress tests |
 | 17.2  | 3    | Work on CI and Github actions using test repository. No need to commit |
 | 18.2  | 3    | Work on CI and Github actions using test repository. No need to commit |
-| tot   | 220  | 
+| 19.2  | 2    | Work on CI and Github actions using test repository
+|       | 1    | Work on Deployment to Heroku |
+|       | 1    | Fixing email settings and change Nodemailer & Gmail configuration | 
+| 20.2  | 3    | Fixing bugs and writing instructions. No need to commit |
+| 21.2  | 1    | Finalizing instructions | 
+| tot   | 228  | 

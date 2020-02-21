@@ -11,7 +11,7 @@ describe('Edit removal page delete removal', () => {
 
     it('deletes removal', () => {
         cy.contains('button', 'Delete removal').click()
-        cy.get('[data-cy=positive]').should('contain', 'Dictionary was deleted successfully')
         cy.url().should('eq', 'http://localhost:3000/removals')
+        cy.get('[data-cy=name]').should('not.exist')
     })
 })

@@ -47,9 +47,9 @@ const RemovalForm = (props) => {
   }
 
   // Sorted options for select field
-  const sortedCategories = props.user.categories.sort(compare)
-  const sortedLocations = createLocations(props.user.locations)
-  const sortedSaleLocations = props.user.saleLocations.sort(compare)
+  const sortedCategories = props.user.categories.length === 0 ? [{ value: '' }] : props.user.categories.sort(compare)
+  const sortedLocations = props.user.locations.length === 0 ? [{ value: '' }] : createLocations(props.user.locations)
+  const sortedSaleLocations = props.user.saleLocations.length === 0 ? [{ value: '' }] : props.user.saleLocations.sort(compare)
 
   // Input
   const name = useField('text', 'name', 'Name', '')
@@ -188,7 +188,7 @@ const RemovalForm = (props) => {
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Select fluid label='Category' value={category} options={sortedCategories} onChange={handleCategoryChange} data-cy='category'/>
+          <Form.Select fluid label='Category' value={category} options={sortedCategories[0].value === 0 ? null : sortedCategories} onChange={handleCategoryChange} data-cy='category'/>
           <Form.Field>
             <label>Length (cm)</label>
             <input {...length.attributes} data-cy='length'/>
@@ -211,8 +211,8 @@ const RemovalForm = (props) => {
             <label>Value (€)</label>
             {!type ? <input {...value.attributes} disabled /> : <input {...value.attributes} min='1' data-cy='value'/> }
           </Form.Field>
-          <Form.Select fluid label='Location' value={location} options={sortedLocations} onChange={handleLocationChange} data-cy='location' />
-          <Form.Select fluid label='Sold at' value={saleLocation} options={sortedSaleLocations} onChange={handleSaleLocationChange} data-cy='sold' />
+          <Form.Select fluid label='Location' value={location} options={sortedLocations[0].value === '' ? null : sortedLocations} onChange={handleLocationChange} data-cy='location' />
+          <Form.Select fluid label='Sold at' value={saleLocation} options={sortedSaleLocations[0].value === '' ? null: sortedSaleLocations } onChange={handleSaleLocationChange} data-cy='sold' />
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field>

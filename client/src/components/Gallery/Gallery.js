@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
+import { Icon } from 'semantic-ui-react'
 import Header from '../Header/Header'
 import Title from '../Title/Title'
 import Pagination from '../Pagination/Pagination'
@@ -52,7 +53,13 @@ const Gallery = (props) => {
       <Header />
       <Title title={'My gallery'} />
       <div className={classes.gallery}>
-        {projectCards()}
+        {props.removals.length === 0 ? 
+        <div>
+          <Icon name="info circle" color='red'/> 
+          You haven't add any removals yet. Start by adding some removals. Both removed and not removed items will be shown here.
+        </div> :
+          projectCards()
+        }
       </div>
       <Pagination rowsPerPage={imagesPerPage} totalRows={props.removals.length} paginate={paginate} currentPage={currentPage}/>
     </div>

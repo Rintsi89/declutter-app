@@ -34,11 +34,18 @@ export const showMessage = (header, message, status) => {
       message: message,
       status: status
     })
-    setTimeout(() => {
+    const timeOut = setTimeout(() => {
       dispatch({
         type: 'HIDE_NOTIFICATION'
       })
+      dispatch({
+        type: 'UNSET_TIMEOUT_ID'
+      })
     }, 5000)
+    dispatch({
+      type: 'SET_TIMEOUT_ID',
+      id: timeOut
+    })
   }
 }
 

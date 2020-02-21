@@ -28,7 +28,7 @@ const SaleModal = (props) => {
         ...removal,
         removed: true,
         dateRemoved: dateRemoved.attributes.value,
-        value: value.attributes.value,
+        value: !value.attributes.value ? 0 : value.attributes.value,
         totalValue: value.attributes.value * removal.quantity
       }
 
@@ -57,7 +57,7 @@ const SaleModal = (props) => {
         }
       </Modal.Content>
       <Modal.Actions>
-        <Button onClick={() => props.hideModal()} color="#e0e1e2" content="Cancel" />
+        <Button onClick={() => props.hideModal()} content="Cancel" />
         <Button type="submit" color="blue" content="Save" />
       </Modal.Actions>
     </Modal>

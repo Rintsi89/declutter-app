@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Bar } from 'react-chartjs-2'
+import { Icon } from 'semantic-ui-react'
 import { initializeRemovals } from '../../reducers/removalReducer'
 import Header from '../Header/Header'
 import Title from '../Title/Title'
@@ -11,26 +12,30 @@ import classes from './Main.module.css'
 
 const Main = (props) => {
 
-  const categories = [...new Set(props.removals.map(r => r.category))]
-  const removedItems = props.removals.filter(r => r.removed)
-
   const sumCategories = () => {
+    
+    
+    const removedItems = props.removals.filter(r => r.removed)
+    const categories = [...new Set(removedItems.map(r => r.category))]
     let total = []
-
+    
     categories.forEach(c => {
-      const totalPerCategory = removedItems.filter(({ category }) => category === c).reduce((a, { cbm }) => a + cbm, 0).toFixed(2)
+      const totalPerCategory = removedItems.filter(({ category }) => category === c).reduce((a, b) => ({ cbm: a.cbm + b.cbm, category: b.category }))
       total.push(totalPerCategory)
     })
-
+    
     return total
+    
   }
 
-  const totalCbms = sumCategories()
-
+  const totalCbms = sumCategories().sort((a, b) => (a.cbm > b.cbm) ? -1 : 1);
+  const categories = [...new Set(totalCbms.map(r => r.category))]
+  const cbms = [...new Set(totalCbms.map(r => r.cbm))]
+  
   const data = {
     labels: categories,
     datasets: [{
-      data: totalCbms,
+      data: cbms,
       backgroundColor: [
         '#FF6384',
         '#36A2EB',
@@ -67,7 +72,7 @@ const Main = (props) => {
         ticks: {
           beginAtZero: true,
           min: 0,
-          max: Math.max(...totalCbms) < 10 ? Math.ceil(Math.max(...totalCbms) + 1) : Math.ceil((Math.max(...totalCbms) + 1) / 10) * 10
+          max: Math.max(...cbms) < 10 ? Math.ceil(Math.max(...cbms) + 1) : Math.ceil((Math.max(...cbms) + 1) / 10) * 10
         }
       }]
     }
@@ -79,7 +84,13 @@ const Main = (props) => {
       <Title title={'My removals'} />
       <div className={classes.infoarea}>
         <div className={classes.chart}>
-          <Bar data={data} options={options}/>
+          {props.removals.filter(r => r.removed).length === 0 ?
+          <div>
+            <Icon name="info circle" color='red'/> 
+            You haven't remove anything yet. Start by adding some removals. Once they are marked as removed, you'll see a bar chart here.
+          </div> : 
+            <Bar data={data} options={options}/>
+          }
         </div>
         <div className={classes.details}>
           <Info />

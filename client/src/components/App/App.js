@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { initializeUser } from '../../reducers/userReducer'
 import { initializeRemovals } from '../../reducers/removalReducer'
+import { hideMessage } from '../../reducers/notificationReducer'
+import { unsetTimeOut } from '../../reducers/timeOutReducer'
 import removalService from '../../services/removals'
 import userService from '../../services/users'
 import Landing from '../Landing/Landing'
@@ -12,10 +14,8 @@ import RemovalPage from '../RemovalPage/RemovalPage'
 import ResetPasswordPage from '../ResetPasswordPage/ResetPasswordPage'
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute'
 import PageNotFound from '../PageNotFound/PageNotFound'
-import {
-  BrowserRouter as Router,
-  Route, Switch, Redirect
-} from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import classes from './App.module.css'
 
 const App = (props) => {
@@ -35,9 +35,14 @@ const App = (props) => {
     }
   }, [])
 
+  useEffect(() => {
+     
+      props.unsetTimeOut(props.timeOut)
+    
+  }, [props.location.pathname])
+ 
   return (
     <div className={classes.main}>
-      <Router>
         <Switch>
           <Route exact path="/"><Redirect to='/removals' /></Route>
           <Route exact path="/login" render={() => <Landing />}  />
@@ -48,7 +53,6 @@ const App = (props) => {
           <ProtectedRoute exact path="/removals/:id" user={props.logged_user} component={({ match }) => <RemovalPage removal={removalById(match.params.id)} />} />
           <Route exact path='*' component={PageNotFound} />
         </Switch>
-      </Router>
     </div>
 
   )
@@ -58,13 +62,16 @@ const mapStateToProps = (state) => {
   return {
     logged_user: state.logged_user,
     removals: state.removals,
-    notifications: state.notifications
+    notifications: state.notifications,
+    timeOut: state.timeOut
   }
 }
 
 const mapDispatchToProps = {
   initializeUser,
-  initializeRemovals
+  initializeRemovals,
+  hideMessage,
+  unsetTimeOut
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
